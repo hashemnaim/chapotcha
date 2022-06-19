@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1029141847957",
+    "firebase_url": "https://cabucha-c1b6a.firebaseio.com",
+    "project_id": "cabucha-c1b6a",
+    "storage_bucket": "cabucha-c1b6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029141847957:android:b280ec13d29d397729a09c",
+        "android_client_info": {
+          "package_name": "com.capotcha.capotcha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029141847957-olb3oots05p85ue70lat34s54pb6ic4s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.capotcha.capotcha",
+            "certificate_hash": "b4398e91d840be3d3c9777e44176ed1d836919f7"
+          }
+        },
+        {
+          "client_id": "1029141847957-kk49q1bdr5rtvskf0f7lbc1nrui34b9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXQHPe5Q371Vkxr_TXEqyA82OcnieNq4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029141847957-kk49q1bdr5rtvskf0f7lbc1nrui34b9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

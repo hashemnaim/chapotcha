@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12.994" height="15.518" viewBox="0 0 12.994 15.518">
+  <g id="delete" transform="translate(-8.024 -6.417)">
+    <g id="icon-trash" transform="translate(8.524 6.917)">
+      <path id="path" d="M560,657v6.94a2.528,2.528,0,0,0,2.529,2.529h4.411a2.528,2.528,0,0,0,2.529-2.529V657" transform="translate(-558.738 -651.95)" fill="none" stroke="#98b119" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="path-2" data-name="path" d="M567.08,650.394A1.394,1.394,0,0,0,565.686,649h-.448a1.394,1.394,0,0,0-1.394,1.394" transform="translate(-559.406 -649)" fill="none" stroke="#98b119" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="line" d="M11.994,0H0" transform="translate(0 3.156)" fill="none" stroke="#98b119" stroke-linecap="round" stroke-width="1"/>
+      <line id="line-2" data-name="line" y2="4.74" transform="translate(7.392 5.995)" fill="none" stroke="#98b119" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line id="line-3" data-name="line" y2="4.74" transform="translate(4.232 5.995)" fill="none" stroke="#98b119" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>
