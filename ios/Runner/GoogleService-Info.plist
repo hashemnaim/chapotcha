@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1029141847957-q2m3g7cg83ami61rmpi5dfr7q146roml.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1029141847957-q2m3g7cg83ami61rmpi5dfr7q146roml</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1029141847957-olb3oots05p85ue70lat34s54pb6ic4s.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAaD7FaoljdLZplVB8wKPran0i64Wnd4uk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1029141847957</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.capotcha.capotcha</string>
+	<key>PROJECT_ID</key>
+	<string>cabucha-c1b6a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cabucha-c1b6a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1029141847957:ios:653d2fdf80e44c5529a09c</string>
+	<key>DATABASE_URL</key>
+	<string>https://cabucha-c1b6a.firebaseio.com</string>
+</dict>
+</plist>
