@@ -10,7 +10,6 @@
         android:icon="@mipmap/ic_launcher">
          <meta-data android:name="com.google.android.geo.API_KEY"
          android:value="AIzaSyBXe1l4YeBc_V1tICxmDpFoHRW0h-GYqOs"/>
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -19,12 +18,10 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
-       
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
-          
             <meta-data
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
@@ -37,7 +34,6 @@
       <action android:name="FLUTTER_NOTIFICATION_CLICK" />
       <category android:name="android.intent.category.DEFAULT" />
      </intent-filter>
-     
         </activity>
         <meta-data
             android:name="flutterEmbedding"

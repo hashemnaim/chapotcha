@@ -1,14 +1,11 @@
 name: capotcha
+version: 2.1.2+12
+publish_to: none
 description: A new Flutter project.
-publish_to: 'none' 
-version: 2.1.1
-environment:
+environment: 
   sdk: '>=2.17.0 <3.0.0'
 
-dependencies:
-  flutter:
-    sdk: flutter
-
+dependencies: 
   intl: ^0.17.0
   shimmer: ^2.0.0
   url_launcher: ^6.1.6
@@ -26,49 +23,41 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   flutter_staggered_animations: ^1.1.1
   google_maps_flutter: ^2.2.1
+  geocode: ^1.0.2
+  geocoding: ^2.0.5
   geolocator: ^9.0.2
   bot_toast: ^4.0.3
   firebase_messaging: ^13.0.3
   firebase_core: ^1.24.0
   flutter_screenutil: ^5.5.4
-  get: ^4.6.5
   google_fonts: ^3.0.1
-  geocode: ^1.0.2
-  geocoding: ^2.0.5
   badges: ^2.0.3
   connectivity_plus: ^2.3.7
   country_pickers: ^2.0.0
   device_preview: ^1.1.0
-  
-
-dev_dependencies:
-  flutter_test:
+  internet_connection_checker: ^1.0.0+1
+  get: 4.6.5
+  flutter: 
     sdk: flutter
-  flutter_launcher_icons:
 
+dev_dependencies: 
+  flutter_launcher_icons: any
+  flutter_test: 
+    sdk: flutter
 
-flutter_icons:
-  android: "launcher_icon"
+flutter_icons: 
+  android: launcher_icon
+  image_path: assets/images/icon.png
   ios: true
-  image_path: "assets/images/icon.png"
 
-
-flutter:
-
+flutter: 
+  fonts: 
+    - family: Cairo
+      fonts: 
+        - asset: assets/fonts/Cairo-Regular.ttf
+  assets: 
+    - assets/images/
+    - assets/svg/
+    - assets/fonts/
   uses-material-design: true
-  
-  fonts:
-   - family: CM Sans Serif
-     fonts:
-       - asset: assets/fonts/cm_sans_serif_2012.ttf
-   - family: Cairo
-     fonts:
-       - asset: assets/fonts/Cairo-Regular.ttf
-   - family: icon
-     fonts:
-       - asset: assets/fonts/icomoon.ttf
 
-  assets:
-      - assets/images/
-      - assets/svg/
-      - assets/fonts/
