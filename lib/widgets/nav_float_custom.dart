@@ -1,0 +1,51 @@
+import 'package:badges/badges.dart';
+import 'package:capotcha/widgets/custom_svg.dart';
+import 'package:capotcha/modules/Cart/controller/cart_controller.dart';
+import 'package:capotcha/utils/animate_do.dart';
+import 'package:capotcha/utils/colors.dart';
+import 'package:capotcha/utils/styles.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import '../modules/Main/main_controller.dart';
+
+// ignore: must_be_immutable
+class NavBarFloatCustom extends StatelessWidget {
+  final bool isHome;
+
+  NavBarFloatCustom({Key? key, this.isHome = true}) : super(key: key);
+
+  MainController mainController = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Bounce(
+      child: FloatingActionButton(
+          elevation: 1,
+          backgroundColor: AppColors.greenColor,
+          child: GetBuilder<CartController>(
+            id: 'cart',
+            builder: (controller) {
+              return Badge(
+                animationType: BadgeAnimationType.slide,
+                badgeContent: Text(
+                  controller.cartList.length.toString(),
+                  style: Style.cairoCat.copyWith(fontSize: 10.sp),
+                  textAlign: TextAlign.center,
+                ),
+                animationDuration: Duration(milliseconds: 300),
+                position: BadgePosition.topEnd(top: -15.h, end: 14.w),
+                child: CustomSvgImage(
+                  "icon-cart",
+                  height: 38.h,
+                  width: 38.w,
+                ),
+              );
+            },
+          ),
+          onPressed: () {
+            mainController.changeIndexBar(2, isHome);
+          }),
+    );
+  }
+}

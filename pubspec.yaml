@@ -1,9 +1,9 @@
 name: capotcha
-version: 2.1.2+12
+version: 2.1.2+13
 publish_to: none
 description: A new Flutter project.
 environment: 
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: '>=2.18.2 <3.0.0'
 
 dependencies: 
   intl: ^0.17.0
@@ -39,6 +39,7 @@ dependencies:
   get: 4.6.5
   flutter: 
     sdk: flutter
+  awesome_notifications: ^0.7.1
 
 dev_dependencies: 
   flutter_launcher_icons: any

@@ -17,7 +17,10 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
-            android:exported="true">
+            android:exported="true"
+                android:showWhenLocked="true"
+    android:turnScreenOn="true"
+            >
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
@@ -35,6 +38,8 @@
       <category android:name="android.intent.category.DEFAULT" />
      </intent-filter>
         </activity>
+            <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/logo_pure" />
+
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
