@@ -269,13 +269,19 @@ class CheckoutScreen extends GetView<CartController> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                profileController.profileModel
-                                                        .address!.street ??
-                                                    "",
-                                                style: Style.cairog.copyWith(
-                                                    fontSize: 18.sp,
-                                                    color: AppColors.bluColor),
+                                              Container(
+                                                width: 250.w,
+                                                child: Text(
+                                                  profileController.profileModel
+                                                          .address!.street ??
+                                                      "",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: Style.cairog.copyWith(
+                                                      fontSize: 18.sp,
+                                                      color:
+                                                          AppColors.bluColor),
+                                                ),
                                               ),
                                               SizedBox(
                                                 height: 6.h,
@@ -290,6 +296,7 @@ class CheckoutScreen extends GetView<CartController> {
                                                         .area!,
                                                 style: Style.cairog.copyWith(
                                                     fontSize: 14.sp,
+                                                    height: 2,
                                                     color: AppColors.bluColor),
                                               ),
                                             ],
@@ -434,25 +441,29 @@ class CheckoutScreen extends GetView<CartController> {
                             ),
                             GetBuilder<ProfileController>(
                               id: "ShippingTimes",
-                              builder: (profileController) =>
-                                  profileController.delivaryCost == "0.0"
-                                      ? Container()
-                                      : Row(children: [
-                                          Text(
-                                            "التوصيل",
-                                            style: Style.cairo.copyWith(
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                              profileController.delivaryCost +
-                                                  " " +
-                                                  Constants.currency,
-                                              style: Style.cairog.copyWith(
-                                                fontSize: 16.sp,
-                                              )),
-                                        ]),
+                              builder: (profileController) => profileController
+                                          .shippingTimesModel
+                                          .cities!
+                                          .shippingCost ==
+                                      "0.0"
+                                  ? Container()
+                                  : Row(children: [
+                                      Text(
+                                        "التوصيل",
+                                        style: Style.cairo.copyWith(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                          profileController.shippingTimesModel
+                                                  .cities!.shippingCost! +
+                                              " " +
+                                              Constants.currency,
+                                          style: Style.cairog.copyWith(
+                                            fontSize: 16.sp,
+                                          )),
+                                    ]),
                             ),
                             Row(
                               children: [
@@ -569,8 +580,10 @@ class CheckoutScreen extends GetView<CartController> {
                                         builder: (_) {
                                           return Text(
                                             (controller.totalPrice +
-                                                        double.parse(
-                                                            _.delivaryCost))
+                                                        double.parse(_
+                                                            .shippingTimesModel
+                                                            .cities!
+                                                            .shippingCost!))
                                                     .toStringAsFixed(1)
                                                     .toString() +
                                                 " " +

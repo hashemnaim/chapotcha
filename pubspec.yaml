@@ -1,5 +1,5 @@
 name: capotcha
-version: 2.1.2+13
+version: 2.1.2+15
 publish_to: none
 description: A new Flutter project.
 environment: 
@@ -23,7 +23,7 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   flutter_staggered_animations: ^1.1.1
   google_maps_flutter: ^2.2.1
-  geocode: ^1.0.2
+  # geocode: ^1.0.2
   geocoding: ^2.0.5
   geolocator: ^9.0.2
   bot_toast: ^4.0.3
@@ -34,7 +34,6 @@ dependencies:
   badges: ^2.0.3
   connectivity_plus: ^2.3.7
   country_pickers: ^2.0.0
-  device_preview: ^1.1.0
   internet_connection_checker: ^1.0.0+1
   get: 4.6.5
   flutter: 

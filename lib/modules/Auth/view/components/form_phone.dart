@@ -8,7 +8,7 @@ import '../../../../widgets/form_field_item.dart';
 class FormPhone extends StatelessWidget {
   const FormPhone({
     required this.phoneController,
-  }) : assert(phoneController != null);
+  });
 
   final TextEditingController phoneController;
   // final ValueChanged<String> codeCountry;

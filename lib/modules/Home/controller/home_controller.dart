@@ -13,13 +13,11 @@ class HomeController extends GetxController {
     await BaseClient.baseClient.post(Constants.HomeUrl, onSuccess: (response) {
       if (response.data['status'] == true) {
         homeModel = HomeModel.fromJson(response.data);
-
         homeStatus = ApiCallStatus.success;
-        update(["home"]);
       } else {
         homeStatus = ApiCallStatus.error;
-        update(["home"]);
       }
+      update(["home"]);
     });
   }
 

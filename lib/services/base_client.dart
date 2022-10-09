@@ -4,7 +4,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/utils/shared_preferences_helpar.dart';
 import 'package:capotcha/services/status_code.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:get/get.dart';
 
 import 'api_exceptions.dart';
 
@@ -21,6 +20,7 @@ class BaseClient {
     Function? onLoading,
   }) async {
     try {
+      log(SHelper.sHelper.getToken().toString());
       onLoading?.call();
       var response = await _dio
           .get(
@@ -100,7 +100,7 @@ class BaseClient {
   }
 
   _handleError(String msg) {
-    Get.snackbar(msg, "");
+    // Get.snackbar(msg, "");
   }
 
   dynamic handleDioError(dio.DioError dioError) {

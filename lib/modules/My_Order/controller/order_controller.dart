@@ -12,7 +12,6 @@ class OrderController extends GetxController {
   DetailsOrderModel detailsOrderModel = DetailsOrderModel();
   ApiCallStatus orderStatus = ApiCallStatus.holding;
   ApiCallStatus detailsOrderStatus = ApiCallStatus.holding;
-  List<String> shippingTimes = [];
   RxBool edit = false.obs;
 
   getOrders(isLoad) async {
@@ -28,6 +27,8 @@ class OrderController extends GetxController {
     detailsOrderStatus = ApiCallStatus.loading;
     await BaseClient.baseClient.post(Constants.getOrder, data: {"order_id": id},
         onSuccess: (response) {
+      log(response.data.toString());
+
       detailsOrderModel = DetailsOrderModel.fromJson(response.data);
       detailsOrderStatus = ApiCallStatus.success;
       update(["Detailsorder"]);

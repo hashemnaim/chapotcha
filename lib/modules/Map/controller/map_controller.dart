@@ -8,11 +8,10 @@ import '../../../utils/location_helper.dart';
 
 class MapController extends GetxController {
   Set<Marker>? markersset;
-  RxBool loadAddress = false.obs;
+  bool loadAddress = false;
   RxBool isEdit = false.obs;
   Rx<int> idAddress = 0.obs;
-  // InitialController initialController = Get.find();
-  // Rx<ApiCallStatus> addressStatus = ApiCallStatus.holding.obs;
+
   TextEditingController addressControlelr = TextEditingController();
   TextEditingController noBuildControlelr = TextEditingController();
   TextEditingController areaControlelr = TextEditingController();
@@ -22,13 +21,13 @@ class MapController extends GetxController {
   Rx<int> indexCity = 0.obs;
   CameraPosition myLocation = const CameraPosition(
       target: LatLng(
-        21.506845,
-        39.852190,
+        29.944785,
+        30.881651,
       ),
       zoom: 14);
   Position position = Position(
-      latitude: 21.506845,
-      longitude: 39.852190,
+      latitude: 29.944785,
+      longitude: 30.881651,
       accuracy: 1,
       altitude: 1,
       heading: 1,
@@ -46,10 +45,11 @@ class MapController extends GetxController {
   Future getLocation(
     GoogleMapController controllerMap,
   ) async {
-    loadAddress.value = true;
+    loadAddress = true;
     if (isEdit.value) {
     } else {
       position = await LocationHelper().getCurrentLocation();
+      update(["gps"]);
     }
 
     setInitialCameraPosition(position.latitude, position.longitude);
@@ -57,12 +57,13 @@ class MapController extends GetxController {
     controllerMap.animateCamera(CameraUpdate.newLatLng(
       LatLng(position.latitude, position.longitude),
     ));
-    loadAddress.value = false;
+    loadAddress = false;
     update(["gps"]);
     return position;
   }
 
   Position setNewLatLong(double lat, double lan) {
+    loadAddress = true;
     position = Position(
         latitude: lat,
         longitude: lan,
@@ -72,18 +73,18 @@ class MapController extends GetxController {
         speed: 1,
         speedAccuracy: 1,
         timestamp: DateTime.now());
-    loadAddress.value = false;
+    loadAddress = false;
 
-    update();
+    update(["gps"]);
     return position;
   }
 
   setAddress(Position position) async {
-    loadAddress.value = true;
+    loadAddress = true;
     String address = await (LocationHelper()
-        .getPlaceName(position.latitude, position.longitude) as FutureOr<String>);
+        .getPlaceName(position.latitude, position.longitude));
     addressControlelr.text = address;
-    loadAddress.value = false;
-    update();
+    loadAddress = false;
+    update(["gps"]);
   }
 }

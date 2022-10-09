@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../modules/Map/controller/address_controller.dart';
 import '../modules/Profile/model/shipping_time_model.dart';
 import '../routes/app_pages.dart';
@@ -50,10 +49,12 @@ bool getAvaliple(int index, String day, List<ShippingTimes> shippingTimes) {
     if (DateTime.now().day.toString() == day.toString()) {
       if (time[0] == '0') {
         return int.parse(time[1]) >
-            int.parse((DateTime.now().add(Duration(hours: 2)).hour).toString());
+            int.parse(
+                (DateTime.now().add(Duration(minutes: 30)).hour).toString());
       } else {
         return int.parse(time) >
-            int.parse(DateTime.now().add(Duration(hours: 2)).hour.toString());
+            int.parse(
+                DateTime.now().add(Duration(minutes: 30)).hour.toString());
       }
     } else {
       return true;
@@ -69,7 +70,6 @@ String getPeriod(String time) {
     time1 = int.parse(time1) == 12
         ? time1 + "ض"
         : (int.parse(time1) - 12).toString() + "م";
-    //  (int.parse(time1) - 12).toString() + "م";
   } else {
     time1 = time1 + "ص";
   }
@@ -103,103 +103,118 @@ changeMyAddress() async {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-                itemCount: controller.addressModel.data!.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: ListTile(
-                          title: Text(
-                            controller.addressModel.data![index].street ?? "",
-                            style: Style.cairog.copyWith(
-                                fontSize: 18.sp,
-                                color: controller.addressModel.data![index]
-                                            .isDefault ==
-                                        1
-                                    ? AppColors.greenColor
-                                    : AppColors.bluColor),
-                          ),
-                          subtitle: Text(
-                            controller.addressModel.data![index].city! +
-                                "_" +
-                                controller.addressModel.data![index].area!,
-                            style: Style.cairog.copyWith(
-                                fontSize: 14.sp,
-                                color: controller.addressModel.data![index]
-                                            .isDefault ==
-                                        1
-                                    ? AppColors.greenColor
-                                    : AppColors.bluColor),
-                          ),
-                          onTap: controller
-                                      .addressModel.data![index].isDefault ==
-                                  1
-                              ? null
-                              : () async {
-                                  await controller.editAddrees(1,
-                                      controller.addressModel.data![index].id);
-                                  Get.back();
-                                },
-                          minLeadingWidth: 1,
-                          leading: Icon(Icons.location_on_outlined,
-                              size: 29,
-                              color: controller.addressModel.data![index]
-                                          .isDefault ==
-                                      1
-                                  ? AppColors.greenColor
-                                  : AppColors.bluColor),
-                          trailing: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: AppColors.greenColor)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Container(
-                                height: 25.h,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: controller.addressModel.data![index]
-                                              .isDefault ==
-                                          1
-                                      ? AppColors.greenColor
-                                      : Colors.white,
-                                ),
-                                child: Checkbox(
-                                    shape: CircleBorder(),
-                                    value: controller.addressModel.data![index]
+            child: controller.addressModel.data == null
+                ? Container()
+                : ListView.builder(
+                    itemCount: controller.addressModel.data!.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: ListTile(
+                              title: Text(
+                                controller.addressModel.data![index].street ??
+                                    "",
+                                style: Style.cairog.copyWith(
+                                    fontSize: 18.sp,
+                                    color: controller.addressModel.data![index]
                                                 .isDefault ==
                                             1
-                                        ? true
-                                        : false,
-                                    activeColor: AppColors.greenColor,
-                                    splashRadius: 20,
-                                    onChanged: (value) async {
+                                        ? AppColors.greenColor
+                                        : AppColors.bluColor),
+                              ),
+                              subtitle: Text(
+                                controller.addressModel.data![index].city! +
+                                    "_" +
+                                    controller.addressModel.data![index].area!,
+                                style: Style.cairog.copyWith(
+                                    fontSize: 14.sp,
+                                    color: controller.addressModel.data![index]
+                                                .isDefault ==
+                                            1
+                                        ? AppColors.greenColor
+                                        : AppColors.bluColor),
+                              ),
+                              onTap: controller.addressModel.data![index]
+                                          .isDefault ==
+                                      1
+                                  ? null
+                                  : () async {
                                       await controller.editAddrees(
                                           1,
                                           controller
                                               .addressModel.data![index].id);
                                       Get.back();
-                                    }),
-                              ),
-                            ),
-                          )));
-                }),
+                                    },
+                              minLeadingWidth: 1,
+                              leading: Icon(Icons.location_on_outlined,
+                                  size: 29,
+                                  color: controller.addressModel.data![index]
+                                              .isDefault ==
+                                          1
+                                      ? AppColors.greenColor
+                                      : AppColors.bluColor),
+                              trailing: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: AppColors.greenColor)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Container(
+                                    height: 25.h,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: controller.addressModel
+                                                  .data![index].isDefault ==
+                                              1
+                                          ? AppColors.greenColor
+                                          : Colors.white,
+                                    ),
+                                    child: Checkbox(
+                                        shape: CircleBorder(),
+                                        value: controller.addressModel
+                                                    .data![index].isDefault ==
+                                                1
+                                            ? true
+                                            : false,
+                                        activeColor: AppColors.greenColor,
+                                        splashRadius: 20,
+                                        onChanged: (value) async {
+                                          await controller.editAddrees(
+                                              1,
+                                              controller.addressModel
+                                                  .data![index].id);
+                                          Get.back();
+                                        }),
+                                  ),
+                                ),
+                              )));
+                    }),
           ),
           Center(
-            child: TextButton(
-                child: Text(
-                  "اضافة عنوان جديد",
-                  style: Style.cairo
-                      .copyWith(fontSize: 16.sp, color: AppColors.greenColor),
-                ),
-                onPressed: () {
-                  Get.back();
-                  Get.toNamed(
-                    Routes.AddAddressScreen,
-                  );
-                }),
+            child: Container(
+              width: 300.w,
+              child: TextButton(
+                  child: Text(
+                    "اضافة عنوان جديد",
+                    style: Style.cairo
+                        .copyWith(fontSize: 16.sp, color: Colors.white),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(AppColors.greenColor),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                    Get.toNamed(
+                      Routes.AddAddressScreen,
+                    );
+                  }),
+            ),
           ),
+          SizedBox(
+            height: 10.h,
+          )
         ],
       ),
     ),

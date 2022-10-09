@@ -26,42 +26,43 @@ class Orders {
 
   String? time;
   String? date;
-  String? totalPrice;
-  String? deliveryCost;
-  String? tax;
+  // String? totalPrice;
+  // String? deliveryCost;
+  // String? tax;
   String? status;
   String? statusCode;
-  String? cash;
-  String? totalAmount;
-  int? totalCount;
+  // String? cash;
+  // String? totalAmount;
+  // int? totalCount;
 
-  Orders(
-      {this.id,
-      this.time,
-      this.date,
-      this.totalPrice,
-      this.deliveryCost,
-      this.tax,
-      this.status,
-      this.statusCode,
-      this.cash,
-      this.totalAmount,
-      this.totalCount});
+  Orders({
+    this.id,
+    this.time,
+    this.date,
+    // this.totalPrice,
+    // this.deliveryCost,
+    // this.tax,
+    this.status,
+    this.statusCode,
+    // this.cash,
+    // this.totalAmount,
+    // this.totalCount
+  });
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
 
     date = json['date'];
     time = json['time'];
-    totalPrice = json['total_price'];
-    deliveryCost = json['delivery_cost'];
-    tax = json['tax'];
+    // totalPrice = json['total_price'];
+    // deliveryCost = json['delivery_cost'];
+    // tax = json['tax'];
     status = json['status'];
     statusCode = json['status_code'];
 
-    cash = json['cash'];
-    totalAmount = json['total_amount'];
-    totalCount = json['total_count'];
+    // cash = json['cash'];
+    // totalAmount = json['total_amount'];
+    // totalCount = json['total_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -69,15 +70,15 @@ class Orders {
     data['id'] = this.id;
 
     data['time'] = this.time;
-    data['total_price'] = this.totalPrice;
-    data['delivery_cost'] = this.deliveryCost;
-    data['tax'] = this.tax;
+    // data['total_price'] = this.totalPrice;
+    // data['delivery_cost'] = this.deliveryCost;
+    // data['tax'] = this.tax;
     data['status'] = this.status;
-    data['status_code'] = this.statusCode;
+    // data['status_code'] = this.statusCode;
 
-    data['cash'] = this.cash;
-    data['total_amount'] = this.totalAmount;
-    data['total_count'] = this.totalCount;
+    // data['cash'] = this.cash;
+    // data['total_amount'] = this.totalAmount;
+    // data['total_count'] = this.totalCount;
     return data;
   }
 }

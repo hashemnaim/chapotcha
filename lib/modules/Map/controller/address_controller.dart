@@ -60,6 +60,14 @@ class AddressController extends GetxController {
     });
   }
 
+  clean() {
+    area = Item(id: 0, name: "اختر المنطق").obs;
+    city = Item(id: 0, name: "اختر المدينة").obs;
+    mapController.noBuildControlelr.clear();
+    mapController.noFloorControlelr.clear();
+    mapController.addressControlelr.clear();
+  }
+
   addAddrees(int isDefault, String? phone) async {
     await BaseClient.baseClient.post(Constants.addAddressUrl, data: {
       "phone": phone,
@@ -78,8 +86,9 @@ class AddressController extends GetxController {
         getMyAddress();
 
         BotToast.showText(
-          text: response.data['message'],
+          text: "تم اضافة العنوان بنجاج",
         );
+        clean();
         Get.back();
       } else {
         BotToast.showText(

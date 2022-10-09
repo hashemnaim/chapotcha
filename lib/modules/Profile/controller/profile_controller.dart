@@ -18,7 +18,6 @@ class ProfileController extends GetxController {
   TextEditingController oldPasswordControlelr = TextEditingController();
   TextEditingController passwordControlelr = TextEditingController();
   TextEditingController confirmPasswordControlelr = TextEditingController();
-  String delivaryCost = "0.0";
   RxBool edit = false.obs;
 
   getProfile(isLoad) async {

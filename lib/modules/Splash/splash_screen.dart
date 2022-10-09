@@ -14,40 +14,48 @@ class SplashScreen extends StatelessWidget {
             image: AssetImage("assets/images/background.png"),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 30.h,
-            ),
-            BounceInDown(
-              duration: Duration(milliseconds: 2000),
-              child: CustomPngImage(
-                "icon",
-                width: 170.w,
-                heigth: 155.h,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 30.h,
               ),
-            ),
-            FadeInLeft(
-              duration: Duration(milliseconds: 2000),
-              child: CustomPngImage(
-                "im2",
-                heigth: 50.h,
+              BounceInDown(
+                duration: Duration(milliseconds: 2000),
+                child: CustomPngImage(
+                  "icon",
+                  width: 170.w,
+                  heigth: 155.h,
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-            FadeInRight(
-              duration: Duration(milliseconds: 2000),
-              child: CustomPngImage(
-                "im3",
-                heigth: 80.h,
-                width: 220.w,
+              FadeInLeft(
+                duration: Duration(milliseconds: 2000),
+                child: CustomPngImage(
+                  "im2",
+                  heigth: 50.h,
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
-            CustomLoading()
-          ],
+              SizedBox(
+                height: 10.h,
+              ),
+              FadeInRight(
+                duration: Duration(milliseconds: 2000),
+                child: CustomPngImage(
+                  "im3",
+                  heigth: 80.h,
+                  width: 220.w,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              CustomLoading()
+            ],
+          ),
         ),
       ),
     );

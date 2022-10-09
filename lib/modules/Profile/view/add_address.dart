@@ -133,6 +133,7 @@ class AddAddressScreen extends StatelessWidget {
                                                                   .area!,
                                                           style: Style.cairog.copyWith(
                                                               fontSize: 14.sp,
+                                                              height: 2,
                                                               color: controller
                                                                           .addressModel
                                                                           .data![
@@ -146,7 +147,8 @@ class AddAddressScreen extends StatelessWidget {
                                                         ),
                                                         onTap: controller
                                                                     .addressModel
-                                                                    .data![index]
+                                                                    .data![
+                                                                        index]
                                                                     .isDefault ==
                                                                 1
                                                             ? null
@@ -185,7 +187,8 @@ class AddAddressScreen extends StatelessWidget {
                                                             controller.deleteAddrees(
                                                                 controller
                                                                     .addressModel
-                                                                    .data![index]
+                                                                    .data![
+                                                                        index]
                                                                     .id);
                                                           },
                                                         )),

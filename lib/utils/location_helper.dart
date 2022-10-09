@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
+import '../modules/Map/controller/map_controller.dart';
 
 class LocationHelper {
   Geolocator? geolocator;
-
+  MapController mapController = Get.find();
   Future<Position> getCurrentLocation() async {
     try {
+      mapController.loadAddress = true;
+
       Position position = await determinePosition();
+      mapController.loadAddress = false;
 
       return position;
     } catch (e) {
@@ -34,9 +38,6 @@ class LocationHelper {
       if (Platform.isAndroid) {
         Get.defaultDialog(
           title: '',
-          // textConfirm: '       Enable my location       ',
-          // confirmTextColor: Colors.white,
-          // middleText:'Please enable to use your location to show nearby services on the map' ,
           content: Column(
             children: [
               const Icon(
@@ -121,13 +122,14 @@ class LocationHelper {
     return await Geolocator.getCurrentPosition();
   }
 
-  Future getPlaceName(double lat, double long) async {
+  Future<String> getPlaceName(double lat, double long) async {
     try {
-      List<geocoding.Placemark> placemarks =
-          await geocoding.placemarkFromCoordinates(lat, long);
-      return placemarks.first.name;
+      List<geocoding.Placemark> placemarks = await geocoding
+          .placemarkFromCoordinates(lat, long, localeIdentifier: 'ar_SA');
+      return placemarks.first.street!;
     } catch (e) {
-      // mapController.loadAddress.value = false;
+      return "";
+      // mapController.loadAddress = false;
     }
   }
 }

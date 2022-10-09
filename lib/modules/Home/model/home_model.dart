@@ -1,17 +1,16 @@
 import 'slider_model.dart';
 
 class HomeModel {
-  var code;
+  // var code;
   bool? status;
   String? message;
   List<DataCategory>? dataCategory;
   List<Sliders>? sliders;
 
-  HomeModel(
-      {this.code, this.status, this.message, this.dataCategory, this.sliders});
+  HomeModel({this.status, this.message, this.dataCategory, this.sliders});
 
   HomeModel.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
+    // code = json['code'];
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
@@ -32,34 +31,27 @@ class HomeModel {
 class DataCategory {
   int? id;
   String? name;
-  String? description;
+  // String? description;
   String? image;
-  String? prepare;
-  String? isCarton;
-  // List<Product> product;
+  // String? prepare;
+  // String? isCarton;
 
   DataCategory({
     this.id,
     this.name,
-    this.description,
+    // this.description,
     this.image,
-    this.prepare,
-    this.isCarton,
+    // this.prepare,
+    // this.isCarton,
     // this.product
   });
 
   DataCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    description = json['description'];
+    // description = json['description'];
     image = json['image'];
-    prepare = json['prepare'];
-    isCarton = json['isCarton'];
-    // if (json['product'] != null) {
-    //   product = <Product>[];
-    //   json['product'].forEach((v) {
-    //     product.add(new Product.fromJson(v));
-    //   });
-    // }
+    // prepare = json['prepare'];
+    // isCarton = json['isCarton'];
   }
 }

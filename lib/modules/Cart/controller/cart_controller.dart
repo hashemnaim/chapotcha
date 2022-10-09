@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/modules/Cart/model/cart_model.dart';
 import 'package:capotcha/modules/My_Order/controller/order_controller.dart';
@@ -39,10 +40,10 @@ class CartController extends GetxController {
     selectedTime.value = "";
     selectedDay = 0;
     notesController.clear();
+    cartList.clear();
 
     DBHelper.dbHelper.deleteproductAll();
-    cartList.clear();
-    update(['profile']);
+    update(['cart']);
   }
 
   sendOrder(int? idAddress) async {
@@ -59,24 +60,29 @@ class CartController extends GetxController {
     String cartonaList = jsonEncode(mapCartona);
 
     BotToast.showLoading();
+    log("productList: $productList");
+    log("productList: $cartonaList");
+    log(idAddress.toString());
+    log(notesController.value.text);
+    log(profileController.shippingTimesModel.cities!.shippingCost.toString());
     await BaseClient.baseClient.post(Constants.sendOrder, data: {
       "product_list": productList,
       "carton_list": cartonaList,
       "day": dateDay.toString(),
       "time": selectedTime.value.toString(),
       "address_id": idAddress.toString(),
-      "delivery_cost": profileController.delivaryCost,
+      "delivery_cost":
+          profileController.shippingTimesModel.cities!.shippingCost.toString(),
       "notes": notesController.value.text
     }, onSuccess: (response) {
+      log(response.data.toString());
       if (response.data['status'] == true) {
         BotToast.closeAllLoading();
         BotToast.showText(text: "تم ارسال الطلب بنجاح");
         clear();
-
         Get.find<MainController>().selectedPageIndex = 1;
         selectedTime.value = "";
         Get.find<OrderController>().getOrders(true);
-
         Get.offNamed(Routes.MAIN);
         update(["cart"]);
       }
@@ -123,7 +129,9 @@ class CartController extends GetxController {
   String getTotalAll() {
     update(['cart', 'ShippingTimes']);
 
-    return (totalPrice + double.parse(profileController.delivaryCost))
+    return (totalPrice +
+            double.parse(
+                profileController.shippingTimesModel.cities!.shippingCost!))
         .toStringAsFixed(1)
         .toString();
   }

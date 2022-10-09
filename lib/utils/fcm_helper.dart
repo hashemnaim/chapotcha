@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:capotcha/utils/shared_preferences_helpar.dart';
 import 'package:dio/dio.dart';
@@ -120,7 +118,6 @@ class FcmHelper {
       required int id,
       String? channelKey,
       String? groupKey,
-      NotificationLayout? notificationLayout,
       String? summary,
       Map<String, String>? payload,
       String? largeIcon}) async {
