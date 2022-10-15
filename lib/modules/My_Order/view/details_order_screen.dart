@@ -194,19 +194,28 @@ class OrderDetailsScreen extends StatelessWidget {
                                           Constants.currency,
                                     ),
                                     row(
-                                      context,
-                                      "المجموع",
-                                      (double.parse(controller.detailsOrderModel
-                                                      .orders!.totalPrice!) +
-                                                  double.parse(controller
-                                                          .detailsOrderModel
-                                                          .orders!
-                                                          .deliveryCost ??
-                                                      "0.0"))
-                                              .toStringAsFixed(1) +
-                                          " " +
-                                          Constants.currency,
-                                    ),
+                                        context,
+                                        "المجموع",
+                                        controller.detailsOrderModel.orders!
+                                                    .products!.length ==
+                                                0
+                                            ? controller
+                                                .getTotalPrice()
+                                                .toString()
+                                            : (controller.getTotalPrice() +
+                                                        controller
+                                                            .detailsOrderModel
+                                                            .orders!
+                                                            .cartons!
+                                                            .map((e) =>
+                                                                double.parse(e
+                                                                    .totalPrice!))
+                                                            .reduce((value,
+                                                                    element) =>
+                                                                value +
+                                                                element))
+                                                    .toStringAsFixed(1) +
+                                                Constants.currency),
                                   ],
                                 )),
                           ),

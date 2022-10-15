@@ -21,11 +21,11 @@ class LuncherHelper {
   }
 
   void launchWhatsApp({
-    String phone = "01019886254",
+    String phone = "+201019886254",
     String? message,
   }) async {
     String url() {
-      phone = "01019886254";
+      // phone = "01019886254";
       if (Platform.isIOS) {
         return "https://wa.me/$phone/?text=${Uri.parse(message!)}";
       } else {

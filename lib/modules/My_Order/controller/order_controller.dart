@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
@@ -23,12 +21,15 @@ class OrderController extends GetxController {
     });
   }
 
+  double getTotalPrice() {
+    return double.parse(detailsOrderModel.orders!.totalPrice ?? "0.0") +
+        double.parse(detailsOrderModel.orders!.deliveryCost ?? "0.0");
+  }
+
   getDetilesOrders(int? id) async {
     detailsOrderStatus = ApiCallStatus.loading;
     await BaseClient.baseClient.post(Constants.getOrder, data: {"order_id": id},
         onSuccess: (response) {
-      log(response.data.toString());
-
       detailsOrderModel = DetailsOrderModel.fromJson(response.data);
       detailsOrderStatus = ApiCallStatus.success;
       update(["Detailsorder"]);
