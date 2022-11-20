@@ -64,7 +64,7 @@ class Product {
       'id': this.id,
       'name': this.name,
       'price': this.price,
-      'quantity': unit == "كيلو" ? "0.5" : "1.0",
+      'quantity': "1.0",
       'image': this.image,
       'unit': this.unit,
       'max_quantity': this.maxQty,

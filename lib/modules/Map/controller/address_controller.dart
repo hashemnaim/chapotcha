@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
 import '../../../utils/constants.dart';
+import '../../../utils/shared_preferences_helpar.dart';
 import '../model/address_model.dart';
 import 'map_controller.dart';
 
@@ -18,11 +19,34 @@ class AddressController extends GetxController {
   Rx<bool> isLoad = false.obs;
   Rx<Item> area = Item(id: 0, name: "اختر المنطق").obs;
   Rx<Item> city = Item(id: 0, name: "اختر المدينة").obs;
+  Rx<String> wordBuildValue = "".obs;
+
+  List<String>? wordBuild = [
+    "أ",
+    "ب",
+    "ص",
+    "ج",
+    "ز",
+    "ع",
+    "و",
+    "م",
+    "ل",
+    "ط",
+    "و",
+    "ن",
+    "ل",
+    "ك",
+    "د",
+    "ه",
+    "ح",
+    "د"
+  ];
   Rx<CitiesModel> citiesModel = CitiesModel().obs;
   Rx<CitiesModel> areaModel = CitiesModel().obs;
   ApiCallStatus addressStatus = ApiCallStatus.holding;
   AddressModel addressModel = AddressModel();
   DataAddress dataAddress = DataAddress();
+  bool addLocation = false;
   ProfileController profileController = Get.find();
 
   getCities() async {
@@ -48,7 +72,7 @@ class AddressController extends GetxController {
         data: {"address_id": id}, onSuccess: (response) {
       if (response.data['code'] == 401) {
         // addressModel.data.removeWhere((element) => element.id == id);
-        profileController.getProfile(false);
+        profileController.getProfile();
 
         getMyAddress();
         BotToast.closeAllLoading();
@@ -73,15 +97,19 @@ class AddressController extends GetxController {
       "phone": phone,
       "is_default": isDefault,
       "street": mapController.addressControlelr.value.text,
-      "apartment": mapController.noFloorControlelr.value.text,
-      "building": mapController.noBuildControlelr.value.text,
+      "apartment": mapController.noFloorControlelr.value.text +
+          "-" +
+          mapController.noFloorControlelr.value.text,
+      "building": mapController.noBuildControlelr.value.text +
+          " " +
+          wordBuildValue.value,
       "lat": mapController.position.latitude,
       "lng": mapController.position.longitude,
       "city_id": city.value.id,
       "area_id": area.value.id
     }, onSuccess: (response) {
       if (response.data['code'] == 200) {
-        profileController.getProfile(false);
+        profileController.getProfile();
 
         getMyAddress();
 
@@ -107,7 +135,7 @@ class AddressController extends GetxController {
         BotToast.showText(
           text: "اصبح العنوان الافتراضي",
         );
-        profileController.getProfile(false);
+        profileController.getProfile();
 
         getMyAddress();
         BotToast.closeAllLoading();
@@ -121,13 +149,16 @@ class AddressController extends GetxController {
   }
 
   getMyAddress() async {
-    addressStatus = ApiCallStatus.loading;
-    await BaseClient.baseClient.get(Constants.myAddressesUrl,
-        onSuccess: (response) {
-      addressModel = AddressModel.fromJson(response.data);
-      addressStatus = ApiCallStatus.success;
-      update(['myAddress']);
-    });
+    if (SHelper.sHelper.getToken() == null) {
+    } else {
+      addressStatus = ApiCallStatus.loading;
+      await BaseClient.baseClient.get(Constants.myAddressesUrl,
+          onSuccess: (response) {
+        addressModel = AddressModel.fromJson(response.data);
+        addressStatus = ApiCallStatus.success;
+        update(['myAddress']);
+      });
+    }
   }
 
   @override

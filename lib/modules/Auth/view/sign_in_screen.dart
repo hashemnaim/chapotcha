@@ -3,6 +3,7 @@ import 'package:capotcha/modules/Auth/view/components/form_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../utils/constants.dart';
 import '../controller/auth_controller.dart';
 import 'forget_password_screen.dart';
 import '../../../widgets/custom_button.dart';
@@ -18,16 +19,13 @@ class SignInScreen extends GetView<AuthController> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+          backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
           body: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                image: DecorationImage(
-                    image: AssetImage("assets/images/background.png"),
-                    fit: BoxFit.cover)),
+            decoration: backgroundImage,
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Stack(
                     children: [
@@ -41,7 +39,7 @@ class SignInScreen extends GetView<AuthController> {
                         top: 50.h,
                         child: InkWell(
                             onTap: () {
-                              Get.back();
+                              Get.offAndToNamed(Routes.MAIN);
                             },
                             child: CustomSvgImage(
                               "back",
@@ -103,11 +101,11 @@ class SignInScreen extends GetView<AuthController> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 100.h),
+                              SizedBox(height: 50.h),
                               CustomButton(
                                   buttonText: "الدخول",
                                   onPressed: () => controller.singIn(_formKey)),
-                              SizedBox(height: 50.h),
+                              SizedBox(height: 20.h),
                               InkWell(
                                 onTap: () {
                                   Get.toNamed(Routes.SignUpScreen);
@@ -133,7 +131,9 @@ class SignInScreen extends GetView<AuthController> {
                                                 .headline6!
                                                 .copyWith(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 14.sp)),
+                                                    fontSize: 14.sp,
+                                                    color: LightThemeColors
+                                                        .primaryColor)),
                                       ],
                                     ),
                                   ),

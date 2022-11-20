@@ -27,7 +27,7 @@ class FormPhone extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         SizedBox(
-          height: 65.h,
+          // height: 65.h,
           child: FormFieldItem(
             textInputType: TextInputType.phone,
             labelText: "01XXXXXXXXX",

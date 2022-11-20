@@ -30,7 +30,7 @@ class FormPassword extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         SizedBox(
-          height: 65.h,
+          // height: 65.h,
           child: FormFieldItem(
             textInputType: TextInputType.text,
             labelText: '* * * * * * *',

@@ -53,38 +53,42 @@ class NavBottomBarCustom extends GetView<MainController> {
         });
   }
 
-  Widget navBarItem({required String text, String? icon, int? index, double size = 19}) {
+  Widget navBarItem(
+      {required String text, String? icon, int? index, double size = 19}) {
     return InkWell(
       onTap: () => {
         controller.changeIndexBar(index, isHome),
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon == "")
-            SizedBox.shrink()
-          else
-            CustomSvgImage(icon,
-                isColor: true,
-                height: size,
-                width: size,
+      child: Container(
+        width: 50,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon == "")
+              SizedBox.shrink()
+            else
+              CustomSvgImage(icon,
+                  isColor: true,
+                  height: size,
+                  width: size,
+                  color: controller.selectedPageIndex == 2
+                      ? Color(0xff98B119)
+                      : controller.selectedPageIndex == index
+                          ? Colors.blue[900]
+                          : Color(0xff98B119)),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 9.sp,
                 color: controller.selectedPageIndex == 2
                     ? Color(0xff98B119)
                     : controller.selectedPageIndex == index
                         ? Colors.blue[900]
-                        : Color(0xff98B119)),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 9.sp,
-              color: controller.selectedPageIndex == 2
-                  ? Color(0xff98B119)
-                  : controller.selectedPageIndex == index
-                      ? Colors.blue[900]
-                      : Color(0xff98B119),
+                        : Color(0xff98B119),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

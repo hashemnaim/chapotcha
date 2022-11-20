@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
 import '../../../utils/constants.dart';
+import '../../../utils/shared_preferences_helpar.dart';
 import '../model/details_order_model.dart';
 import '../model/order_model.dart';
 
@@ -13,12 +14,16 @@ class OrderController extends GetxController {
   RxBool edit = false.obs;
 
   getOrders(isLoad) async {
-    orderStatus = ApiCallStatus.loading;
-    await BaseClient.baseClient.post(Constants.getOrder, onSuccess: (response) {
-      orderModel = OrderModel.fromJson(response.data);
-      orderStatus = ApiCallStatus.success;
-      update(["order"]);
-    });
+    if (SHelper.sHelper.getToken() == null) {
+    } else {
+      orderStatus = ApiCallStatus.loading;
+      await BaseClient.baseClient.post(Constants.getOrder,
+          onSuccess: (response) {
+        orderModel = OrderModel.fromJson(response.data);
+        orderStatus = ApiCallStatus.success;
+        update(["order"]);
+      });
+    }
   }
 
   double getTotalPrice() {

@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../modules/Map/controller/address_controller.dart';
+import '../modules/Profile/controller/profile_controller.dart';
 import '../modules/Profile/model/shipping_time_model.dart';
 import '../routes/app_pages.dart';
 import 'colors.dart';
@@ -41,23 +44,56 @@ String getDay1(index) {
   return dateUtc.add(Duration(days: index)).day.toString();
 }
 
-bool getAvaliple(int index, String day, List<ShippingTimes> shippingTimes) {
+bool getAvalipleEdit(String day, String shippingTimes) {
+  String time = shippingTimes.split("-").last;
+  log(day);
+
+  if (DateTime.now().day.toString() == day) {
+    if (time[0] == '0') {
+      log(time[1]);
+
+      return int.parse(time[1]) >
+          int.parse(
+              (DateTime.now().add(Duration(minutes: 60)).hour).toString());
+    } else {
+      return int.parse(time) >
+          int.parse(DateTime.now().add(Duration(minutes: 0)).hour.toString());
+    }
+  } else {
+    return true;
+  }
+}
+
+ProfileController profileController = Get.find();
+bool getAvaliple(int index, int beforeClose, List<int> count, String day,
+    List<ShippingTimes> shippingTimes) {
+  log("day " + day.toString());
+  log("count " + count.toString());
+  log("shippingTimes " + shippingTimes[index].max.toString());
   String time = shippingTimes[index].period!.split("-").last;
+
   if (shippingTimes[index].avilable == 0) {
     return false;
   } else {
-    if (DateTime.now().day.toString() == day.toString()) {
-      if (time[0] == '0') {
-        return int.parse(time[1]) >
-            int.parse(
-                (DateTime.now().add(Duration(minutes: 30)).hour).toString());
-      } else {
-        return int.parse(time) >
-            int.parse(
-                DateTime.now().add(Duration(minutes: 30)).hour.toString());
-      }
+    if (shippingTimes[index].max! <= count[index]) {
+      return false;
     } else {
-      return true;
+      if (DateTime.now().day.toString() == day.toString()) {
+        if (time[0] == '0') {
+          return int.parse(time[1]) >
+              int.parse(
+                  (DateTime.now().add(Duration(minutes: beforeClose)).hour)
+                      .toString());
+        } else {
+          return int.parse(time) >
+              int.parse(DateTime.now()
+                  .add(Duration(minutes: beforeClose))
+                  .hour
+                  .toString());
+        }
+      } else {
+        return true;
+      }
     }
   }
 }

@@ -1,9 +1,11 @@
+import 'package:capotcha/utils/colors.dart';
 import 'package:capotcha/widgets/custom_button.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/constants.dart';
 import '../../../widgets/form_field_item.dart';
 import '../../../utils/valdtion_helper.dart';
 import '../../../widgets/custom_svg.dart';
@@ -15,12 +17,9 @@ class ForgetPasswordScreen extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            image: DecorationImage(
-                image: AssetImage("assets/images/background.png"),
-                fit: BoxFit.fill)),
+        decoration: backgroundImage,
         child: Column(
           children: [
             Stack(
@@ -28,7 +27,7 @@ class ForgetPasswordScreen extends GetView<AuthController> {
                 CustomPngImage(
                   "login-Background",
                   width: Get.width,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
                 Positioned(
                   right: 20.w,
@@ -50,24 +49,32 @@ class ForgetPasswordScreen extends GetView<AuthController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text(
+                      "تحقق من رقم الهاتف",
+                      style: TextStyle(
+                        color: AppColors.greenColor,
+                        fontFamily: 'Cairo',
+                        fontSize: 30.0,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 25.w),
                       child: Form(
                         key: _formKey,
-                        child: SizedBox(
-                          height: 65.h,
-                          child: FormFieldItem(
-                            textInputType: TextInputType.emailAddress,
-                            labelText: "ادخل البريد الكتروني",
-                            validator: (value) => ValidationHelper
-                                .validationHelper
-                                .validateEmail(value),
-                            onChange: (v) {},
-                            backgroundColor: Colors.grey[250],
-                            textInputAction: TextInputAction.send,
-                            editingController: controller.emailController,
-                            type: false,
-                          ),
+                        child: FormFieldItem(
+                          textInputType: TextInputType.number,
+                          labelText: "ادخل رقم الهاتف",
+                          validator: (value) => ValidationHelper
+                              .validationHelper
+                              .validateMobile(value),
+                          onChange: (v) {},
+                          backgroundColor: Colors.grey[550],
+                          textInputAction: TextInputAction.send,
+                          editingController: controller.mobileController,
+                          type: false,
                         ),
                       ),
                     ),
@@ -78,7 +85,7 @@ class ForgetPasswordScreen extends GetView<AuthController> {
                       onPressed: () async {
                         controller.resentPassword(_formKey);
                       },
-                      buttonText: "ارسال",
+                      buttonText: "تحقق",
                     ),
                   ],
                 ),

@@ -56,18 +56,26 @@ class Cities {
 class ShippingTimes {
   String? period;
   int? avilable;
+  int? max;
+  int? conut;
+  int? before_close;
 
-  ShippingTimes({this.period, this.avilable});
+  ShippingTimes(
+      {this.period, this.avilable, this.max, this.conut, this.before_close});
 
   ShippingTimes.fromJson(Map<String, dynamic> json) {
     period = json['period'];
     avilable = json['avilable'];
+    max = json['max'];
+    before_close = json['before_close'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['period'] = this.period;
     data['avilable'] = this.avilable;
+    data['before_close'] = this.before_close;
+    data['count'] = this.conut;
     return data;
   }
 }

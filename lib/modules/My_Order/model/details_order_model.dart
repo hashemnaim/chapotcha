@@ -27,6 +27,7 @@ class DetailsOrderModel {
 
 class Orders {
   int? orderId;
+  String? code;
   String? date;
   String? time;
   String? totalPrice;
@@ -43,6 +44,7 @@ class Orders {
       {this.orderId,
       this.date,
       this.time,
+      this.code,
       this.totalPrice,
       this.deliveryCost,
       this.tax,
@@ -55,6 +57,7 @@ class Orders {
 
   Orders.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
+    code = json['code'];
     date = json['date'];
     time = json['time'];
     totalPrice = json['total_price'];
@@ -83,6 +86,7 @@ class Orders {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['order_id'] = this.orderId;
     data['date'] = this.date;
+    data['code'] = this.code;
     data['time'] = this.time;
     data['total_price'] = this.totalPrice;
     data['delivery_cost'] = this.deliveryCost;

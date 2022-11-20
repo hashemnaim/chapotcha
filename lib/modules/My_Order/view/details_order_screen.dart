@@ -1,9 +1,12 @@
 import 'package:capotcha/utils/colors.dart';
+import 'package:capotcha/utils/method_helpar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../utils/constants.dart';
+import '../../../utils/lunchers_helper.dart';
 import '../../../utils/shimmer_helper.dart';
+import '../../../utils/styles.dart';
 import '../../../widgets/app_bar_custom.dart';
 import '../../../widgets/my_widgets_animator.dart';
 
@@ -152,7 +155,7 @@ class OrderDetailsScreen extends StatelessWidget {
                           )),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
+                                horizontal: 8, vertical: 8),
                             child: Container(
                                 height: 220.h,
                                 decoration: BoxDecoration(
@@ -168,22 +171,27 @@ class OrderDetailsScreen extends StatelessWidget {
                                     row(
                                         context,
                                         "رقم الطلب",
-                                        "# " +
-                                            controller.detailsOrderModel.orders!
-                                                .orderId
-                                                .toString()),
+                                        controller
+                                                .detailsOrderModel.orders!.code
+                                                .toString() +
+                                            "#"),
                                     row(
                                         context,
-                                        "تاريخ الطلب",
-                                        controller
-                                            .detailsOrderModel.orders!.date
-                                            .toString()),
+                                        "موعد الطلب",
+                                        getPeriod(controller.detailsOrderModel
+                                                .orders!.time!) +
+                                            " / " +
+                                            controller.detailsOrderModel.orders!
+                                                .date!),
                                     row(
                                         context,
                                         "العنوان",
                                         controller.detailsOrderModel.orders!
-                                            .address!.street
-                                            .toString()),
+                                                .address!.city! +
+                                            ' - ' +
+                                            controller.detailsOrderModel.orders!
+                                                .address!.area!
+                                                .toString()),
                                     row(
                                       context,
                                       "التوصيل",
@@ -196,32 +204,77 @@ class OrderDetailsScreen extends StatelessWidget {
                                     row(
                                         context,
                                         "المجموع",
-                                        controller.detailsOrderModel.orders!
-                                                    .products!.length ==
-                                                0
-                                            ? controller
+                                        // controller.detailsOrderModel.orders!
+                                        //             .cartons!.length ==
+                                        //         0
+                                        //     ?
+                                        controller
                                                 .getTotalPrice()
-                                                .toString()
-                                            : (controller.getTotalPrice() +
-                                                        controller
-                                                            .detailsOrderModel
-                                                            .orders!
-                                                            .cartons!
-                                                            .map((e) =>
-                                                                double.parse(e
-                                                                    .totalPrice!))
-                                                            .reduce((value,
-                                                                    element) =>
-                                                                value +
-                                                                element))
-                                                    .toStringAsFixed(1) +
-                                                Constants.currency),
+                                                .toStringAsFixed(1) +
+                                            // " " +
+                                            // Constants.currency
+                                            // : (controller.getTotalPrice() +
+                                            //             controller
+                                            //                 .detailsOrderModel
+                                            //                 .orders!
+                                            //                 .cartons!
+                                            //                 .map((e) =>
+                                            //                     double.parse(e
+                                            //                         .totalPrice!))
+                                            //                 .reduce((value,
+                                            //                         element) =>
+                                            //                     value +
+                                            //                     element))
+                                            //         .toStringAsFixed(1) +
+                                            " " +
+                                            Constants.currency),
                                   ],
                                 )),
                           ),
                           SizedBox(
                             height: 2.h,
                           ),
+                          getAvalipleEdit(
+                                      DateTime.parse(controller
+                                              .detailsOrderModel.orders!.date!)
+                                          .day
+                                          .toString(),
+                                      controller
+                                          .detailsOrderModel.orders!.time!) ==
+                                  false
+                              ? Container()
+                              : InkWell(
+                                  onTap: (() => LuncherHelper.validationHelper
+                                      .launchWhatsApp(
+                                          message: " لتعديل طلب رقم " +
+                                              controller.detailsOrderModel
+                                                  .orders!.orderId
+                                                  .toString() +
+                                              "")),
+                                  child: SizedBox(
+                                    height: 50.h,
+                                    width: 350.w,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: AppColors.greenColor,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 14, vertical: 8),
+                                        child: Center(
+                                          child: Text(
+                                            "تعديل الطلب",
+                                            style: Style.cairo.copyWith(
+                                                fontSize: 16.sp,
+                                                color: Colors.white,
+                                                height: 1.3),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                         ])))));
     // floatingActionButton: NavBarFloatCustom(
     //   isHome: false,
@@ -234,34 +287,32 @@ class OrderDetailsScreen extends StatelessWidget {
 
   Padding row(BuildContext context, String titel, String price) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3.h),
+      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 3.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(width: 8.w),
-          Column(
-            children: [
-              Text(
-                titel,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(color: AppColors.bluColor, height: 1.4),
-              ),
-              // Spacer(),
-              // CustomConter(controller, context),
-            ],
+          Expanded(
+            child: Text(
+              titel,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(color: AppColors.bluColor, height: 1.4),
+            ),
           ),
-          Spacer(),
-          Column(children: <Widget>[
-            Text(
+          // Spacer(),
+          Expanded(
+            flex: 2,
+            child: Text(
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.end,
               price,
               style: Theme.of(context)
                   .textTheme
                   .headline6!
                   .copyWith(color: AppColors.bluColor, fontSize: 16.sp),
             ),
-          ])
+          )
         ],
       ),
     );

@@ -30,7 +30,7 @@ class LuncherHelper {
         return "https://wa.me/$phone/?text=${Uri.parse(message!)}";
       } else {
         // 'https://wa.me/201101381311';
-        return "whatsapp://send?phone=" + phone + "&text= ";
+        return "whatsapp://send?phone=" + phone + "&text=${message ?? " "} ";
       }
     }
 

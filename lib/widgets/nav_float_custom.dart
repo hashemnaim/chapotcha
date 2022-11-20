@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../modules/Main/main_controller.dart';
+import '../utils/shared_preferences_helpar.dart';
 
 // ignore: must_be_immutable
 class NavBarFloatCustom extends StatelessWidget {
@@ -16,6 +17,7 @@ class NavBarFloatCustom extends StatelessWidget {
   NavBarFloatCustom({Key? key, this.isHome = true}) : super(key: key);
 
   MainController mainController = Get.find();
+  CartController cartController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,12 @@ class NavBarFloatCustom extends StatelessWidget {
               return Badge(
                 animationType: BadgeAnimationType.slide,
                 badgeContent: Text(
-                  controller.cartList.length.toString(),
+                  SHelper.sHelper.getToken() == null
+                      ? "0"
+                      : controller.cartApiModel.data == null
+                          ? "0"
+                          : controller.cartApiModel.data!.items!.length
+                              .toString(),
                   style: Style.cairoCat.copyWith(fontSize: 10.sp),
                   textAlign: TextAlign.center,
                 ),
@@ -43,7 +50,8 @@ class NavBarFloatCustom extends StatelessWidget {
               );
             },
           ),
-          onPressed: () {
+          onPressed: () async {
+            cartController.getCart();
             mainController.changeIndexBar(2, isHome);
           }),
     );

@@ -1,12 +1,10 @@
 import 'package:capotcha/widgets/nav_bar_custom.dart';
-
 import 'package:capotcha/modules/Products/view/components/product_item.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-
+import '../../../utils/colors.dart';
 import '../../../widgets/app_bar_custom.dart';
 import '../../../widgets/my_widgets_animator.dart';
 import '../../../widgets/nav_float_custom.dart';
@@ -83,32 +81,59 @@ class ProductScreen extends StatelessWidget {
                                   apiCallStatus: _.productStatus,
                                   loadingWidget: () =>
                                       ShimmerHelper.loadingProduct(),
-                                  successWidget: (() => MasonryGridView.count(
-                                        padding: EdgeInsets.all(12),
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 10.w,
-                                        crossAxisSpacing: 15.h,
-                                        itemCount: _
-                                            .productList[_.indexProductList]
-                                            .listProduct!
-                                            .length,
-                                        itemBuilder: (context, index2) {
-                                          return _
-                                                      .productList[
-                                                          _.indexProductList]
-                                                      .name ==
-                                                  "Cartona"
-                                              ? CartonItem(
-                                                  product: _
-                                                      .productList[
-                                                          _.indexProductList]
-                                                      .listProduct![index2])
-                                              : ProductItem(
-                                                  product: _
-                                                      .productList[
-                                                          _.indexProductList]
-                                                      .listProduct![index2]);
+                                  successWidget: (() => RefreshIndicator(
+                                        onRefresh: () async {
+                                          await _.getProduct(
+                                              productController
+                                                  .homeController
+                                                  .homeModel
+                                                  .dataCategory![
+                                                      productController.tabs
+                                                          .indexOf(tab)]
+                                                  .name,
+                                              isLoad: true);
                                         },
+                                        color: AppColors.greenColor,
+                                        child: productController
+                                                    .homeController
+                                                    .homeModel
+                                                    .dataCategory![
+                                                        productController.tabs
+                                                            .indexOf(tab)]
+                                                    .name ==
+                                                "باكيج التوفير"
+                                            ? _.cartonaModel.data == null
+                                                ? Container()
+                                                : MasonryGridView.count(
+                                                    padding: EdgeInsets.all(8),
+                                                    crossAxisCount: 2,
+                                                    mainAxisSpacing: 10.w,
+                                                    crossAxisSpacing: 15.h,
+                                                    itemCount: _.cartonaModel
+                                                        .data!.length,
+                                                    itemBuilder:
+                                                        (context, index2) {
+                                                      return CartonItem(
+                                                          product: _
+                                                              .cartonaModel
+                                                              .data![index2]);
+                                                    },
+                                                  )
+                                            : MasonryGridView.count(
+                                                padding: EdgeInsets.all(8),
+                                                crossAxisCount: 2,
+                                                mainAxisSpacing: 10.w,
+                                                crossAxisSpacing: 15.h,
+                                                itemCount: _.productListModel
+                                                    .listProduct!.length,
+                                                itemBuilder: (context, index2) {
+                                                  return ProductItem(
+                                                      product: _
+                                                              .productListModel
+                                                              .listProduct![
+                                                          index2]);
+                                                },
+                                              ),
                                       )));
                             },
                           );
@@ -119,12 +144,8 @@ class ProductScreen extends StatelessWidget {
                 )
               ]);
             })),
-        floatingActionButton: NavBarFloatCustom(
-          isHome: false,
-        ),
+        floatingActionButton: NavBarFloatCustom(isHome: false),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: NavBottomBarCustom(
-          isHome: false,
-        ));
+        bottomNavigationBar: NavBottomBarCustom(isHome: false));
   }
 }

@@ -106,8 +106,12 @@ class AddAddressScreen extends StatelessWidget {
                                                           controller
                                                                   .addressModel
                                                                   .data![index]
-                                                                  .street ??
-                                                              "",
+                                                                  .city! +
+                                                              "_" +
+                                                              controller
+                                                                  .addressModel
+                                                                  .data![index]
+                                                                  .area!,
                                                           style: Style.cairog.copyWith(
                                                               fontSize: 18.sp,
                                                               color: controller
@@ -125,12 +129,14 @@ class AddAddressScreen extends StatelessWidget {
                                                           controller
                                                                   .addressModel
                                                                   .data![index]
-                                                                  .city! +
-                                                              "_" +
-                                                              controller
-                                                                  .addressModel
-                                                                  .data![index]
-                                                                  .area!,
+                                                                  .building ??
+                                                              "" +
+                                                                  "_" +
+                                                                  controller
+                                                                      .addressModel
+                                                                      .data![
+                                                                          index]
+                                                                      .apartment!,
                                                           style: Style.cairog.copyWith(
                                                               fontSize: 14.sp,
                                                               height: 2,
@@ -193,12 +199,6 @@ class AddAddressScreen extends StatelessWidget {
                                                           },
                                                         )),
                                                   ),
-                                                  // Padding(
-                                                  //   padding:
-                                                  //       const EdgeInsets.symmetric(
-                                                  //           horizontal: 20),
-                                                  //   child: Divider(),
-                                                  // )
                                                 ],
                                               );
                                             }),

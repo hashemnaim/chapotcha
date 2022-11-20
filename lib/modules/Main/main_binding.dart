@@ -10,7 +10,7 @@ import 'main_controller.dart';
 class MainBinding extends Bindings {
   @override
   void dependencies() async {
-    Get.put(ProfileController());
+    Get.lazyPut(() => ProfileController());
 
     Get.put(HomeController());
 
@@ -18,6 +18,6 @@ class MainBinding extends Bindings {
     Get.put(CartController());
     Get.put(OrderController());
 
-    Get.lazyPut(() => OfferController());
+    Get.put(OfferController());
   }
 }

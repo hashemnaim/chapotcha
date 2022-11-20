@@ -9,11 +9,14 @@ import '../../../utils/location_helper.dart';
 class MapController extends GetxController {
   Set<Marker>? markersset;
   bool loadAddress = false;
+  // bool loadAddress = false;
   RxBool isEdit = false.obs;
   Rx<int> idAddress = 0.obs;
 
   TextEditingController addressControlelr = TextEditingController();
   TextEditingController noBuildControlelr = TextEditingController();
+  TextEditingController noWordBuildControlelr = TextEditingController();
+  TextEditingController noFlatControlelr = TextEditingController();
   TextEditingController areaControlelr = TextEditingController();
   TextEditingController noFloorControlelr = TextEditingController();
   TextEditingController mobileControlelr = TextEditingController();
@@ -24,7 +27,7 @@ class MapController extends GetxController {
         29.944785,
         30.881651,
       ),
-      zoom: 14);
+      zoom: 16);
   Position position = Position(
       latitude: 29.944785,
       longitude: 30.881651,
@@ -38,7 +41,7 @@ class MapController extends GetxController {
   setInitialCameraPosition(double lat, double lan) async {
     myLocation = CameraPosition(
       target: LatLng(lat, lan),
-      zoom: 10,
+      zoom: 16,
     );
   }
 
@@ -46,11 +49,9 @@ class MapController extends GetxController {
     GoogleMapController controllerMap,
   ) async {
     loadAddress = true;
-    if (isEdit.value) {
-    } else {
-      position = await LocationHelper().getCurrentLocation();
-      update(["gps"]);
-    }
+
+    position = await LocationHelper().getCurrentLocation();
+    update(["gps"]);
 
     setInitialCameraPosition(position.latitude, position.longitude);
     setAddress(position);
@@ -81,9 +82,9 @@ class MapController extends GetxController {
 
   setAddress(Position position) async {
     loadAddress = true;
-    String address = await (LocationHelper()
+    await (LocationHelper()
         .getPlaceName(position.latitude, position.longitude));
-    addressControlelr.text = address;
+    // addressControlelr.text = address;
     loadAddress = false;
     update(["gps"]);
   }

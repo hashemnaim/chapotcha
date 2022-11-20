@@ -111,7 +111,7 @@ class EditProfileScreen extends StatelessWidget {
                             TextEditingController.fromValue(TextEditingValue(
                           text: controller.profileModel.user!.mobile!,
                         )),
-                        type: true,
+                        // type: true,
                         onChange: (v) {
                           controller.profileModel.user!.mobile = v;
                         },
@@ -136,28 +136,45 @@ class EditProfileScreen extends StatelessWidget {
                         },
                       ),
                       SizedBox(
-                        height: 20.h,
+                        height: 30.h,
                       ),
                       // if (controller.edit.value == true)
                       //   const SizedBox.shrink()
                       // else
-                      // InkWell(
-                      //   onTap: () {
-                      //     Get.to(() => ChangePasswordProfileScreen());
-                      //   },
-                      //   child: Align(
-                      //     alignment: Alignment.centerRight,
-                      //     child: Text(
-                      //       "تعديل كلمة المرور",
-                      //       style: Theme.of(context)
-                      //           .textTheme
-                      //           .headline6
-                      //           .copyWith(
-                      //               color: LightThemeColors.primaryColor,
-                      //               fontSize: 14.sp),
-                      //     ),
-                      //   ),
-                      // ),
+                      InkWell(
+                        onTap: () async {
+                          Get.defaultDialog(
+                              title: "هل تريد حدف الحساب بالفعل؟",
+                              middleText: "علما انه سيتم حدف الحساب بشكل نهائي",
+                              textConfirm: "نعم",
+                              textCancel: "لا",
+                              titleStyle: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(color: Colors.red),
+                              middleTextStyle: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(color: Colors.black),
+                              confirmTextColor: Colors.white,
+                              onConfirm: () async {
+                                await controller.removeUser();
+                              },
+                              onCancel: () {
+                                Get.back();
+                              });
+                        },
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "حدف الحساب",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(color: Colors.red, fontSize: 18.sp),
+                          ),
+                        ),
+                      ),
 
                       SizedBox(
                         height: 20.h,

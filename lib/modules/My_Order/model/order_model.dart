@@ -26,6 +26,7 @@ class Orders {
 
   String? time;
   String? date;
+  String? code;
   // String? totalPrice;
   // String? deliveryCost;
   // String? tax;
@@ -39,6 +40,7 @@ class Orders {
     this.id,
     this.time,
     this.date,
+    this.code,
     // this.totalPrice,
     // this.deliveryCost,
     // this.tax,
@@ -54,6 +56,7 @@ class Orders {
 
     date = json['date'];
     time = json['time'];
+    code = json['code'];
     // totalPrice = json['total_price'];
     // deliveryCost = json['delivery_cost'];
     // tax = json['tax'];
@@ -70,6 +73,7 @@ class Orders {
     data['id'] = this.id;
 
     data['time'] = this.time;
+    data['code'] = this.code;
     // data['total_price'] = this.totalPrice;
     // data['delivery_cost'] = this.deliveryCost;
     // data['tax'] = this.tax;

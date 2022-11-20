@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-
 import '../../../../widgets/custom_network_image.dart';
 import '../../../../widgets/custom_svg.dart';
 import '../../../../utils/constants.dart';
@@ -18,7 +17,7 @@ class ItemCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CartController>(
-        id: "cart",
+        id: '"cart"',
         builder: (controller) {
           return Stack(
             children: [
@@ -39,27 +38,57 @@ class ItemCart extends StatelessWidget {
                           child: Row(
                             children: [
                               CustomNetworkImage(
-                                Constants.imgUrl +
-                                    controller.cartList[index].image!,
+                                controller.cartApiModel.data!.items![index]
+                                            .productType ==
+                                        "كرتونة"
+                                    ? controller.cartApiModel.data!
+                                        .items![index].cartonImage!
+                                    : controller.cartApiModel.data!
+                                        .items![index].productImage!,
                                 heigth: 80.h,
-                                width: 60.w,
-                                fit: BoxFit.fill,
+                                width: 50.w,
+                                fit: BoxFit.contain,
                               ),
                               SizedBox(width: 8.w),
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    controller.cartList[index].productName!,
+                                    controller.cartApiModel.data!.items![index]
+                                                .productType ==
+                                            "كرتونة"
+                                        ? controller.cartApiModel.data!
+                                            .items![index].cartonName!
+                                        : controller.cartApiModel.data!
+                                            .items![index].productName!,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline6!
                                         .copyWith(
                                             color: AppColors.bluColor,
-                                            height: 1.4),
+                                            height: 1.4,
+                                            fontWeight: FontWeight.bold),
                                   ),
                                   Spacer(),
-                                  CustomConter(controller, context),
+                                  Row(
+                                    children: [
+                                      CustomConter(
+                                          context,
+                                          controller.cartApiModel.data!
+                                              .items![index].productId!),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        controller.cartApiModel.data!
+                                            .items![index].productType!,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                                color: AppColors.bluColor,
+                                                height: 1.4),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                               Spacer(),
@@ -67,12 +96,9 @@ class ItemCart extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      (double.parse(controller
-                                                      .cartList[index].price!) *
-                                                  double.parse(controller
-                                                      .cartList[index]
-                                                      .quantity!))
-                                              .toStringAsFixed(1) +
+                                      controller.cartApiModel.data!
+                                              .items![index].total!
+                                              .toString() +
                                           " " +
                                           Constants.currency,
                                       style: Theme.of(context)
@@ -86,7 +112,10 @@ class ItemCart extends StatelessWidget {
                                     GestureDetector(
                                       onTap: () async {
                                         controller.deleteProductFromCart(
-                                            controller.cartList[index]);
+                                            controller.cartApiModel.data!
+                                                .items![index].itemId!,
+                                            controller.cartApiModel.data!
+                                                .items![index].productId!);
                                       },
                                       child: Container(
                                         height: 30,
@@ -107,11 +136,17 @@ class ItemCart extends StatelessWidget {
                           ),
                         )),
                   ),
-                  controller.cartList[index].available == false
+                ],
+              ),
+              controller.cartApiModel.data!.items![index].productType ==
+                      "كرتونة"
+                  ? Container()
+                  : controller.cartApiModel.data!.items![index].productStatus ==
+                          0
                       ? Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
+                            height: 100.h,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.black.withOpacity(0.7)),
@@ -123,12 +158,12 @@ class ItemCart extends StatelessWidget {
                                         fontSize: 18))),
                           ),
                         )
-                      : Container()
-                ],
-              ),
-              controller.cartList[index].unit == "كرتونة"
+                      : Container(),
+              controller.cartApiModel.data!.items![index].productType ==
+                      "كرتونة"
                   ? Container()
-                  : controller.cartList[index].stock == "0"
+                  : controller.cartApiModel.data!.items![index].productStok ==
+                          "0"
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -150,52 +185,89 @@ class ItemCart extends StatelessWidget {
         });
   }
 
-  Container CustomConter(CartController controller, BuildContext context) {
-    return Container(
-      height: 40.h,
-      padding: EdgeInsets.only(left: 5, right: 5),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.add,
-              color: Colors.green,
-              size: 25,
-            ),
-            splashColor: Colors.green,
-            onPressed: () {
-              controller.IncreaseQuantity(
-                  index, controller.cartList[index].unit == "كيلو" ? 0.5 : 1);
-            },
+  GetBuilder CustomConter(BuildContext context, int productId) {
+    return GetBuilder<CartController>(
+      id: 'cart$productId',
+      builder: (controller) {
+        return Container(
+          height: 40.h,
+          padding: EdgeInsets.only(left: 5, right: 5),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(10),
           ),
-          Center(
-            child: Text(
-              controller.cartList[index].quantity.toString(),
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6!
-                  .copyWith(color: AppColors.bluColor, fontSize: 16.sp),
-            ),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.remove,
-              color: Color(0xff748A9D),
-              size: 25,
-            ),
-            splashColor: Colors.red,
-            onPressed: () {
-              controller.decreaseQuantity(
-                  index, controller.cartList[index].unit == "كيلو" ? 0.5 : 1);
-            },
-          ),
-        ],
-      ),
+          child: controller.isUpdateCartload == true
+              ? Container(
+                  width: 114.w,
+                  child: SpinKitThreeBounce(
+                    color: AppColors.greenColor,
+                    size: 20.0,
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.green,
+                        size: 25,
+                      ),
+                      splashColor: Colors.green,
+                      onPressed: () {
+                        controller.cartApiModel.data!.items![index]
+                                    .productType ==
+                                "كرتونة"
+                            ? controller.IncreaseCartonQuantity(
+                                index,
+                                controller
+                                    .cartApiModel.data!.items![index].itemId,
+                                controller.cartApiModel.data!.items![index]
+                                            .productType ==
+                                        "كيلو"
+                                    ? 0.5
+                                    : 1.0)
+                            : controller.IncreaseQuantity(
+                                index,
+                                controller
+                                    .cartApiModel.data!.items![index].itemId,
+                                controller.cartApiModel.data!.items![index]
+                                            .productType ==
+                                        "كيلو"
+                                    ? 0.5
+                                    : 1.0);
+                      },
+                    ),
+                    Center(
+                      child: Text(
+                        controller.cartApiModel.data!.items![index].qty!
+                            .substring(0, 3),
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: AppColors.bluColor, fontSize: 16.sp),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.remove,
+                        color: Color(0xff748A9D),
+                        size: 25,
+                      ),
+                      splashColor: Colors.red,
+                      onPressed: () {
+                        controller.decreaseQuantity(
+                            index,
+                            controller.cartApiModel.data!.items![index].itemId,
+                            controller.cartApiModel.data!.items![index]
+                                        .productType ==
+                                    "كيلو"
+                                ? 0.5
+                                : 1.0);
+                      },
+                    ),
+                  ],
+                ),
+        );
+      },
     );
   }
 }

@@ -90,9 +90,9 @@ class DataAddress {
   DataAddress.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     phone = json['phone'];
-    street = json['street'];
-    building = json['building'];
-    apartment = json['apartment'];
+    street = json['street'] ?? "";
+    building = json['building'] ?? "";
+    apartment = json['apartment'] ?? "";
     lat = json['lat'];
     lng = json['lng'];
     isDefault = json['is_default'];

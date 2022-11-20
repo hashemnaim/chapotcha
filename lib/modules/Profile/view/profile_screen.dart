@@ -109,7 +109,11 @@ class ProfileScreen extends StatelessWidget {
                               SizedBox(
                                 width: 10.w,
                               ),
-                              Text("تسجيل خروج", style: Style.cairo),
+                              Text(
+                                "تسجيل خروج",
+                                style: Style.cairo.copyWith(
+                                    color: AppColors.btnColor, fontSize: 20),
+                              ),
                             ],
                           )),
               ),

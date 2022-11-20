@@ -1,4 +1,6 @@
 import 'dart:io';
+
+import 'package:capotcha/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -10,16 +12,15 @@ class LocationHelper {
   MapController mapController = Get.find();
   Future<Position> getCurrentLocation() async {
     try {
-      mapController.loadAddress = true;
-
       Position position = await determinePosition();
-      mapController.loadAddress = false;
+      // mapController.loadAddress = true;
 
+      // mapController.loadAddress = false;
       return position;
     } catch (e) {
       return Position(
-          latitude: 21.506845,
-          longitude: 39.852190,
+          latitude: 29.944785,
+          longitude: 30.881651,
           accuracy: 1,
           altitude: 1,
           heading: 1,
@@ -32,51 +33,69 @@ class LocationHelper {
   Future<Position> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
-
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       if (Platform.isAndroid) {
         Get.defaultDialog(
           title: '',
+          barrierDismissible: false,
           content: Column(
             children: [
               const Icon(
                 Icons.my_location_outlined,
+                size: 50,
+                color: AppColors.greenColor,
               ),
               const SizedBox(
                 height: 26,
               ),
-              const Text(
-                'Enable Your Location',
-              ),
+              Text('تفعيل الموقع',
+                  style: Theme.of(Get.context!).textTheme.bodyText1),
               const SizedBox(height: 8),
               Container(
                 constraints: const BoxConstraints(maxWidth: 235),
-                child: const Text(
-                    'Please enable to use your location to show nearby services on the map'),
+                child: Text(
+                    'يرجى تفعيل استخدام موقعك لإظهار الخدمات القريبة على الخريطة',
+                    style: Theme.of(Get.context!).textTheme.bodyText1),
               ),
               const SizedBox(height: 44),
               TextButton(
-                onPressed: () async {
+                onPressed: () {
                   Get.back();
+                  Get.back();
+                  Geolocator.openLocationSettings();
                 },
-                child: const Text('Enable my location'),
+                style: TextButton.styleFrom(
+                  backgroundColor: AppColors.greenColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'تمكين موقعي',
+                    style: Theme.of(Get.context!).textTheme.bodyText1!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
               )
             ],
           ),
-          onWillPop: () {
-            return Future.value(false);
-          },
+          // onWillPop: () {
+          //   Get.back();
+          //   return Future.value(false);
+          // },
         );
       }
-      return Future.error('Location services are disabled.');
+      return Future.error('الموقع غير مفعل');
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        return Future.error('الموقع غير مفعل');
       }
     }
 
@@ -91,32 +110,31 @@ class LocationHelper {
             const SizedBox(
               height: 26,
             ),
-            const Text(
-              'Enable Your Location',
-            ),
+            Text('تفعيل الموقع',
+                style: Theme.of(Get.context!).textTheme.bodyText1),
             const SizedBox(height: 8),
             Container(
-              constraints: const BoxConstraints(maxWidth: 235),
-              child: const Text(
-                  'Please enable to use your location to show nearby services on the map'),
-            ),
+                constraints: const BoxConstraints(maxWidth: 235),
+                child: Text(
+                  'يرجى تفعيل استخدام موقعك لإظهار الخدمات القريبة على الخريطة',
+                  style: Theme.of(Get.context!).textTheme.bodyText1,
+                )),
             const SizedBox(height: 44),
             TextButton(
               onPressed: () {
-                Get.back();
                 Geolocator.openLocationSettings();
               },
-              child: const Text('Enable my location'),
+              child: const Text('تمكين موقعي'),
             )
           ],
         ),
         onWillPop: () {
+          Get.back();
           return Future.value(false);
         },
       );
 
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error('الموقع غير مفعل');
     }
 
     return await Geolocator.getCurrentPosition();
@@ -128,8 +146,9 @@ class LocationHelper {
           .placemarkFromCoordinates(lat, long, localeIdentifier: 'ar_SA');
       return placemarks.first.street!;
     } catch (e) {
+      mapController.loadAddress = false;
+
       return "";
-      // mapController.loadAddress = false;
     }
   }
 }

@@ -25,6 +25,18 @@ class ValidationHelper {
     }
   }
 
+  String? validateNonAdress(String value, String value2) {
+    if (value2 == "غير ذلك") {
+      if (value.isEmpty) {
+        return 'هذه الخانة مطلوبه!';
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
   String? validateConfrmationPassword(String value, String confirmValue) {
     if (value.trim().isEmpty) {
       return 'هذه الخانة مطلوبه! ';

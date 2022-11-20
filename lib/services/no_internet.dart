@@ -1,7 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+// import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../modules/Home/view/home_screen.dart';
 import '../utils/colors.dart';
@@ -21,14 +21,14 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
   initState() {
     super.initState();
 
-    InternetConnectionChecker().onStatusChange.listen(
-      (event) {
-        bool hasInternt = event == InternetConnectionStatus.connected;
-        setState(() {
-          this.hasInternt = hasInternt;
-        });
-      },
-    );
+    // InternetConnectionChecker().onStatusChange.listen(
+    //   (event) {
+    //     bool hasInternt = event == InternetConnectionStatus.connected;
+    //     setState(() {
+    //       this.hasInternt = hasInternt;
+    //     });
+    //   },
+    // );
   }
 
   @override

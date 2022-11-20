@@ -1,14 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:capotcha/widgets/custom_svg.dart';
-import 'package:capotcha/modules/Products/model/product_model.dart';
-import 'package:capotcha/modules/Cart/model/cart_model.dart';
 import 'package:capotcha/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import '../../../../routes/app_pages.dart';
 import '../../../../utils/animate_do.dart';
 import '../../../../utils/constants.dart';
+import '../../../../utils/shared_preferences_helpar.dart';
 import '../../../../widgets/custom_network_image.dart';
 import '../../../../utils/colors.dart';
 import '../../../Cart/controller/cart_controller.dart';
@@ -22,21 +23,23 @@ class CartonItem extends GetView<ProductController> {
     required this.product,
   }) : super(key: key);
   CartController cartController = Get.find<CartController>();
-  double height = 300;
-  final Product product;
+  double height = 280;
+  final DataCartona product;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: product.state == "0"
-          ? null
-          : () {
-              DataCartona dataCartona = controller.cartonaModel.data!
-                  .firstWhere((element) => element.id == product.id);
-              controller.idProduct.value = product.id!;
-              Get.to(
-                () => DetailsProduct(data: dataCartona, id: product.id),
-              );
-            },
+      onTap:
+          //  product.stock == "0"
+          //     ? null
+          //     :
+          () {
+        DataCartona dataCartona = controller.cartonaModel.data!
+            .firstWhere((element) => element.id == product.id);
+        controller.idProduct.value = product.id!;
+        Get.to(
+          () => DetailsProduct(data: dataCartona, id: product.id),
+        );
+      },
       child: Stack(children: [
         Container(
           height: height.h,
@@ -50,43 +53,59 @@ class CartonItem extends GetView<ProductController> {
                 height: 4.h,
               ),
               Expanded(
-                flex: 2,
-                child: CustomNetworkImage(
-                  Constants.imgUrl + product.image!,
-                  fit: BoxFit.fitWidth,
-                  heigth: 110.h,
-                  width: Get.width,
-                ),
-              ),
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 20.h,
+                          left: 0,
+                          right: 0,
+                          child: CustomNetworkImage(
+                            Constants.imgUrl + product.image!,
+                            fit: BoxFit.contain,
+                            heigth: 140.h,
+                            width: Get.width,
+                          ),
+                        ),
+                        Positioned(
+                          top: 6.h,
+                          right: 6.w,
+                          child: Text(
+                            product.name!,
+                            style: Style.cairo.copyWith(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                height: 1.h),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
               SizedBox(
-                height: 5.h,
+                height: 2.h,
               ),
               Expanded(
                 flex: 2,
                 child: Column(
                   children: [
-                    Text(
-                      product.name!,
-                      style: Style.cairo.copyWith(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          height: 1),
-                    ),
+                    Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // double.parse(product.oldPrice).toStringAsFixed(1) != 0.0
-                        //     ? Text(
-                        //         " ${double.parse(product.oldPrice).toStringAsFixed(1)} ",
-                        //         style: TextStyle(
-                        //           fontSize: 14.sp,
-                        //           fontFamily: 'cairo',
-                        //           color: Colors.red,
-                        //           decoration: TextDecoration.lineThrough,
-                        //         ))
-                        //     : SizedBox.shrink(),
                         Text(
-                            " ${double.parse(product.price!).toStringAsFixed(1)}",
+                            (double.parse(product.price.toString()) +
+                                    double.parse(product.discount.toString()))
+                                .toStringAsFixed(1),
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontFamily: 'cairo',
+                              decoration: TextDecoration.lineThrough,
+                              color: Colors.red[700],
+                            )),
+                        SizedBox(width: 5.w),
+                        Text("${product.price!.toStringAsFixed(1)}",
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontFamily: 'cairo',
@@ -101,121 +120,185 @@ class CartonItem extends GetView<ProductController> {
                       ],
                     ),
                     SizedBox(
-                      height: 8.h,
+                      height: 4.h,
                     ),
                     Text(
                       "تفاصيل الكرتونة",
                       style: Style.cairog.copyWith(fontSize: 14.sp),
                     ),
-                    Spacer(),
                     Divider(),
                     GetBuilder<CartController>(
-                      id: 'cart',
+                      id: 'cart${product.name}',
                       builder: (controller) {
                         return GestureDetector(
-                          onTap: () async {
-                            await controller.addProductToCart(
-                              CartModel(
-                                productId: product.id,
-                                productName: product.name,
-                                price: product.price.toString(),
-                                image: product.image,
-                                unit: "كرتونة",
-                                quantity: "1.0",
-                                maxQty: product.maxQty.toString(),
-                                stock: product.maxQty.toString(),
-                              ),
-                            );
-                          },
-                          child: controller.cartList.indexWhere((element) =>
-                                      element.productId == product.id) ==
-                                  -1
-                              ? Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                      SizedBox(
-                                        width: 5.w,
-                                      ),
-                                      Text(" أضف الى السلة",
-                                          style: Style.cairog.copyWith(
-                                              fontSize: 16.sp, height: 1.3)),
-                                      SizedBox(
-                                        width: 5.w,
-                                      ),
-                                      CustomSvgImage(
-                                        "icon-cart",
-                                        color: AppColors.greenColor,
-                                        isColor: true,
-                                        height: 25.h,
-                                      ),
-                                    ])
-                              : FadeInUp(
-                                  duration: Duration(milliseconds: 200),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap: () async {
-                                            int index = controller.cartList
-                                                .indexWhere((element) =>
-                                                    element.productId ==
-                                                    product.id);
-                                            await controller.IncreaseQuantity(
-                                                index, 1.0);
-                                          },
-                                          child: Container(
-                                            height: 30,
-                                            width: 35,
-                                            child: Icon(
-                                              Icons.add,
-                                              color: Colors.green,
-                                              size: 28,
-                                            ),
-                                          ),
+                            onTap: () async {
+                              if (SHelper.sHelper.getToken() == null) {
+                                Get.toNamed(
+                                  Routes.SignUpScreen,
+                                );
+                              } else {
+                                await controller.addCartonCart(
+                                    product.id!, product.name!);
+                              }
+                            },
+                            child: controller.cartApiModel.data != null
+                                ? controller.isUpdateCartload == true
+                                    ? Container(
+                                        width: 114.w,
+                                        child: SpinKitThreeBounce(
+                                          color: AppColors.greenColor,
+                                          size: 20.0,
                                         ),
-                                        Text(
-                                          cartController
-                                              .cartList[cartController.cartList
-                                                  .indexWhere((element) =>
-                                                      element.productId ==
-                                                      product.id)]
-                                              .quantity
-                                              .toString(),
-                                          style: Style.cairog
-                                              .copyWith(fontSize: 16.sp),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            int index = controller.cartList
+                                      )
+                                    : controller.cartApiModel.data!.items!
                                                 .indexWhere((element) =>
-                                                    element.productId ==
-                                                    product.id);
+                                                    element.cartonName ==
+                                                    product.name) ==
+                                            -1
+                                        ? Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                                SizedBox(
+                                                  width: 5.w,
+                                                ),
+                                                Text(" أضف الى السلة",
+                                                    style: Style.cairog
+                                                        .copyWith(
+                                                            fontSize: 16.sp,
+                                                            height: 1.3)),
+                                                SizedBox(
+                                                  width: 5.w,
+                                                ),
+                                                CustomSvgImage(
+                                                  "icon-cart",
+                                                  color: AppColors.greenColor,
+                                                  isColor: true,
+                                                  height: 25.h,
+                                                ),
+                                              ])
+                                        : FadeInUp(
+                                            duration:
+                                                Duration(milliseconds: 200),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      int index = controller
+                                                          .cartApiModel
+                                                          .data!
+                                                          .items!
+                                                          .indexWhere((element) =>
+                                                              element
+                                                                  .cartonName ==
+                                                              product.name);
 
-                                            await controller.decreaseQuantity(
-                                                index, 1.0);
-                                          },
-                                          child: Container(
-                                            height: 30,
-                                            width: 35,
-                                            child: Icon(
-                                              Icons.remove,
-                                              color: Color(0xff748A9D),
-                                              size: 25,
+                                                      await controller
+                                                          .IncreaseCartonQuantity(
+                                                              index,
+                                                              controller
+                                                                  .cartApiModel
+                                                                  .data!
+                                                                  .items![index]
+                                                                  .itemId,
+                                                              1.0);
+                                                    },
+                                                    child: Container(
+                                                      height: 35.h,
+                                                      width: 50.w,
+                                                      child: Icon(
+                                                        Icons.add,
+                                                        color: Colors.green,
+                                                        size: 28,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    cartController
+                                                        .cartApiModel
+                                                        .data!
+                                                        .items![cartController
+                                                            .cartApiModel
+                                                            .data!
+                                                            .items!
+                                                            .indexWhere((element) =>
+                                                                element
+                                                                    .cartonName ==
+                                                                product.name)]
+                                                        .qty!
+                                                        .substring(0, 3),
+                                                    style: Style.cairog
+                                                        .copyWith(
+                                                            fontSize: 16.sp),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      int index = controller
+                                                          .cartApiModel
+                                                          .data!
+                                                          .items!
+                                                          .indexWhere((element) =>
+                                                              element
+                                                                  .cartonName ==
+                                                              product.name);
+
+                                                      await controller
+                                                          .decreaseCartoneQuantity(
+                                                              index,
+                                                              controller
+                                                                  .cartApiModel
+                                                                  .data!
+                                                                  .items![index]
+                                                                  .itemId,
+                                                              1.0);
+                                                    },
+                                                    child: Container(
+                                                      height: 35.h,
+                                                      width: 50.w,
+                                                      child: Icon(
+                                                        Icons.remove,
+                                                        color:
+                                                            Color(0xff748A9D),
+                                                        size: 25,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
+                                          )
+                                : Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                        SizedBox(
+                                          width: 5.w,
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                        );
+                                        Text(" أضف الى السلة",
+                                            style: Style.cairog.copyWith(
+                                                fontSize: 16.sp, height: 1.3)),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        CustomSvgImage(
+                                          "icon-cart",
+                                          color: AppColors.greenColor,
+                                          isColor: true,
+                                          height: 25.h,
+                                        ),
+                                      ]));
                       },
                     ),
                     SizedBox(
@@ -227,30 +310,20 @@ class CartonItem extends GetView<ProductController> {
             ],
           ),
         ),
-        if (product.offer == "1")
-          Align(
-            alignment: Alignment.topLeft,
-            child: CustomPngImage(
-              "modal_offer",
-              fit: BoxFit.contain,
-              heigth: 80.h,
-              width: 80.h,
-            ),
-          ),
-        product.state == "0"
-            ? Container(
-                height: height.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.r),
-                    color: Colors.black.withOpacity(0.7)),
-                child: Center(
-                    child: Text("نفدت الكمية",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Cairo",
-                            fontSize: 18.sp))),
-              )
-            : Container()
+        // product.stock == "0"
+        //     ? Container(
+        //         height: height.h,
+        //         decoration: BoxDecoration(
+        //             borderRadius: BorderRadius.circular(20.r),
+        //             color: Colors.black.withOpacity(0.7)),
+        //         child: Center(
+        //             child: Text("نفدت الكمية",
+        //                 style: TextStyle(
+        //                     color: Colors.white,
+        //                     fontFamily: "Cairo",
+        //                     fontSize: 18.sp))),
+        //       )
+        //     : Container()
       ]),
     );
   }

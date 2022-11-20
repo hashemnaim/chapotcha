@@ -152,8 +152,8 @@ class Address {
     id = json['id'];
     phone = json['phone'];
     street = json['street'];
-    building = json['building'];
-    apartment = json['apartment'];
+    building = json['building'] ?? "";
+    apartment = json['apartment'] ?? "";
     lat = json['lat'];
     lng = json['lng'];
     city = json['city'];

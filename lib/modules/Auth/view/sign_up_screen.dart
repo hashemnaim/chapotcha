@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/valdtion_helper.dart';
+import '../../../utils/constants.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_svg.dart';
 
@@ -23,14 +24,10 @@ class SignUpScreen extends GetView<AuthController> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-          body: SingleChildScrollView(
-        child: Container(
-          height: Get.height,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              image: DecorationImage(
-                  image: AssetImage("assets/images/background.png"),
-                  fit: BoxFit.cover)),
+          body: Container(
+        height: Get.height,
+        decoration: backgroundImage,
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Stack(
@@ -45,7 +42,7 @@ class SignUpScreen extends GetView<AuthController> {
                     top: 50.h,
                     child: InkWell(
                         onTap: () {
-                          Get.back();
+                          Get.offAndToNamed(Routes.MAIN);
                         },
                         child: CustomSvgImage(
                           "back",
@@ -73,7 +70,7 @@ class SignUpScreen extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 22.h),
+                    SizedBox(height: 8.h),
                     Text("أنشئ حساب",
                         style: Theme.of(context).textTheme.headline5!.copyWith(
                               fontSize: 22.sp,
@@ -107,7 +104,6 @@ class SignUpScreen extends GetView<AuthController> {
                           ),
                           SizedBox(height: 12.h),
                           SizedBox(
-                            height: 65.h,
                             child: FormFieldItem(
                               textInputType: TextInputType.text,
                               labelText: "ادخل الاسم بالكامل",
@@ -121,7 +117,7 @@ class SignUpScreen extends GetView<AuthController> {
                               type: false,
                             ),
                           ),
-                          SizedBox(height: 18.h),
+                          SizedBox(height: 12.h),
                           FormPhone(
                               // <== This is the call to the snippet
                               phoneController: controller.mobileController

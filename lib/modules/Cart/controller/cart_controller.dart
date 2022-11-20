@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/modules/Cart/model/cart_model.dart';
@@ -8,23 +7,33 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/helper/db_helper.dart';
 import '../../../routes/app_pages.dart';
+import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/method_helpar.dart';
+import '../../../utils/shared_preferences_helpar.dart';
 import '../../Main/main_controller.dart';
+import '../../Products/model/product_model.dart';
+import '../model/cart_model_api.dart';
 
 class CartController extends GetxController {
+  CartApiModel _cartApiModel = CartApiModel();
+  CartApiModel get cartApiModel => _cartApiModel;
   List<CartModel> _cartList = [];
+
   List<CartModel> get cartList => _cartList;
   double _totalPrice = 0.0;
   double get totalPrice => _totalPrice;
+  ApiCallStatus cartStatus = ApiCallStatus.holding;
+  bool isUpdateCartload = false;
+  Rx<bool> isload = false.obs;
 
   ProfileController profileController = Get.find();
   int selectedDay = 0;
   String dateDay = getDate(0);
   RxString dateDay2 = getDay1(0).obs;
   RxString selectedTime = "".obs;
-  TextEditingController notesController = TextEditingController();
+  TextEditingController notesController = TextEditingController(text: "");
 
   List<String> days = [
     "الاثنين",
@@ -39,6 +48,7 @@ class CartController extends GetxController {
   void clear() {
     selectedTime.value = "";
     selectedDay = 0;
+    dateDay = getDate(0);
     notesController.clear();
     cartList.clear();
 
@@ -46,28 +56,27 @@ class CartController extends GetxController {
     update(['cart']);
   }
 
+  getCountOrder(dateDay, index) async {
+    profileController.listCount = [];
+    isload.value = true;
+    for (var i = 0;
+        i < profileController.shippingTimesModel.cities!.shippingTimes!.length;
+        i++) {
+      int count = await profileController.getOrdersCountPeriod(
+          dateDay2.value +
+              "/" +
+              dateUtc.add(Duration(days: index)).month.toString(),
+          profileController
+              .shippingTimesModel.cities!.shippingTimes![i].period!);
+      profileController.listCount.add(count);
+    }
+    isload.value = false;
+  }
+
   sendOrder(int? idAddress) async {
-    List<CartModel> listProduct =
-        cartList.where((element) => element.unit != "كرتونة").toList();
-
-    List<CartModel> listCartona =
-        cartList.where((element) => element.unit == "كرتونة").toList();
-
-    List mapCartona = listCartona.map((e) => e.toMapCartona()).toList();
-    List mapProduct = listProduct.map((e) => e.toMapProduct()).toList();
-
-    String productList = jsonEncode(mapProduct);
-    String cartonaList = jsonEncode(mapCartona);
-
     BotToast.showLoading();
-    log("productList: $productList");
-    log("productList: $cartonaList");
-    log(idAddress.toString());
-    log(notesController.value.text);
-    log(profileController.shippingTimesModel.cities!.shippingCost.toString());
+
     await BaseClient.baseClient.post(Constants.sendOrder, data: {
-      "product_list": productList,
-      "carton_list": cartonaList,
       "day": dateDay.toString(),
       "time": selectedTime.value.toString(),
       "address_id": idAddress.toString(),
@@ -76,15 +85,21 @@ class CartController extends GetxController {
       "notes": notesController.value.text
     }, onSuccess: (response) {
       log(response.data.toString());
-      if (response.data['status'] == true) {
+      if (response.data['status'] == "OK") {
         BotToast.closeAllLoading();
         BotToast.showText(text: "تم ارسال الطلب بنجاح");
         clear();
+
         Get.find<MainController>().selectedPageIndex = 1;
         selectedTime.value = "";
+
         Get.find<OrderController>().getOrders(true);
+        getCart();
         Get.offNamed(Routes.MAIN);
         update(["cart"]);
+      } else {
+        BotToast.closeAllLoading();
+        BotToast.showText(text: "حدث خطأ ما");
       }
     });
   }
@@ -99,84 +114,221 @@ class CartController extends GetxController {
     selectedTime.value = time;
   }
 
-  addProductToCart(CartModel cartModel) async {
-    // for (var element in _cartList) {
-    //   if (element.productId == cartModel.productId) {
-    //     BotToast.showText(text: "هذا المنتج موجود بالفعل");
-    //     return;
-    //   }
-    // }
-    await DBHelper.dbHelper.insert(cartModel);
-    getAllProduct();
-    BotToast.showText(text: "تمت الاضافة بنجاح");
+  addProductToCart(
+    Product product,
+  ) async {
+    log(product.toJson().toString());
+
+    isUpdateCartload = true;
+    update(["cart${product.id}"]);
+    await addCart(product.id);
+    isUpdateCartload = false;
+    update(["cart${product.id}"]);
+    update(["cart"]);
   }
 
-  getAllProduct() async {
-    _cartList = await DBHelper.dbHelper.getAllProduct();
-    getTotalPrice();
-    update(['cart']);
+  addCartonCart(int id, String name) async {
+    isUpdateCartload = true;
+    update(["cart$name"]);
+
+    await addCartoneCart(id);
+    isUpdateCartload = false;
+    update(["cart$name"]);
+    update(["cart"]);
   }
 
-  getTotalPrice() async {
-    _totalPrice = 0.0;
-    for (var element in _cartList) {
-      _totalPrice = _totalPrice +
-          double.parse(element.price!) * double.parse(element.quantity!);
-    }
-    update(['cart']);
+  addCart(
+    int? product_id,
+  ) async {
+    await BaseClient.baseClient.post(Constants.addCartUrl, data: {
+      "product_id": product_id,
+      "qty": "1.0",
+    }, onSuccess: (response) async {
+      _cartApiModel = CartApiModel.fromJson(response.data);
+      BotToast.showText(text: "تمت الاضافة بنجاح", align: Alignment.center);
+
+      update(["cart$product_id"]);
+    });
   }
 
-  String getTotalAll() {
-    update(['cart', 'ShippingTimes']);
-
-    return (totalPrice +
-            double.parse(
-                profileController.shippingTimesModel.cities!.shippingCost!))
-        .toStringAsFixed(1)
-        .toString();
+  addCartoneCart(
+    int? product_id,
+  ) async {
+    await BaseClient.baseClient.post(Constants.addCartUrl, data: {
+      "carton_id": product_id,
+      "qty": "1.0",
+    }, onSuccess: (response) async {
+      _cartApiModel = CartApiModel.fromJson(response.data);
+      BotToast.showText(text: "تمت الاضافة بنجاح", align: Alignment.center);
+    });
   }
 
-  deleteProductFromCart(CartModel cartModel) async {
-    await DBHelper.dbHelper.delate(cartModel);
-    getAllProduct();
-    BotToast.showText(text: "تم الحذف بنجاح");
-    update(['cart']);
-  }
-
-  IncreaseQuantity(int index, double quantity) async {
-    if (double.parse(_cartList[index].stock!) <=
-        double.parse(_cartList[index].quantity!)) {
-      BotToast.showText(text: "لا يوجد كمية كافية");
+  updateCart(int? product_id, String? qty) async {
+    if (SHelper.sHelper.getToken() == null) {
+      Get.toNamed(
+        Routes.SignUpScreen,
+      );
     } else {
-      if (double.parse(_cartList[index].maxQty!) <=
-          double.parse(_cartList[index].quantity!)) {
+      await BaseClient.baseClient.post(Constants.updateCartUrl, data: {
+        "item_id": product_id,
+        "qty": qty,
+      }, onSuccess: (response) async {
+        _cartApiModel = CartApiModel.fromJson(response.data);
+      });
+    }
+  }
+
+  deleteCart(
+    int? product_id,
+  ) async {
+    if (SHelper.sHelper.getToken() == null) {
+      Get.toNamed(
+        Routes.SignUpScreen,
+      );
+    } else {
+      BotToast.showLoading();
+      await BaseClient.baseClient.post(Constants.deleteCartUrl, data: {
+        "item_id": product_id,
+      }, onSuccess: (response) async {
+        _cartApiModel = CartApiModel.fromJson(response.data);
+        BotToast.closeAllLoading();
+
+        update(['cart$product_id']);
+      });
+    }
+  }
+
+  getCart({bool isLoad = false}) async {
+    if (SHelper.sHelper.getToken() == null) {
+    } else {
+      if (isLoad == true) cartStatus = ApiCallStatus.loading;
+
+      await BaseClient.baseClient.get(Constants.getCartUrl,
+          onSuccess: (response) async {
+        log(response.data.toString());
+        _cartApiModel = CartApiModel.fromJson(response.data);
+        cartStatus = ApiCallStatus.success;
+
+        update(['cart']);
+      });
+    }
+  }
+
+  deleteProductFromCart(int idItem, int idProduct) async {
+    await deleteCart(idItem);
+
+    BotToast.showText(text: "تم الحذف بنجاح");
+    update(['cart$idProduct']);
+
+    update(['cart']);
+  }
+
+  deleteCartonFromCart(int idItem, String name) async {
+    await deleteCart(idItem);
+
+    BotToast.showText(text: "تم الحذف بنجاح");
+    update(['cart$name']);
+
+    update(['cart']);
+  }
+
+  IncreaseQuantity(int index, int? itemId, double quantity) async {
+    if (double.parse(cartApiModel.data!.items![index].productStok!) <=
+        double.parse(cartApiModel.data!.items![index].qty!)) {
+      BotToast.showText(
+        text: "لا يوجد كمية كافية",
+        align: Alignment.center,
+        contentColor: Colors.red,
+      );
+    } else {
+      if (double.parse(cartApiModel.data!.items![index].maxQty!) <=
+          double.parse(cartApiModel.data!.items![index].qty!)) {
         BotToast.showText(
           text: "لا يمكن اضافة اكثر من هذه الكمية",
+          align: Alignment.center,
+          contentColor: Colors.red,
         );
       } else {
-        _cartList[index].quantity =
-            (double.parse(_cartList[index].quantity!) + quantity)
-                .toStringAsFixed(1);
-        await DBHelper.dbHelper.update(_cartList[index]);
-        getTotalPrice();
+        isUpdateCartload = true;
+        update(['cart${cartApiModel.data!.items![index].productId}']);
 
+        await updateCart(
+          itemId,
+          (double.parse(cartApiModel.data!.items![index].qty!) + quantity)
+              .toString(),
+        );
+        isUpdateCartload = false;
+
+        update(['cart${cartApiModel.data!.items![index].productId}']);
         update(['cart']);
       }
     }
   }
 
-  decreaseQuantity(int index, double quantity) async {
-    if (double.parse(_cartList[index].quantity!) <= quantity) {
-      deleteProductFromCart(_cartList[index]);
-    } else {
-      _cartList[index].quantity =
-          (double.parse(_cartList[index].quantity!) - quantity)
-              .toStringAsFixed(1);
-      getTotalPrice();
+  IncreaseCartonQuantity(int index, int? itemId, double quantity) async {
+    isUpdateCartload = true;
+    update(['cart${cartApiModel.data!.items![index].cartonName}']);
+    update(['cart${cartApiModel.data!.items![index].productId}']);
 
-      await DBHelper.dbHelper.update(_cartList[index]);
-    }
+    await updateCart(
+      itemId,
+      (double.parse(cartApiModel.data!.items![index].qty!) + quantity)
+          .toString(),
+    );
+    isUpdateCartload = false;
+
+    update(['cart${cartApiModel.data!.items![index].cartonName}']);
+    update(['cart${cartApiModel.data!.items![index].productId}']);
+
     update(['cart']);
+  }
+
+  //
+
+  decreaseCartoneQuantity(int index, int? itemId, double quantity) async {
+    if (double.parse(cartApiModel.data!.items![index].qty!) <= quantity) {
+      deleteCartonFromCart(
+          itemId!, cartApiModel.data!.items![index].cartonName!);
+    } else {
+      isUpdateCartload = true;
+
+      update(['cart${cartApiModel.data!.items![index].cartonName}']);
+
+      await updateCart(
+        itemId,
+        (double.parse(cartApiModel.data!.items![index].qty!) - quantity)
+            .toString(),
+      );
+
+      isUpdateCartload = false;
+
+      update(['cart${cartApiModel.data!.items![index].cartonName}']);
+
+      update(['cart']);
+    }
+  }
+
+  decreaseQuantity(int index, int? itemId, double quantity) async {
+    if (double.parse(cartApiModel.data!.items![index].qty!) <= quantity) {
+      deleteProductFromCart(
+          itemId!, cartApiModel.data!.items![index].productId!);
+    } else {
+      isUpdateCartload = true;
+
+      update(['cart${cartApiModel.data!.items![index].productId}']);
+
+      await updateCart(
+        itemId,
+        (double.parse(cartApiModel.data!.items![index].qty!) - quantity)
+            .toString(),
+      );
+
+      isUpdateCartload = false;
+
+      update(['cart${cartApiModel.data!.items![index].productId}']);
+
+      update(['cart']);
+    }
   }
 
   @override
@@ -189,7 +341,7 @@ class CartController extends GetxController {
 
   @override
   void onInit() {
-    getAllProduct();
+    getCart(isLoad: true);
     super.onInit();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/modules/Profile/model/profile_modal.dart';
 import 'package:capotcha/routes/app_pages.dart';
@@ -7,33 +9,51 @@ import 'package:get/get.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
 import '../../../utils/constants.dart';
+import '../../../utils/shared_preferences_helpar.dart';
 import '../model/shipping_time_model.dart';
 
 class ProfileController extends GetxController {
   ProfileModel profileModel = ProfileModel();
   ShippingTimesModel shippingTimesModel = ShippingTimesModel();
+  List<int> listCount = [];
   ApiCallStatus profileStatus = ApiCallStatus.holding;
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
   TextEditingController oldPasswordControlelr = TextEditingController();
   TextEditingController passwordControlelr = TextEditingController();
   TextEditingController confirmPasswordControlelr = TextEditingController();
-  RxBool edit = false.obs;
+  RxBool edit = true.obs;
+  RxInt countOrderPeriod = 0.obs;
 
-  getProfile(isLoad) async {
-    profileStatus = ApiCallStatus.loading;
-    await BaseClient.baseClient.post(Constants.profileUrl,
-        onSuccess: (response) {
-      profileModel = ProfileModel.fromJson(response.data);
-      profileStatus = ApiCallStatus.success;
-      if (profileModel.address == null) {
-        Get.toNamed(Routes.EnterLocationScreen);
-      } else {
-        getShippingTimes();
-      }
-      update(["profile"]);
-    });
+  getProfile() async {
+    if (SHelper.sHelper.getToken() == null) {
+      // Get.toNamed(Routes.SignInScreen);
+    } else {
+      profileStatus = ApiCallStatus.loading;
+      await BaseClient.baseClient.post(Constants.profileUrl,
+          onSuccess: (response) {
+        profileModel = ProfileModel.fromJson(response.data);
+        log(response.data.toString());
+        profileStatus = ApiCallStatus.success;
+        update(["profile"]);
+
+        if (profileModel.address == null) {
+          Get.toNamed(Routes.EnterLocationScreen);
+        } else {
+          getShippingTimes();
+        }
+      });
+    }
   }
+
+  // getProfile2(isLoad) async {
+  //   profileStatus = ApiCallStatus.loading;
+  //   await BaseClient.baseClient.post(Constants.profileUrl,
+  //       onSuccess: (response) {
+  //     profileModel = ProfileModel.fromJson(response.data);
+  //     profileStatus = ApiCallStatus.success;
+  //   });
+  // }
 
   sendSupport() async {
     await BaseClient.baseClient.post(Constants.sendMessageUrl, data: {
@@ -60,14 +80,24 @@ class ProfileController extends GetxController {
       "email": profileModel.user!.email,
       "mobile": profileModel.user!.mobile,
     }, onSuccess: (response) {
-      profileModel = ProfileModel.fromJson(response.data);
-      profileStatus = ApiCallStatus.success;
+      getProfile();
       update(["profile"]);
-      if (profileModel.address!.city == null) {
-        Get.toNamed(Routes.EnterLocationScreen);
-      } else {
-        getShippingTimes();
-      }
+    });
+  }
+
+  removeUser() async {
+    // profileStatus = ApiCallStatus.loading;
+    BotToast.showLoading();
+    await BaseClient.baseClient.post(Constants.removeUserUrl,
+        onSuccess: (response) async {
+      log(response.data.toString());
+
+      await SHelper.sHelper.removeToken();
+      BotToast.closeAllLoading();
+
+      Get.offAllNamed(Routes.SPLASH);
+
+      update(["profile"]);
     });
   }
 
@@ -81,6 +111,24 @@ class ProfileController extends GetxController {
     });
   }
 
+  Future<int> getOrdersCountPeriod(String day, String time) async {
+    await BaseClient.baseClient.post(Constants.ordersCountPeriodUrl,
+        data: {"day": day, "time": time}, onSuccess: (response) {
+      if (response.data['status'] == true) {
+        log(response.data.toString());
+
+        countOrderPeriod.value = response.data['count'];
+
+        // update(["ShippingTimes"]);
+
+        return response.data['count'];
+      } else {
+        return 0;
+      }
+    });
+    return countOrderPeriod.value;
+  }
+
   getChangePasswordProfile() async {
     BotToast.showLoading();
 
@@ -91,7 +139,7 @@ class ProfileController extends GetxController {
       if (response.data['status'] == true) {
         BotToast.closeAllLoading();
 
-        await getProfile(false);
+        await getProfile();
         BotToast.showText(
           text: response.data['messages'],
         );
@@ -110,7 +158,7 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() async {
-    await getProfile(true);
+    await getProfile();
     super.onInit();
   }
 }
