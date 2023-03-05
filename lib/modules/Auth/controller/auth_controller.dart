@@ -10,10 +10,8 @@ import '../../../utils/keyboard.dart';
 import '../view/new_password_screen.dart';
 
 class AuthController extends GetxController {
-  // InitialController initialController = Get.find();
   TextEditingController nameController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
-  // TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
@@ -27,7 +25,6 @@ class AuthController extends GetxController {
     nameController.dispose();
     mobileController.dispose();
     passwordController.dispose();
-    // emailController.dispose();
     super.dispose();
   }
 
@@ -35,7 +32,6 @@ class AuthController extends GetxController {
     obscureText.value = true;
     mobileController.clear();
     nameController.clear();
-    // emailController.clear() ;
     passwordController.clear();
   }
 
@@ -44,22 +40,23 @@ class AuthController extends GetxController {
       formKey.currentState.save();
       KeyboardUtil.hideKeyboard(Get.context!);
       BotToast.showLoading();
-      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+      FirebaseMessaging firebaseMessaging = await FirebaseMessaging.instance;
       String? fcmToken = await firebaseMessaging.getToken();
-      await SHelper.sHelper.setFcmToken(fcmToken!);
+
       await BaseClient.baseClient.post(Constants.registerUrl, data: {
         "name": nameController.text,
         "mobile": mobileController.text,
         "password": passwordController.text,
         "fcm_token": fcmToken,
       }, onSuccess: (response) async {
+        await SHelper.sHelper.setFcmToken(fcmToken!);
+
         if (response.data['status'] == true) {
           await SHelper.sHelper.setToken(response.data['accessToken']);
 
           BotToast.closeAllLoading();
-          BotToast.showText(
-            text: response.data['message'],
-          );
+          BotToast.showText(text: response.data['message']);
           clear();
 
           Get.offAllNamed(Routes.MAIN);
@@ -80,24 +77,22 @@ class AuthController extends GetxController {
       BotToast.showLoading();
       FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
       String? fcmToken = await firebaseMessaging.getToken();
-      await SHelper.sHelper.setFcmToken(fcmToken!);
       await BaseClient.baseClient.post(Constants.loginUrl, data: {
         "mobile": mobileController.text,
         "password": passwordController.text,
         "fcm_token": fcmToken,
       }, onSuccess: (response) async {
+        await SHelper.sHelper.setFcmToken(fcmToken!);
+
         if (response.data['status'] == true) {
           BotToast.closeAllLoading();
 
           await SHelper.sHelper.setToken(response.data['accessToken']);
-          BotToast.showText(
-            text: response.data['message'],
-          );
+          BotToast.showText(text: response.data['message']);
           clear();
           Get.offAllNamed(Routes.MAIN);
         } else {
           BotToast.closeAllLoading();
-
           BotToast.showText(
               text: response.data["message"], contentColor: Colors.red);
         }

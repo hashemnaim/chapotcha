@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:capotcha/utils/constants.dart';
 import 'package:capotcha/utils/colors.dart';
 import 'package:capotcha/utils/styles.dart';
@@ -98,10 +100,9 @@ class _DetailsProductState extends State<DetailsProduct> {
                             -1) {
                           return GestureDetector(
                             onTap: () async {
+                              log(SHelper.sHelper.getToken().toString());
                               if (SHelper.sHelper.getToken() == null) {
-                                Get.toNamed(
-                                  Routes.SignUpScreen,
-                                );
+                                Get.toNamed(Routes.SignUpScreen);
                               } else {
                                 await controller.addCartonCart(
                                     widget.data!.id!, widget.data!.name!);
@@ -215,26 +216,34 @@ class _DetailsProductState extends State<DetailsProduct> {
                         }
                       }
                     } else {
-                      return Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Text(" أضف الى السلة",
-                                style: Style.cairog
-                                    .copyWith(fontSize: 16.sp, height: 1.3)),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            CustomSvgImage(
-                              "icon-cart",
-                              color: AppColors.greenColor,
-                              isColor: true,
-                              height: 25.h,
-                            ),
-                          ]);
+                      return InkWell(
+                        onTap: () async {
+                          if (SHelper.sHelper.getToken() == null) {
+                            Get.toNamed(Routes.SignUpScreen);
+                          } else {
+                            await controller.addCartonCart(
+                                widget.data!.id!, widget.data!.name!);
+                          }
+                        },
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              Text(" أضف الى السلة",
+                                  style: Style.cairog
+                                      .copyWith(fontSize: 16.sp, height: 1.3)),
+                              SizedBox(width: 5.w),
+                              CustomSvgImage(
+                                "icon-cart",
+                                color: AppColors.greenColor,
+                                isColor: true,
+                                height: 25.h,
+                              ),
+                            ]),
+                      );
                     }
                   },
                 ),

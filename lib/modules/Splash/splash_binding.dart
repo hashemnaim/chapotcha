@@ -4,6 +4,7 @@ import 'initial_controller.dart';
 class SplashBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put<InitialController>(InitialController());
+    Get.put(InitialController());
+    // Get.put(HomeController());
   }
 }

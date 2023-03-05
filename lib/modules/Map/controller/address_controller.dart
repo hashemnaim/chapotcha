@@ -88,6 +88,8 @@ class AddressController extends GetxController {
     area = Item(id: 0, name: "اختر المنطق").obs;
     city = Item(id: 0, name: "اختر المدينة").obs;
     mapController.noBuildControlelr.clear();
+    mapController.noFlatControlelr.clear();
+
     mapController.noFloorControlelr.clear();
     mapController.addressControlelr.clear();
   }
@@ -99,7 +101,7 @@ class AddressController extends GetxController {
       "street": mapController.addressControlelr.value.text,
       "apartment": mapController.noFloorControlelr.value.text +
           "-" +
-          mapController.noFloorControlelr.value.text,
+          mapController.noFlatControlelr.value.text,
       "building": mapController.noBuildControlelr.value.text +
           " " +
           wordBuildValue.value,
@@ -114,7 +116,7 @@ class AddressController extends GetxController {
         getMyAddress();
 
         BotToast.showText(
-          text: "تم اضافة العنوان بنجاج",
+          text: "تم إضافة العنوان بنجاج",
         );
         clean();
         Get.back();
@@ -149,8 +151,7 @@ class AddressController extends GetxController {
   }
 
   getMyAddress() async {
-    if (SHelper.sHelper.getToken() == null) {
-    } else {
+    if (SHelper.sHelper.getToken() != null) {
       addressStatus = ApiCallStatus.loading;
       await BaseClient.baseClient.get(Constants.myAddressesUrl,
           onSuccess: (response) {

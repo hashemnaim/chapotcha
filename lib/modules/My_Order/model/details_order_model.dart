@@ -32,6 +32,7 @@ class Orders {
   String? time;
   String? totalPrice;
   String? deliveryCost;
+  String? discount_price;
   String? tax;
   String? status;
   String? statusCode;
@@ -48,6 +49,7 @@ class Orders {
       this.totalPrice,
       this.deliveryCost,
       this.tax,
+      this.discount_price,
       this.status,
       this.statusCode,
       this.products,
@@ -60,8 +62,9 @@ class Orders {
     code = json['code'];
     date = json['date'];
     time = json['time'];
-    totalPrice = json['total_price'];
-    deliveryCost = json['delivery_cost'];
+    totalPrice = json['total_price'].toString();
+    deliveryCost = json['delivery_cost'].toString();
+    discount_price = json['discount_price'].toString();
     tax = json['tax'];
     status = json['status'];
     statusCode = json['status_code'];
@@ -129,13 +132,13 @@ class Cartons {
 
   Cartons.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    orderId = json['order_id'];
-    cartonId = json['carton_id'];
+    orderId = json['order_id'].toString();
+    cartonId = json['carton_id'].toString();
     cartonName = json['carton_name'];
-    cartonPrice = json['carton_price'];
+    cartonPrice = json['carton_price'].toString();
     image = json['image'];
     cartonQuantity = json['quantity'];
-    totalPrice = json['total_price'];
+    totalPrice = json['total_price'].toString();
   }
 
   Map<String, dynamic> toJson() {

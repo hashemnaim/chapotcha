@@ -18,16 +18,14 @@ class CategoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
         Expanded(
           child: GridView.builder(
               itemCount: data!.length,
               padding: EdgeInsets.only(bottom: 10),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: data!.length > 4 ? 1.3 : 3,
-                crossAxisCount: data!.length > 4 ? 2 : 1,
+                childAspectRatio: data!.length > 8 ? 1.3 : 3,
+                crossAxisCount: data!.length > 8 ? 2 : 1,
               ),
               itemBuilder: (context, int index) {
                 return Padding(
@@ -41,13 +39,13 @@ class CategoriesList extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                          colorFilter: ColorFilter.mode(
-                              Colors.black.withOpacity(0.3), BlendMode.darken),
-                          image: CachedNetworkImageProvider(
-                            Constants.imgUrl + data![index].image!,
-                          ),
-                          fit: BoxFit.cover,
-                        )),
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(0.3),
+                                    BlendMode.darken),
+                                image: CachedNetworkImageProvider(
+                                  Constants.imgUrl + data![index].image!,
+                                ),
+                                fit: BoxFit.cover)),
                         child: Center(
                             child: Text(data![index].name!,
                                 style: Style.cairoW.copyWith(

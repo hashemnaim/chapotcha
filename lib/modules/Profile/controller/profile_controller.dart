@@ -9,7 +9,11 @@ import 'package:get/get.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
 import '../../../utils/constants.dart';
+import '../../../utils/location_helper.dart';
 import '../../../utils/shared_preferences_helpar.dart';
+import '../../Map/controller/map_controller.dart';
+import '../../Map/model/address_model.dart';
+import '../../Map/view/enter_location_screen.dart';
 import '../model/shipping_time_model.dart';
 
 class ProfileController extends GetxController {
@@ -26,21 +30,28 @@ class ProfileController extends GetxController {
   RxInt countOrderPeriod = 0.obs;
 
   getProfile() async {
-    if (SHelper.sHelper.getToken() == null) {
-      // Get.toNamed(Routes.SignInScreen);
-    } else {
+    if (SHelper.sHelper.getToken() != null) {
       profileStatus = ApiCallStatus.loading;
       await BaseClient.baseClient.post(Constants.profileUrl,
-          onSuccess: (response) {
+          onSuccess: (response) async {
         profileModel = ProfileModel.fromJson(response.data);
-        log(response.data.toString());
+        log(profileModel.toJson().toString());
         profileStatus = ApiCallStatus.success;
-        update(["profile"]);
-
         if (profileModel.address == null) {
-          Get.toNamed(Routes.EnterLocationScreen);
+          LocationHelper.checkLocationPermission(() async {
+            DataAddress addressLocation =
+                await Get.find<MapController>().getCurrentLocation(true);
+            Get.to(() => EnterLocationScreen(
+                address: DataAddress(
+                    lat: addressLocation.lat,
+                    lng: addressLocation.lng,
+                    area: addressLocation.area),
+                fromApp: false));
+          });
+          update(["profile"]);
         } else {
-          getShippingTimes();
+          await getShippingTimes();
+          update(["profile"]);
         }
       });
     }
@@ -90,8 +101,6 @@ class ProfileController extends GetxController {
     BotToast.showLoading();
     await BaseClient.baseClient.post(Constants.removeUserUrl,
         onSuccess: (response) async {
-      log(response.data.toString());
-
       await SHelper.sHelper.removeToken();
       BotToast.closeAllLoading();
 
@@ -115,11 +124,7 @@ class ProfileController extends GetxController {
     await BaseClient.baseClient.post(Constants.ordersCountPeriodUrl,
         data: {"day": day, "time": time}, onSuccess: (response) {
       if (response.data['status'] == true) {
-        log(response.data.toString());
-
         countOrderPeriod.value = response.data['count'];
-
-        // update(["ShippingTimes"]);
 
         return response.data['count'];
       } else {
@@ -157,8 +162,8 @@ class ProfileController extends GetxController {
   }
 
   @override
-  void onInit() async {
-    await getProfile();
+  void onInit() {
+    getProfile();
     super.onInit();
   }
 }

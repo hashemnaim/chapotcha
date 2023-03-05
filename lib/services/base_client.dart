@@ -49,9 +49,6 @@ class BaseClient {
     Function? onLoading,
   }) async {
     try {
-      log(data.toString());
-      log(SHelper.sHelper.getToken().toString());
-
       onLoading?.call();
       var response = await _dio
           .post(
@@ -67,7 +64,6 @@ class BaseClient {
           .timeout(const Duration(seconds: TIME_OUT_DURATION));
       await onSuccess(response);
     } on dio.DioError catch (error) {
-      log(error.toString());
       BotToast.closeAllLoading();
       return handleDioError(error);
     }
@@ -97,13 +93,12 @@ class BaseClient {
       await onSuccess(response);
     } on dio.DioError catch (error) {
       BotToast.closeAllLoading();
-
       return handleDioError(error);
     }
   }
 
   _handleError(String msg) {
-    // Get.snackbar(msg, "");
+    log(msg);
   }
 
   dynamic handleDioError(dio.DioError dioError) {

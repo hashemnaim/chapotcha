@@ -32,9 +32,7 @@ class ItemDetilsOrder extends StatelessWidget {
                     width: 40.w,
                     fit: BoxFit.contain,
                   ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
+                  SizedBox(width: 10.w),
                   Text(
                     name!,
                     style: Theme.of(context)

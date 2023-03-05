@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.capotcha.capotcha">
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -9,7 +9,9 @@
         android:label="كابوتشا"
         android:icon="@mipmap/ic_launcher">
          <meta-data android:name="com.google.android.geo.API_KEY"
-         android:value="AIzaSyBXe1l4YeBc_V1tICxmDpFoHRW0h-GYqOs"/>
+         android:value="AIzaSyBXQHPe5Q371Vkxr_TXEqyA82OcnieNq4M"/>
+          <uses-library android:name="org.apache.http.legacy" 
+          android:required="false"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

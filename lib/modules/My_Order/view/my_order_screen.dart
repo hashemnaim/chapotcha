@@ -112,8 +112,8 @@ class MyOrderScreen extends StatelessWidget {
                                                         color: Colors.grey),
                                                   ),
                                                   trailing: InkWell(
-                                                    onTap: () {
-                                                      controller
+                                                    onTap: () async {
+                                                      await controller
                                                           .getDetilesOrders(
                                                               controller
                                                                   .orderModel

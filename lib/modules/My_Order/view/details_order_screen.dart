@@ -9,7 +9,6 @@ import '../../../utils/shimmer_helper.dart';
 import '../../../utils/styles.dart';
 import '../../../widgets/app_bar_custom.dart';
 import '../../../widgets/my_widgets_animator.dart';
-
 import '../controller/order_controller.dart';
 import 'components/custom_status.dart';
 import 'components/item_detiles_order.dart';
@@ -20,6 +19,7 @@ class OrderDetailsScreen extends StatelessWidget {
   const OrderDetailsScreen({Key? key, this.index}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(OrderController());
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(AppBar().preferredSize.height),
@@ -35,16 +35,11 @@ class OrderDetailsScreen extends StatelessWidget {
                 successWidget: (() => Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 20.h,
-                          ),
                           CustomStauts(
                             controller: controller,
                             index: index,
                           ),
-                          SizedBox(
-                            height: 20.h,
-                          ),
+                          SizedBox(height: 8.h),
                           Expanded(
                               child: SingleChildScrollView(
                             child: Column(
@@ -57,14 +52,6 @@ class OrderDetailsScreen extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
-                                            child: Text(
-                                              "منتجات",
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                          ),
                                           ListView.builder(
                                               shrinkWrap: true,
                                               primary: false,
@@ -155,9 +142,9 @@ class OrderDetailsScreen extends StatelessWidget {
                           )),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 8),
+                                horizontal: 8, vertical: 2),
                             child: Container(
-                                height: 220.h,
+                                height: 250.h,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     boxShadow: [
@@ -202,30 +189,20 @@ class OrderDetailsScreen extends StatelessWidget {
                                           Constants.currency,
                                     ),
                                     row(
+                                      context,
+                                      "الخصم",
+                                      (controller.detailsOrderModel.orders!
+                                                  .discount_price ??
+                                              "0.0") +
+                                          " " +
+                                          Constants.currency,
+                                    ),
+                                    row(
                                         context,
                                         "المجموع",
-                                        // controller.detailsOrderModel.orders!
-                                        //             .cartons!.length ==
-                                        //         0
-                                        //     ?
                                         controller
                                                 .getTotalPrice()
                                                 .toStringAsFixed(1) +
-                                            // " " +
-                                            // Constants.currency
-                                            // : (controller.getTotalPrice() +
-                                            //             controller
-                                            //                 .detailsOrderModel
-                                            //                 .orders!
-                                            //                 .cartons!
-                                            //                 .map((e) =>
-                                            //                     double.parse(e
-                                            //                         .totalPrice!))
-                                            //                 .reduce((value,
-                                            //                         element) =>
-                                            //                     value +
-                                            //                     element))
-                                            //         .toStringAsFixed(1) +
                                             " " +
                                             Constants.currency),
                                   ],
@@ -276,20 +253,12 @@ class OrderDetailsScreen extends StatelessWidget {
                                   ),
                                 ),
                         ])))));
-    // floatingActionButton: NavBarFloatCustom(
-    //   isHome: false,
-    // ),
-    // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    // bottomNavigationBar: NavBottomBarCustom(
-    //   isHome: false,
-    // ));
   }
 
   Padding row(BuildContext context, String titel, String price) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4, vertical: 3.h),
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Text(

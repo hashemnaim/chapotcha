@@ -1,4 +1,3 @@
-import 'package:capotcha/modules/Profile/view/support_screen.dart';
 import 'package:capotcha/utils/animate_do.dart';
 import 'package:capotcha/utils/lunchers_helper.dart';
 import 'package:capotcha/utils/shared_preferences_helpar.dart';
@@ -54,17 +53,12 @@ class ProfileScreen extends StatelessWidget {
                         Routes.AddAddressScreen,
                       )),
           sizedBox,
-          // listTile(
-          //   context,
-          //   Icons.history,
-          //   "سجل الطلبات",
-          //   () => getTo(HistoryScreen()),
-          // ),
           listTile(
             context,
             Icons.support_agent_outlined,
             "خدمة العملاء",
-            () => getTo(SupportScreen()),
+            () =>
+                LuncherHelper.validationHelper.launchWhatsApp(message: "اريد"),
           ),
           sizedBox,
           listTile(
@@ -122,123 +116,6 @@ class ProfileScreen extends StatelessWidget {
           sizedBox,
           sizedBox,
           sizedBox,
-
-          // SHelper.sHelper.getToken() == null
-          //     ? Container()
-          //     : Column(
-          //         children: [
-          //           Divider(),
-          //           Align(
-          //               alignment: Alignment.centerRight,
-          //               child: Text(
-          //                 "ادخال كود الخصم ",
-          //                 style: Style.cairo,
-          //               )),
-          //           SizedBox(
-          //             height: MediaQuery.of(context).size.height * 0.02,
-          //           ),
-          //           Container(
-          //               height: MediaQuery.of(context).size.height * 0.08,
-          //               width: MediaQuery.of(context).size.width,
-          //               child: Stack(
-          //                 children: [
-          //                   TextFormField(
-          //                       // enabled: false,
-          //                       textAlign: TextAlign.right,
-          //                       onChanged: (value) async {
-          //                         promo = value;
-          //                       },
-          //                       decoration: InputDecoration(
-          //                           filled: true,
-          //                           fillColor: Colors.grey[300],
-          //                           hintText: "كود الخصم",
-          //                           hintStyle: Style.cairo,
-          //                           border: OutlineInputBorder(
-          //                               borderSide: BorderSide.none,
-          //                               borderRadius:
-          //                                   BorderRadius.circular(10)))),
-          //                   Padding(
-          //                     padding:
-          //                         const EdgeInsets.symmetric(horizontal: 30),
-          //                     child: Align(
-          //                       alignment: Alignment.centerLeft,
-          //                       child: GestureDetector(
-          //                         onTap: () async {
-          //                           promoBool = true;
-          //                           await Provider.of<HomeProvieder>(context,
-          //                                   listen: false)
-          //                               .setPromoCode(promo);
-          //                           if (Provider.of<HomeProvieder>(context,
-          //                                       listen: false)
-          //                                   .promoCode
-          //                                   .status ==
-          //                               true) {
-          //                             promoBool = false;
-
-          //                             await Fluttertoast.showToast(
-          //                                 msg: Provider.of<HomeProvieder>(
-          //                                         context,
-          //                                         listen: false)
-          //                                     .promoCode
-          //                                     .message,
-          //                                 toastLength: Toast.LENGTH_SHORT,
-          //                                 gravity: ToastGravity.BOTTOM,
-          //                                 timeInSecForIosWeb: 1,
-          //                                 backgroundColor:
-          //                                     AppColors.greenColor,
-          //                                 textColor: Colors.white,
-          //                                 fontSize: 16.0);
-          //                           } else {
-          //                             promoBool = false;
-
-          //                             await Fluttertoast.showToast(
-          //                                 msg: Provider.of<HomeProvieder>(
-          //                                         context,
-          //                                         listen: false)
-          //                                     .promoCode
-          //                                     .message,
-          //                                 toastLength: Toast.LENGTH_SHORT,
-          //                                 gravity: ToastGravity.BOTTOM,
-          //                                 timeInSecForIosWeb: 1,
-          //                                 backgroundColor: Colors.red,
-          //                                 textColor: Colors.white,
-          //                                 fontSize: 16.0);
-          //                           }
-          //                           setState(() {});
-          //                         },
-          //                         child: Container(
-          //                           height: 50,
-          //                           width: 60,
-          //                           child: Center(
-          //                             child: Text(
-          //                               "تفعيل",
-          //                               style: Style.cairog,
-          //                               textAlign: TextAlign.center,
-          //                             ),
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //               decoration: BoxDecoration(
-          //                   borderRadius: BorderRadius.circular(10),
-          //                   boxShadow: <BoxShadow>[
-          //                     BoxShadow(
-          //                       color: Colors.grey.withOpacity(0.2),
-          //                       spreadRadius: 5,
-          //                       blurRadius: 7,
-          //                       offset: Offset(
-          //                           0, 1), // changes position of shadow
-          //                     ),
-          //                   ],
-          //                   color: Colors.grey[200])),
-          //           SizedBox(
-          //             height: MediaQuery.of(context).size.height * 0.1,
-          //           ),
-          //         ],
-          //       )
         ],
       ),
     );
@@ -257,10 +134,7 @@ class ProfileScreen extends StatelessWidget {
       child: InkWell(
         onTap: onTap as void Function()?,
         child: ListTile(
-          leading: Icon(
-            icon,
-            size: 30,
-          ),
+          leading: Icon(icon, size: 30),
           title: Text(title, style: Style.cairo),
           trailing: Container(
             alignment: Alignment.centerLeft,

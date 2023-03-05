@@ -17,7 +17,7 @@ class ItemCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CartController>(
-        id: '"cart"',
+        id: "cart",
         builder: (controller) {
           return Stack(
             children: [

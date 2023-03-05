@@ -19,9 +19,9 @@ import '../home_screen.dart';
 
 class PageNav {
   static List<Widget> widgetOptions = <Widget>[
-    SlideInDown(child: HomeScreen()),
+    HomeScreen(),
     FadeInRight(child: MyOrderScreen()),
-    SlideInDown(child: CartScreen()),
+    CartScreen(),
     FadeInRight(child: OffersScreen()),
     BounceInUp(child: ProfileScreen()),
   ];

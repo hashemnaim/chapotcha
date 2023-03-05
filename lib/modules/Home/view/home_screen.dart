@@ -21,12 +21,8 @@ class HomeScreen extends StatelessWidget {
                   decoration: backgroundImage,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      SLiderItem(
-                        slider: controller.homeModel.sliders,
-                      ),
+                      SizedBox(height: 8.h),
+                      SLiderItem(slider: controller.homeModel.sliders),
                       Expanded(
                         child: CategoriesList(
                           data: controller.homeModel.dataCategory,

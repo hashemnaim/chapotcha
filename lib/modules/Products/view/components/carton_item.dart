@@ -36,9 +36,7 @@ class CartonItem extends GetView<ProductController> {
         DataCartona dataCartona = controller.cartonaModel.data!
             .firstWhere((element) => element.id == product.id);
         controller.idProduct.value = product.id!;
-        Get.to(
-          () => DetailsProduct(data: dataCartona, id: product.id),
-        );
+        Get.to(() => DetailsProduct(data: dataCartona, id: product.id));
       },
       child: Stack(children: [
         Container(

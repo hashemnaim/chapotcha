@@ -40,7 +40,7 @@ class SHelper {
   removeToken() {
     initSharedPrefrences();
     sharedPreferences!.remove(
-      'token',
+      'token'
     );
   }
 

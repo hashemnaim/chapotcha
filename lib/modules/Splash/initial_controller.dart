@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:capotcha/modules/Products/controller/product_controller.dart';
 import 'package:capotcha/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,29 +8,38 @@ import '../../routes/app_pages.dart';
 import '../../services/base_client.dart';
 import '../../utils/constants.dart';
 import 'package:version_check/version_check.dart';
-
+import '../../utils/lunchers_helper.dart';
 import '../../utils/styles.dart';
+import '../Home/controller/home_controller.dart';
 
 class InitialController extends GetxController {
-  validateSession() {
-    Future.delayed(Duration(seconds: 2), () {
-      Get.offAndToNamed(Routes.MAIN);
-    });
+  HomeController homeController = Get.put(HomeController(), permanent: true);
+  ProductController productController =
+      Get.put(ProductController(), permanent: true);
+  validateSession() async {
+    await homeController.getHome(false);
+    productController.getProduct();
+    Get.offAllNamed(Routes.MAIN);
   }
 
   final versionCheck = VersionCheck(
-      packageName:
-          Platform.isIOS ? 'com.capotcha.capotcha' : 'com.capotcha.capotcha',
-      packageVersion: '1.0.1',
+      packageName: Platform.isIOS
+          ? 'com.capotcha.capotcha'
+          : "https://play.google.com/store/apps/details?id=com.capotcha.capotcha",
+      packageVersion: "2.1.8",
       showUpdateDialog: (BuildContext context, VersionCheck versionCheck) {});
 
   getVersion() async {
     await BaseClient.baseClient.get(Constants.settingUrl,
         onSuccess: (response) async {
-      if (response.data['data'][12]["value"] == "2.1.3") {
-        validateSession();
+      if (response.data['data'][12]['value'].toString() == "1") {
+        await validateSession();
       } else {
-        return customShowUpdateDialog(Get.context!, versionCheck);
+        if (response.data['data'][12]['value'] == "2.1.8") {
+          await validateSession();
+        } else {
+          return customShowUpdateDialog(Get.context!, versionCheck);
+        }
       }
     });
   }
@@ -38,7 +47,6 @@ class InitialController extends GetxController {
   @override
   void onInit() {
     getVersion();
-    // validateSession();
     super.onInit();
   }
 
@@ -66,7 +74,10 @@ class InitialController extends GetxController {
           TextButton(
             child: Text('تحديث'),
             onPressed: () async {
-              await versionCheck.launchStore();
+              await LuncherHelper.validationHelper.launchInBrowser(Uri.parse(Platform
+                      .isIOS
+                  ? "https://apps.apple.com/us/app/%D9%83%D8%A7%D8%A8%D9%88%D8%AA%D8%B4%D8%A7/id6444121882"
+                  : "https://play.google.com/store/apps/details?id=com.capotcha.capotcha"));
               Navigator.of(context).pop();
             },
           ),

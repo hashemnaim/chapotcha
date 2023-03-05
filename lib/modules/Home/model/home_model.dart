@@ -31,27 +31,17 @@ class HomeModel {
 class DataCategory {
   int? id;
   String? name;
-  // String? description;
   String? image;
-  // String? prepare;
-  // String? isCarton;
 
   DataCategory({
     this.id,
     this.name,
-    // this.description,
     this.image,
-    // this.prepare,
-    // this.isCarton,
-    // this.product
   });
 
   DataCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    // description = json['description'];
     image = json['image'];
-    // prepare = json['prepare'];
-    // isCarton = json['isCarton'];
   }
 }

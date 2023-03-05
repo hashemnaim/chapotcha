@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
@@ -33,12 +35,13 @@ class OrderController extends GetxController {
 
   getDetilesOrders(int? id) async {
     detailsOrderStatus = ApiCallStatus.loading;
+    log(id.toString());
     await BaseClient.baseClient.post(Constants.getOrder, data: {"order_id": id},
         onSuccess: (response) {
       detailsOrderModel = DetailsOrderModel.fromJson(response.data);
       detailsOrderStatus = ApiCallStatus.success;
-      update(["Detailsorder"]);
     });
+    update(["Detailsorder"]);
   }
 
   final List<String> listStatus = [
@@ -49,7 +52,7 @@ class OrderController extends GetxController {
   ];
   @override
   void onInit() async {
-    await getOrders(true);
+    getOrders(true);
     super.onInit();
   }
 }

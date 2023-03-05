@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,9 +8,7 @@ import '../routes/app_pages.dart';
 import 'colors.dart';
 import 'styles.dart';
 
-String getConvetDate(
-  String date1,
-) {
+String getConvetDate(String date1) {
   final date = DateTime.parse(date1);
   final date2 = DateTime.now();
   final days = (date2.difference(date).inDays / 30).round();
@@ -46,12 +42,9 @@ String getDay1(index) {
 
 bool getAvalipleEdit(String day, String shippingTimes) {
   String time = shippingTimes.split("-").last;
-  log(day);
 
   if (DateTime.now().day.toString() == day) {
     if (time[0] == '0') {
-      log(time[1]);
-
       return int.parse(time[1]) >
           int.parse(
               (DateTime.now().add(Duration(minutes: 60)).hour).toString());
@@ -67,29 +60,29 @@ bool getAvalipleEdit(String day, String shippingTimes) {
 ProfileController profileController = Get.find();
 bool getAvaliple(int index, int beforeClose, List<int> count, String day,
     List<ShippingTimes> shippingTimes) {
-  log("day " + day.toString());
-  log("count " + count.toString());
-  log("shippingTimes " + shippingTimes[index].max.toString());
   String time = shippingTimes[index].period!.split("-").last;
-
   if (shippingTimes[index].avilable == 0) {
     return false;
   } else {
     if (shippingTimes[index].max! <= count[index]) {
       return false;
     } else {
-      if (DateTime.now().day.toString() == day.toString()) {
-        if (time[0] == '0') {
-          return int.parse(time[1]) >
-              int.parse(
-                  (DateTime.now().add(Duration(minutes: beforeClose)).hour)
-                      .toString());
+      if (DateTime.now().day.toString() == day) {
+        if (DateTime.now().hour > int.parse(time)) {
+          return false;
         } else {
-          return int.parse(time) >
-              int.parse(DateTime.now()
-                  .add(Duration(minutes: beforeClose))
-                  .hour
-                  .toString());
+          if (time[0] == '0') {
+            return int.parse(time[1]) >
+                int.parse(
+                    (DateTime.now().add(Duration(minutes: beforeClose)).hour)
+                        .toString());
+          } else {
+            return int.parse(time) >
+                int.parse(DateTime.now()
+                    .add(Duration(minutes: beforeClose))
+                    .hour
+                    .toString());
+          }
         }
       } else {
         return true;
@@ -148,8 +141,9 @@ changeMyAddress() async {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: ListTile(
                               title: Text(
-                                controller.addressModel.data![index].street ??
-                                    "",
+                                controller.addressModel.data![index].city! +
+                                    "_" +
+                                    controller.addressModel.data![index].area!,
                                 style: Style.cairog.copyWith(
                                     fontSize: 18.sp,
                                     color: controller.addressModel.data![index]
@@ -159,9 +153,12 @@ changeMyAddress() async {
                                         : AppColors.bluColor),
                               ),
                               subtitle: Text(
-                                controller.addressModel.data![index].city! +
-                                    "_" +
-                                    controller.addressModel.data![index].area!,
+                                " البناية " +
+                                    controller
+                                        .addressModel.data![index].building! +
+                                    " - الشقة " +
+                                    controller
+                                        .addressModel.data![index].apartment!,
                                 style: Style.cairog.copyWith(
                                     fontSize: 14.sp,
                                     color: controller.addressModel.data![index]
@@ -232,7 +229,7 @@ changeMyAddress() async {
               width: 300.w,
               child: TextButton(
                   child: Text(
-                    "اضافة عنوان جديد",
+                    "إضافة عنوان جديد",
                     style: Style.cairo
                         .copyWith(fontSize: 16.sp, color: Colors.white),
                   ),

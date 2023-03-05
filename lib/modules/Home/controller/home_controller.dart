@@ -20,10 +20,4 @@ class HomeController extends GetxController {
       update(["home"]);
     });
   }
-
-  @override
-  void onInit() {
-    getHome(homeModel.dataCategory == null);
-    super.onInit();
-  }
 }

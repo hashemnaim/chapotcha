@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:capotcha/utils/shared_preferences_helpar.dart';
 import 'package:dio/dio.dart';
@@ -36,10 +38,22 @@ class FcmHelper {
 
       FirebaseMessaging.onMessage.listen(_fcmForegroundHandler);
       // FirebaseMessaging.onMessage.listen(_fcmForegroundHandler);
-      FirebaseMessaging.onBackgroundMessage(_fcmBackgroundHandler);
+      // FirebaseMessaging.onBackgroundMessage((RemoteMessage) async {
+      //   try {
+      //     return _showNotification(
+      //       id: 1,
+      //       title: RemoteMessage.notification?.title ?? 'Tittle',
+      //       body: RemoteMessage.notification?.body ?? 'Body',
+      //     );
+      //   } catch (e) {
+      //     log("=======" + e.toString());
+      //   }
+      // });
 
-      listenToActionButtons();
-    } catch (error) {}
+      // listenToActionButtons();
+    } catch (error) {
+      log(error.toString());
+    }
   }
 
   /// when user click on notification or click on button on the notification
@@ -74,12 +88,14 @@ class FcmHelper {
   Future<void> _generateFcmToken() async {
     try {
       var token = await messaging.getToken();
+      log(token ?? "hhhhh");
+      // await messaging.subscribeToTopic("all");
       if (token != null) {
         SHelper.sHelper.setFcmToken(token);
         _sendFcmTokenToServer();
       } else {
         // retry generating token
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 1));
         _generateFcmToken();
       }
     } catch (error) {}
@@ -92,7 +108,7 @@ class FcmHelper {
   }
 
   ///handle fcm notification when app is closed/terminated
-  Future<void> _fcmBackgroundHandler(RemoteMessage message) async {
+  Future<void> fcmBackgroundHandler(RemoteMessage message) async {
     _showNotification(
       id: 1,
       title: message.notification?.title ?? 'Tittle',
@@ -155,30 +171,29 @@ class FcmHelper {
       {required String fcmToken,
       required String title,
       required String body}) async {
-    // try {
-    print(fcmToken);
-    const url = "https://fcm.googleapis.com/fcm/send";
+    try {
+      const url = "https://fcm.googleapis.com/fcm/send";
 
-    final headerMap = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "Authorization":
-          "key=AAAAQYwLq4M:APA91bG8VIA2d5-BqCqxrZ7FL-Mpv-diCluOOjlNXK5zsNTRGAEtuIB7EZEmInPBb2EadBxte6djrv6Gi4ZriQ9NxHiOts-Slch9w6WrGlmixdFa2mXuBDiiUEIp62Zk2Er3KXeWJHfe"
-    };
+      final headerMap = {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization":
+            "key=AAAAQYwLq4M:APA91bG8VIA2d5-BqCqxrZ7FL-Mpv-diCluOOjlNXK5zsNTRGAEtuIB7EZEmInPBb2EadBxte6djrv6Gi4ZriQ9NxHiOts-Slch9w6WrGlmixdFa2mXuBDiiUEIp62Zk2Er3KXeWJHfe"
+      };
 
-    await _dio.post(url, options: Options(headers: headerMap), data: {
-      "to": fcmToken,
-      "notification": {"body": body, "title": title},
-      "priority": "high",
-      "data": {
-        "click_action": "FLUTTER_NOTIFICATION_CLICK",
-        "id": "1",
-        "chat_message": "1"
-      }
-    });
+      await _dio.post(url, options: Options(headers: headerMap), data: {
+        "to": fcmToken,
+        "notification": {"body": body, "title": title},
+        "priority": "high",
+        "data": {
+          "click_action": "FLUTTER_NOTIFICATION_CLICK",
+          "id": "1",
+          "chat_message": "1"
+        }
+      });
 
-    return true;
-    // } on DioError {}
+      return true;
+    } on DioError {}
   }
 
   ///init notifications channels

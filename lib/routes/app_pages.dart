@@ -3,9 +3,7 @@ import 'package:capotcha/modules/splash/splash_screen.dart';
 import 'package:get/get.dart';
 import '../modules/Main/main_binding.dart';
 import '../modules/Main/main_screen.dart';
-import '../modules/Map/view/enter_location_screen.dart';
 import '../modules/Map/controller/map_binding.dart';
-import '../modules/Products/controller/product_binding.dart';
 import '../modules/Products/view/product_screen.dart';
 import '../modules/Profile/view/add_address.dart';
 import '../modules/Splash/splash_binding.dart';
@@ -18,7 +16,7 @@ class Routes {
   static const SPLASH = '/splash';
   static const Profile = '/Profile';
   static const ProductScreen = '/ProductScreen';
-  static const EnterLocationScreen = '/EnterLocationScreen';
+  // static const EnterLocationScreen = '/EnterLocationScreen';
   static const SignInScreen = '/SignInScreen';
   static const SignUpScreen = '/SignUpScreen';
   static const GoogleMapScreen = '/GoogleMapScreen';
@@ -42,7 +40,7 @@ class AppPages {
     GetPage(
       name: Routes.ProductScreen,
       page: () => ProductScreen(),
-      binding: ProductBinding(),
+      // binding: ProductBinding(),
     ),
     GetPage(
       name: Routes.SignInScreen,
@@ -54,11 +52,11 @@ class AppPages {
       page: () => SignUpScreen(),
       binding: AuthBinding(),
     ),
-    GetPage(
-      name: Routes.EnterLocationScreen,
-      page: () => EnterLocationScreen(),
-      binding: MapBinding(),
-    ),
+    // GetPage(
+    //   name: Routes.EnterLocationScreen,
+    //   page: () => EnterLocationScreen(),
+    //   binding: MapBinding(),
+    // ),
     GetPage(
       name: Routes.AddAddressScreen,
       page: () => AddAddressScreen(),

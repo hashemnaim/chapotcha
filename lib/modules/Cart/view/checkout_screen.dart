@@ -59,114 +59,58 @@ class CheckoutScreen extends GetView<CartController> {
                         ),
                         padding2,
                         Container(
-                            decoration:
-                                BoxDecoration(color: Colors.white, boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 1,
-                                offset:
-                                    Offset(0, 1), // changes position of shadow
-                              ),
-                            ]),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 4.h,
-                                ),
-                                dateOrder(),
-                                SizedBox(
-                                  height: 4.h,
-                                ),
-                                profileController.shippingTimesModel.cities !=
-                                        null
-                                    ? Obx(() => controller.isload.value == true
-                                        ? Center(
-                                            child: Container(
-                                              width: 200.w,
-                                              child: SpinKitThreeBounce(
-                                                color: AppColors.greenColor,
-                                                size: 30.0,
+                          decoration:
+                              BoxDecoration(color: Colors.white, boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 1,
+                              offset:
+                                  Offset(0, 1), // changes position of shadow
+                            ),
+                          ]),
+                          child: Obx(() => Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 4.h,
+                                  ),
+                                  dateOrder(),
+                                  SizedBox(
+                                    height: 4.h,
+                                  ),
+                                  controller.isload.value == true
+                                      ? Center(
+                                          child: Container(
+                                            width: 200.w,
+                                            height: 50,
+                                            child: SpinKitThreeBounce(
+                                              color: AppColors.greenColor,
+                                              size: 30.0,
+                                            ),
+                                          ),
+                                        )
+                                      : profileController
+                                                  .shippingTimesModel.cities !=
+                                              null
+                                          ? ShippingTimes()
+                                          : Center(
+                                              child: Container(
+                                                child: Text(
+                                                  "يجب إضافة عنوان لإظهار الفترات المتاحة",
+                                                  style: Style.cairo.copyWith(
+                                                      fontSize: 16.sp,
+                                                      color: Colors.red),
+                                                ),
                                               ),
                                             ),
-                                          )
-                                        : ShippingTimes())
-                                    : Center(
-                                        child: Container(
-                                          child: Text(
-                                            "يجب إضافة عنوان لإظهار الفترات المتاحة",
-                                            style: Style.cairo.copyWith(
-                                                fontSize: 16.sp,
-                                                color: Colors.red),
-                                          ),
-                                        ),
-                                      ),
-                              ],
-                            )),
+                                ],
+                              )),
+                        )
                       ],
                     ),
-
-                    SizedBox(
-                      height: 8.h,
-                    ),
                     AddressComponets(padding2: padding2),
-
                     PaymentComponents(padding2: padding2),
-
-                    SizedBox(
-                      height: 6.h,
-                    ),
-
-                    // Column(
-                    //   crossAxisAlignment:
-                    //       CrossAxisAlignment.start,
-                    //   children: [
-                    //     Text("رقم التواصل",
-                    //         style: Theme.of(context)
-                    //             .textTheme
-                    //             .headline6!
-                    //             .copyWith(
-                    //                 color: AppColors.gryText,
-                    //                 fontWeight:
-                    //                     FontWeight.normal,
-                    //                 fontSize: 16.sp)),
-                    //     SizedBox(height: 8.h),
-                    //     SizedBox(
-                    //       // height: 60.h,
-                    //       // width: 300.w,
-                    //       child: FormFieldItem(
-                    //         textInputType:
-                    //             TextInputType.number,
-                    //         labelText: '0569434234',
-                    //         obscureText: false,
-                    //         validator: (v) => ValidationHelper
-                    //             .validationHelper
-                    //             .validateMobile(v),
-                    //         backgroundColor: Colors.grey[200],
-                    //         textInputAction:
-                    //             TextInputAction.done,
-                    //         editingController:
-                    //             TextEditingController
-                    //                 .fromValue(
-                    //           TextEditingValue(
-                    //             text: profileController
-                    //                     .profileModel
-                    //                     .user!
-                    //                     .mobile ??
-                    //                 "",
-                    //           ),
-                    //         ),
-                    //         type: false,
-                    //         onChange: (v) {
-                    //           profileController.profileModel
-                    //               .user!.mobile = v;
-                    //         },
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-
                     Container(
                       height: 45.h,
                       child: Padding(
@@ -226,9 +170,49 @@ class CheckoutScreen extends GetView<CartController> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 6.h,
+                            SizedBox(height: 6.h),
+                            Row(
+                              children: [
+                                Text(
+                                  "مجموع المنتجات",
+                                  style: Style.cairo.copyWith(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                Spacer(),
+                                Text(
+                                    controller.cartApiModel.data!.total!
+                                            .toStringAsFixed(1) +
+                                        " " +
+                                        Constants.currency,
+                                    style: Style.cairog.copyWith(
+                                      fontSize: 16.sp,
+                                    )),
+                              ],
                             ),
+                            controller.cartApiModel.data!.discount_price_cart !=
+                                    0
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        "الخصم",
+                                        style: Style.cairo.copyWith(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                          controller.cartApiModel.data!
+                                                  .discount_price_cart!
+                                                  .toStringAsFixed(1) +
+                                              " " +
+                                              Constants.currency,
+                                          style: Style.cairog.copyWith(
+                                            fontSize: 16.sp,
+                                          )),
+                                    ],
+                                  )
+                                : SizedBox.shrink(),
                             GetBuilder<ProfileController>(
                               id: "ShippingTimes",
                               builder: (profileController) => profileController
@@ -259,32 +243,11 @@ class CheckoutScreen extends GetView<CartController> {
                                               )),
                                         ]),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  "مجموع المنتجات",
-                                  style: Style.cairo.copyWith(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                                Spacer(),
-                                Text(
-                                    controller.cartApiModel.data!.total!
-                                            .toStringAsFixed(1) +
-                                        " " +
-                                        Constants.currency,
-                                    style: Style.cairog.copyWith(
-                                      fontSize: 16.sp,
-                                    )),
-                              ],
-                            ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
+                    SizedBox(height: 8.h),
                     Container(
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(

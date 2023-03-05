@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/widgets/custom_button.dart';
 import 'package:capotcha/utils/animate_do.dart';
 import 'package:capotcha/utils/styles.dart';
@@ -5,14 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/location_helper.dart';
 import '../../../widgets/app_bar_custom.dart';
 import '../../../widgets/my_widgets_animator.dart';
 import '../../../widgets/nav_bar_custom.dart';
 import '../../../widgets/nav_float_custom.dart';
-import '../../../routes/app_pages.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/shimmer_helper.dart';
 import '../../Map/controller/address_controller.dart';
+import '../../Map/controller/map_controller.dart';
+import '../../Map/model/address_model.dart';
+import '../../Map/view/enter_location_screen.dart';
 
 // ignore: must_be_immutable
 class AddAddressScreen extends StatelessWidget {
@@ -23,7 +27,7 @@ class AddAddressScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(AppBar().preferredSize.height),
             child: AppBarCustom(
               isBack: true,
-              title: "اضافة عنوان",
+              title: "إضافة عنوان",
             )),
         body: Container(
           decoration: backgroundImage,
@@ -126,17 +130,16 @@ class AddAddressScreen extends StatelessWidget {
                                                                       .bluColor),
                                                         ),
                                                         subtitle: Text(
-                                                          controller
+                                                          " البناية " +
+                                                              controller
                                                                   .addressModel
                                                                   .data![index]
-                                                                  .building ??
-                                                              "" +
-                                                                  "_" +
-                                                                  controller
-                                                                      .addressModel
-                                                                      .data![
-                                                                          index]
-                                                                      .apartment!,
+                                                                  .building! +
+                                                              " - " +
+                                                              controller
+                                                                  .addressModel
+                                                                  .data![index]
+                                                                  .apartment!,
                                                           style: Style.cairog.copyWith(
                                                               fontSize: 14.sp,
                                                               height: 2,
@@ -212,13 +215,23 @@ class AddAddressScreen extends StatelessWidget {
                       CustomButton(
                         buttonText: "أضف عنوان جديد",
                         icon: Icons.add_location,
-                        onPressed: () {
-                          Get.toNamed(Routes.EnterLocationScreen);
+                        onPressed: () async {
+                          LocationHelper.checkLocationPermission(() async {
+                            BotToast.showLoading();
+                            DataAddress addressLocation =
+                                await Get.find<MapController>()
+                                    .getCurrentLocation(true);
+                            BotToast.closeAllLoading();
+                            Get.to(() => EnterLocationScreen(
+                                address: DataAddress(
+                                    lat: addressLocation.lat,
+                                    lng: addressLocation.lng,
+                                    area: addressLocation.area),
+                                fromApp: false));
+                          });
                         },
                       ),
-                      SizedBox(
-                        height: 40.h,
-                      ),
+                      SizedBox(height: 40.h),
                     ],
                   );
                 }),

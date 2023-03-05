@@ -8,10 +8,14 @@ import 'package:capotcha/widgets/custom_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../utils/location_helper.dart';
 import '../../../utils/method_helpar.dart';
 import '../../../widgets/custom_svg.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/my_widgets_animator.dart';
+import '../../Map/controller/map_controller.dart';
+import '../../Map/model/address_model.dart';
+import '../../Map/view/enter_location_screen.dart';
 import '../../Profile/controller/profile_controller.dart';
 import '../controller/cart_controller.dart';
 import 'checkout_screen.dart';
@@ -131,9 +135,7 @@ class CartScreen extends GetView<CartController> {
                                                       ItemCart(index: index));
                                             }),
                                       ),
-                                      SizedBox(
-                                        height: 6.h,
-                                      ),
+                                      SizedBox(height: 6.h),
                                       addNew(),
                                     ],
                                   ),
@@ -177,49 +179,93 @@ class CartScreen extends GetView<CartController> {
                                                 ),
                                               ),
                                               Divider(),
-                                              CustomButton(
-                                                  buttonText: "إستمرار",
-                                                  onPressed: () {
-                                                    if (SHelper.sHelper
-                                                            .getToken() ==
-                                                        null) {
-                                                      Get.toNamed(
-                                                          Routes.SignInScreen);
-                                                    } else {
-                                                      if (controller
-                                                              .cartApiModel
-                                                              .data!
-                                                              .total! <
-                                                          50) {
-                                                        BotToast.showText(
-                                                            text:
-                                                                "يجب أن يكون الطلب أكبر من 50 جنيه",
-                                                            contentColor:
-                                                                Colors.red);
-                                                      } else {
-                                                        controller.selectedDay =
-                                                            0;
-                                                        controller.dateDay2
-                                                                .value =
-                                                            dateUtc
-                                                                .add(Duration(
-                                                                    days: 0))
-                                                                .day
-                                                                .toString();
+                                              GetBuilder<ProfileController>(
+                                                id: "profile",
+                                                builder: (_) {
+                                                  return CustomButton(
+                                                      buttonText: "إستمرار",
+                                                      onPressed: () {
+                                                        if (SHelper.sHelper
+                                                                .getToken() ==
+                                                            null) {
+                                                          Get.toNamed(Routes
+                                                              .SignInScreen);
+                                                        } else {
+                                                          if (_.profileModel
+                                                                  .address ==
+                                                              null) {
+                                                            Get.defaultDialog(
+                                                                title: "عنوانك",
+                                                                titleStyle: Style
+                                                                    .cairo
+                                                                    .copyWith(
+                                                                        fontSize: 18
+                                                                            .sp),
+                                                                content: Column(
+                                                                    children: [
+                                                                      Text(
+                                                                          ".يجب إضافة عنوان , لاكمال العملية",
+                                                                          style: Style
+                                                                              .cairo
+                                                                              .copyWith(fontSize: 16.sp)),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              10),
+                                                                      CustomButton(
+                                                                          buttonText:
+                                                                              "إضافة عنوان",
+                                                                          onPressed:
+                                                                              () async {
+                                                                            Get.back();
+                                                                            LocationHelper.checkLocationPermission(() async {
+                                                                              BotToast.showLoading();
+                                                                              DataAddress addressLocation = await Get.find<MapController>().getCurrentLocation(true);
+                                                                              BotToast.closeAllLoading();
+                                                                              Get.to(() => EnterLocationScreen(address: DataAddress(lat: addressLocation.lat, lng: addressLocation.lng, area: addressLocation.area), fromApp: false));
+                                                                            });
+                                                                          })
+                                                                    ]));
+                                                          } else {
+                                                            if (controller
+                                                                    .cartApiModel
+                                                                    .data!
+                                                                    .total! <
+                                                                70) {
+                                                              BotToast.showText(
+                                                                  text:
+                                                                      "يجب أن يكون الطلب أكبر من 70 جنيه",
+                                                                  contentColor:
+                                                                      Colors
+                                                                          .red);
+                                                            } else {
+                                                              controller
+                                                                  .selectedDay = 0;
+                                                              controller
+                                                                      .dateDay2
+                                                                      .value =
+                                                                  dateUtc
+                                                                      .add(Duration(
+                                                                          days:
+                                                                              0))
+                                                                      .day
+                                                                      .toString();
 
-                                                        profileController
-                                                            .getShippingTimes();
-                                                        controller
-                                                            .getCountOrder(
-                                                                controller
-                                                                    .dateDay2
-                                                                    .value,
-                                                                0);
-                                                        Get.to(() =>
-                                                            CheckoutScreen());
-                                                      }
-                                                    }
-                                                  }),
+                                                              profileController
+                                                                  .getShippingTimes();
+                                                              controller
+                                                                  .getCountOrder(
+                                                                      controller
+                                                                          .dateDay2
+                                                                          .value,
+                                                                      0);
+                                                              Get.to(() =>
+                                                                  CheckoutScreen());
+                                                            }
+                                                          }
+                                                        }
+                                                      });
+                                                },
+                                              ),
                                               SizedBox(height: 40.h)
                                             ],
                                           ),

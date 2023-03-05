@@ -29,24 +29,27 @@ class Data {
   int? id;
   num? subTotal;
   // int? totalTax;
-  // int? couponDiscount;
+  int? couponDiscount;
   num? total;
+  num? discount_price_cart;
   List<Items>? items;
 
   Data(
       {this.id,
       this.subTotal,
       // this.totalTax,
-      // this.couponDiscount,
+      this.couponDiscount,
       this.total,
+      this.discount_price_cart,
       this.items});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     subTotal = json['sub_total'];
     // totalTax = json['total_tax'];
-    // couponDiscount = json['coupon_discount'];
+    couponDiscount = json['coupon_discount'];
     total = json['total'];
+    discount_price_cart = json['discount_price_cart'];
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
@@ -115,7 +118,7 @@ class Items {
     cartonImage = json['carton_image'];
     maxQty = json['max_qty'];
     cartonMaxQty = json['carton_max_qty'].toString();
-    price = json['price'];
+    price = json['price'].toString();
     productType = json['product_type'];
     qty = json['qty'];
     total = json['total'];

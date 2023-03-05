@@ -84,7 +84,6 @@ class CartController extends GetxController {
           profileController.shippingTimesModel.cities!.shippingCost.toString(),
       "notes": notesController.value.text
     }, onSuccess: (response) {
-      log(response.data.toString());
       if (response.data['status'] == "OK") {
         BotToast.closeAllLoading();
         BotToast.showText(text: "تم ارسال الطلب بنجاح");
@@ -95,7 +94,7 @@ class CartController extends GetxController {
 
         Get.find<OrderController>().getOrders(true);
         getCart();
-        Get.offNamed(Routes.MAIN);
+        Get.toNamed(Routes.MAIN);
         update(["cart"]);
       } else {
         BotToast.closeAllLoading();
@@ -114,11 +113,7 @@ class CartController extends GetxController {
     selectedTime.value = time;
   }
 
-  addProductToCart(
-    Product product,
-  ) async {
-    log(product.toJson().toString());
-
+  addProductToCart(Product product) async {
     isUpdateCartload = true;
     update(["cart${product.id}"]);
     await addCart(product.id);
@@ -205,8 +200,9 @@ class CartController extends GetxController {
 
       await BaseClient.baseClient.get(Constants.getCartUrl,
           onSuccess: (response) async {
-        log(response.data.toString());
         _cartApiModel = CartApiModel.fromJson(response.data);
+        log(_cartApiModel.toJson().toString());
+
         cartStatus = ApiCallStatus.success;
 
         update(['cart']);

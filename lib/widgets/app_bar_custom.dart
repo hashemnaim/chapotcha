@@ -1,10 +1,13 @@
 import 'package:capotcha/config/theme/light_theme_colors.dart';
+import 'package:capotcha/modules/Map/model/address_model.dart';
 import 'package:capotcha/modules/Profile/controller/profile_controller.dart';
 import 'package:capotcha/utils/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../routes/app_pages.dart';
+import '../modules/Map/controller/map_controller.dart';
+import '../modules/Map/view/enter_location_screen.dart';
+import '../utils/location_helper.dart';
 import '../utils/lunchers_helper.dart';
 import '../utils/method_helpar.dart';
 import '../utils/shared_preferences_helpar.dart';
@@ -60,7 +63,19 @@ class AppBarCustom extends StatelessWidget {
                               if (controller.profileModel.address == null) {
                                 return InkWell(
                                   onTap: () {
-                                    Get.toNamed(Routes.EnterLocationScreen);
+                                    LocationHelper.checkLocationPermission(
+                                        () async {
+                                      DataAddress addressLocation =
+                                          await Get.find<MapController>()
+                                              .getCurrentLocation(true);
+
+                                      Get.to(() => EnterLocationScreen(
+                                          address: DataAddress(
+                                              lat: addressLocation.lat,
+                                              lng: addressLocation.lng,
+                                              area: addressLocation.area),
+                                          fromApp: false));
+                                    });
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 8.0),

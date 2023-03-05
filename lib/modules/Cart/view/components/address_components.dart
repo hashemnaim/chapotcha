@@ -47,43 +47,35 @@ class AddressComponets extends StatelessWidget {
                   ]),
                   child: Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 12.h,
-                        ),
+                        SizedBox(height: 6.h),
                         Row(
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  width: 250.w,
-                                  child: Text(
-                                    profileController
-                                            .profileModel.address!.city ??
-                                        "" +
-                                            "-" +
-                                            profileController
-                                                .profileModel.address!.area!,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Style.cairog.copyWith(
-                                        fontSize: 18.sp,
-                                        color: AppColors.bluColor),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 6.h,
-                                ),
                                 Text(
                                   profileController
-                                          .profileModel.address!.building ??
-                                      "" +
-                                          "_" +
-                                          profileController
-                                              .profileModel.address!.apartment!,
+                                          .profileModel.address!.city! +
+                                      "-" +
+                                      profileController
+                                          .profileModel.address!.area!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Style.cairog.copyWith(
+                                      fontSize: 18.sp,
+                                      color: AppColors.bluColor),
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  "البناية " +
+                                      profileController
+                                          .profileModel.address!.building! +
+                                      " - الدور " +
+                                      profileController
+                                          .profileModel.address!.apartment!,
                                   style: Style.cairog.copyWith(
                                       fontSize: 14.sp,
                                       height: 2,
@@ -111,18 +103,23 @@ class AddressComponets extends StatelessWidget {
                   )),
         ),
         Center(
-          child: TextButton(
-              child: Text(
-                "اضافة عنوان جديد",
-                style: Style.cairo
-                    .copyWith(fontSize: 16.sp, color: AppColors.greenColor),
-              ),
+          child: OutlinedButton(
               onPressed: () {
                 Get.toNamed(
                   Routes.AddAddressScreen,
                 );
-              }),
+              },
+              style: OutlinedButton.styleFrom(
+                  shadowColor: Colors.grey,
+                  side: BorderSide(color: AppColors.greenColor)),
+              child: Text(
+                "إضافة عنوان جديد",
+                style: Style.cairo.copyWith(
+                  fontSize: 16.sp,
+                ),
+              )),
         ),
+        padding2,
       ],
     );
   }

@@ -5,147 +5,153 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/styles.dart';
 import '../../../widgets/app_bar_custom.dart';
-import '../../../widgets/my_widgets_animator.dart';
 import '../../../widgets/nav_float_custom.dart';
-import '../../../utils/constants.dart';
 import '../../../utils/shimmer_helper.dart';
-import 'components/carton_item.dart';
+import '../../Home/controller/home_controller.dart';
+import '../model/product_model.dart';
 import '../controller/product_controller.dart';
+import 'components/carton_item.dart';
 
 // ignore: must_be_immutable
 class ProductScreen extends StatelessWidget {
   ProductController productController = Get.find();
+  int index = Get.arguments ?? 0;
+  HomeController homeController = Get.find();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-            child: AppBarCustom(
-              isBack: true,
-              title: "المنتجات",
-            )),
-        body: DefaultTabController(
-            length: productController.tabs.length,
-            initialIndex: Get.arguments ?? 0,
-            child: Builder(builder: (context) {
-              TabController _tabController = DefaultTabController.of(context)!;
-              _tabController.addListener(() async {
-                if (!_tabController.indexIsChanging) {
-                  productController.ChangeTapIndex(
-                    _tabController.index,
-                  );
-                }
-              });
+  Widget fatchApi() {
+    return FutureBuilder<List<List<Product>>>(
+        future: productController.getProduct(isLoad: true),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<List<Product>>> snapshot) {
+          Widget widget;
+          if (snapshot.hasData) {
+            widget = successWidget(snapshot.data!, context);
+          } else if (snapshot.hasError) {
+            widget = Container();
+          } else {
+            widget = ShimmerHelper.loadingProduct();
+          }
+          return widget;
+        });
+  }
 
-              return Column(children: [
-                SizedBox(
-                  height: 12.h,
-                ),
-                TabBar(
-                  controller: _tabController,
-                  tabs: productController.tabs,
-                  isScrollable: true,
-                  labelStyle: Theme.of(context).textTheme.headline6,
-                  physics: BouncingScrollPhysics(),
-                  onTap: (index) async {
-                    productController.ChangeTapIndex(
-                      index,
-                    );
-                  },
-                  indicatorColor: Color(0xff98B119),
-                  unselectedLabelColor: Color(0xff658199),
-                  labelColor: Color(0xff98B119),
-                ),
-                SizedBox(
-                  height: 6.h,
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: backgroundImage,
-                    child: Container(
-                      decoration: backgroundImage,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: productController.tabs.map((Widget tab) {
-                          return GetBuilder<ProductController>(
-                            initState: (state) {
-                              productController.ChangeTapIndex(
-                                  productController.tabs.indexOf(tab),
-                                  isInite: false);
-                            },
-                            id: 'product',
-                            builder: (_) {
-                              return MyWidgetsAnimator(
-                                  apiCallStatus: _.productStatus,
-                                  loadingWidget: () =>
-                                      ShimmerHelper.loadingProduct(),
-                                  successWidget: (() => RefreshIndicator(
-                                        onRefresh: () async {
-                                          await _.getProduct(
-                                              productController
-                                                  .homeController
-                                                  .homeModel
-                                                  .dataCategory![
-                                                      productController.tabs
-                                                          .indexOf(tab)]
-                                                  .name,
-                                              isLoad: true);
-                                        },
-                                        color: AppColors.greenColor,
-                                        child: productController
-                                                    .homeController
-                                                    .homeModel
-                                                    .dataCategory![
-                                                        productController.tabs
-                                                            .indexOf(tab)]
-                                                    .name ==
-                                                "باكيج التوفير"
-                                            ? _.cartonaModel.data == null
-                                                ? Container()
-                                                : MasonryGridView.count(
-                                                    padding: EdgeInsets.all(8),
-                                                    crossAxisCount: 2,
-                                                    mainAxisSpacing: 10.w,
-                                                    crossAxisSpacing: 15.h,
-                                                    itemCount: _.cartonaModel
-                                                        .data!.length,
-                                                    itemBuilder:
-                                                        (context, index2) {
-                                                      return CartonItem(
-                                                          product: _
-                                                              .cartonaModel
-                                                              .data![index2]);
-                                                    },
-                                                  )
-                                            : MasonryGridView.count(
-                                                padding: EdgeInsets.all(8),
-                                                crossAxisCount: 2,
-                                                mainAxisSpacing: 10.w,
-                                                crossAxisSpacing: 15.h,
-                                                itemCount: _.productListModel
-                                                    .listProduct!.length,
-                                                itemBuilder: (context, index2) {
-                                                  return ProductItem(
-                                                      product: _
-                                                              .productListModel
-                                                              .listProduct![
-                                                          index2]);
-                                                },
-                                              ),
-                                      )));
-                            },
-                          );
-                        }).toList(),
+  Widget fatchCatagri() {
+    return FutureBuilder<List<List<Product>>>(
+        future: productController.getProduct(isLoad: true),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<List<Product>>> snapshot) {
+          Widget widget;
+          if (snapshot.hasData) {
+            widget = successWidget(snapshot.data!, context);
+          } else if (snapshot.hasError) {
+            widget = Container();
+          } else {
+            widget = Center(child: ShimmerHelper.loadingProduct());
+          }
+          return widget;
+        });
+  }
+
+  Widget successWidget(List<List<Product>> data, context) {
+    return GetBuilder<ProductController>(
+        id: "product",
+        builder: (_) => Column(
+              children: [
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: TabBar(
+                      automaticIndicatorColorAdjustment: true,
+                      tabs: homeController.homeModel.dataCategory!
+                          .map((e) => Tab(
+                                text: e.name,
+                                height: 33,
+                              ))
+                          .toList(),
+                      isScrollable: true,
+                      labelStyle: Theme.of(context).textTheme.headline6,
+                      physics: BouncingScrollPhysics(),
+                      indicatorColor: Color(0xff98B119),
+                      unselectedLabelColor: Color(0xff658199),
+                      labelColor: Colors.white,
+                      unselectedLabelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontSize: 14.sp, color: AppColors.gryText),
+                      indicator: BoxDecoration(
+                        color: AppColors.greenColor,
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                     ),
                   ),
+                ),
+                // index == 1
+                //     ? Container(
+                //         height: 30,
+                //         color: AppColors.greenColor,
+                //         width: Get.width,
+                //         child: Center(
+                //           child: Text(
+                //               "ملاحظة : الطلب من قسم اللحوم يبدا من الساعة ٣ عصرا",
+                //               textAlign: TextAlign.center,
+                //               style: Style.cairog.copyWith(
+                //                   fontSize: 14.sp,
+                //                   height: 1.3,
+                //                   color: Colors.white)),
+                //         ),
+                //       )
+                //     : SizedBox.shrink(),
+
+                Expanded(
+                  child: TabBarView(
+                      children: data
+                          .map((tab) => tab.length == 0
+                              ? _.cartonaModel.data == null
+                                  ? Container()
+                                  : MasonryGridView.count(
+                                      padding: EdgeInsets.all(8),
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 10.w,
+                                      crossAxisSpacing: 15.h,
+                                      itemCount: _.cartonaModel.data!.length,
+                                      itemBuilder: (context, index2) {
+                                        return CartonItem(
+                                            product:
+                                                _.cartonaModel.data![index2]);
+                                      })
+                              : MasonryGridView.count(
+                                  padding: EdgeInsets.all(8),
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10.w,
+                                  crossAxisSpacing: 15.h,
+                                  itemCount: tab.length,
+                                  itemBuilder: (context, index2) {
+                                    return ProductItem(product: tab[index2]);
+                                  },
+                                ))
+                          .toList()),
                 )
-              ]);
-            })),
-        floatingActionButton: NavBarFloatCustom(isHome: false),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: NavBottomBarCustom(isHome: false));
+              ],
+            ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      initialIndex: index,
+      length: homeController.homeModel.dataCategory!.length,
+      animationDuration: Duration(milliseconds: 500),
+      child: Scaffold(
+          appBar: PreferredSize(
+              preferredSize: Size.fromHeight(AppBar().preferredSize.height),
+              child: AppBarCustom(isBack: true, title: "المنتجات")),
+          body: fatchApi(),
+          floatingActionButton: NavBarFloatCustom(isHome: false),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: NavBottomBarCustom(isHome: false)),
+    );
   }
 }
