@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:capotcha/widgets/custom_svg.dart';
 import 'package:capotcha/modules/Cart/controller/cart_controller.dart';
 import 'package:capotcha/utils/animate_do.dart';
@@ -28,8 +28,12 @@ class NavBarFloatCustom extends StatelessWidget {
           child: GetBuilder<CartController>(
             id: 'cart',
             builder: (controller) {
-              return Badge(
-                animationType: BadgeAnimationType.slide,
+              return badges.Badge(
+                badgeAnimation: badges.BadgeAnimation.slide(
+                  disappearanceFadeAnimationDuration:
+                      Duration(milliseconds: 300),
+                  curve: Curves.easeInCubic,
+                ),
                 badgeContent: Text(
                   SHelper.sHelper.getToken() == null
                       ? "0"
@@ -37,11 +41,13 @@ class NavBarFloatCustom extends StatelessWidget {
                           ? "0"
                           : controller.cartApiModel.data!.items!.length
                               .toString(),
-                  style: Style.cairoCat.copyWith(fontSize: 10.sp),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(fontSize: 10.sp),
                   textAlign: TextAlign.center,
                 ),
-                animationDuration: Duration(milliseconds: 300),
-                position: BadgePosition.topEnd(top: -15.h, end: 14.w),
+                position: badges.BadgePosition.topEnd(top: -15.h, end: 14.w),
                 child: CustomSvgImage(
                   "icon-cart",
                   height: 38.h,

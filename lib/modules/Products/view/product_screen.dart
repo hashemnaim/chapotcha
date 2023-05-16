@@ -121,16 +121,27 @@ class ProductScreen extends StatelessWidget {
                                             product:
                                                 _.cartonaModel.data![index2]);
                                       })
-                              : MasonryGridView.count(
-                                  padding: EdgeInsets.all(8),
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 10.w,
-                                  crossAxisSpacing: 15.h,
-                                  itemCount: tab.length,
-                                  itemBuilder: (context, index2) {
-                                    return ProductItem(product: tab[index2]);
-                                  },
-                                ))
+                              : tab.isEmpty
+                                  ? Center(
+                                      child: Text('لا يوجد عروض حاليا',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontFamily: 'cairo',
+                                            color: Colors.grey[700],
+                                          )),
+                                    )
+                                  : MasonryGridView.count(
+                                      padding: EdgeInsets.all(8),
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 10.w,
+                                      crossAxisSpacing: 15.h,
+                                      itemCount: tab.length,
+                                      itemBuilder: (context, index2) {
+                                        return tab[index2].state == "0"
+                                            ? Container()
+                                            : ProductItem(product: tab[index2]);
+                                      },
+                                    ))
                           .toList()),
                 )
               ],

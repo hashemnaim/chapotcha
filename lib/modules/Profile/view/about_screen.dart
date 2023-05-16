@@ -1,5 +1,4 @@
 import 'package:capotcha/widgets/nav_bar_custom.dart';
-import 'package:capotcha/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -43,19 +42,16 @@ class AboutScreeen extends StatelessWidget {
               SizedBox(height: 40.h),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Text(
-                    "كابوتشا",
-                    style: Style.cairog,
-                  )),
+                  child: Text("كابوتشا",
+                      style: Theme.of(context).textTheme.titleLarge!)),
               SizedBox(
                 height: 10,
               ),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
-                    "هي خدمة متخصصة في تجارة التجزئة للخضروات و الفواكه عبر الانترنت",
-                    style: Style.cairo,
-                  )),
+                      "هي خدمة متخصصة في تجارة التجزئة للخضروات و الفواكه عبر الانترنت",
+                      style: Theme.of(context).textTheme.titleLarge!)),
               SizedBox(
                 height: 10,
               ),
@@ -67,7 +63,7 @@ class AboutScreeen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
                     "ضمان الجودة",
-                    style: Style.cairog,
+                    style: Theme.of(context).textTheme.titleLarge!,
                   )),
               SizedBox(
                 height: 10,
@@ -75,9 +71,8 @@ class AboutScreeen extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
-                    "هو الحصول على المنتجات من المزارع و الموزعين المعتدمين محلياً و دولياً",
-                    style: Style.cairo,
-                  )),
+                      "هو الحصول على المنتجات من المزارع و الموزعين المعتدمين محلياً و دولياً",
+                      style: Theme.of(context).textTheme.titleLarge!)),
               SizedBox(
                 height: 10,
               ),
@@ -87,19 +82,16 @@ class AboutScreeen extends StatelessWidget {
               ),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Text(
-                    "رؤيتنا",
-                    style: Style.cairog,
-                  )),
+                  child: Text("رؤيتنا",
+                      style: Theme.of(context).textTheme.titleLarge!)),
               SizedBox(
                 height: 10,
               ),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
-                    "أن نكون الوجهه الاولي للخضروات والفواكه للمستهلك النهائي",
-                    style: Style.cairo,
-                  )),
+                      "أن نكون الوجهه الاولي للخضروات والفواكه للمستهلك النهائي",
+                      style: Theme.of(context).textTheme.titleLarge!)),
               SizedBox(
                 height: 10,
               ),

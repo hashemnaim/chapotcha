@@ -135,10 +135,13 @@ class CartController extends GetxController {
   addCart(
     int? product_id,
   ) async {
-    await BaseClient.baseClient.post(Constants.addCartUrl, data: {
-      "product_id": product_id,
-      "qty": "1.0",
-    }, onSuccess: (response) async {
+    await BaseClient.baseClient.post(
+        Constants.addCartUrl +
+            "?city_id=${SHelper.sHelper.getIdAddress() ?? ""}",
+        data: {
+          "product_id": product_id,
+          "qty": "1.0",
+        }, onSuccess: (response) async {
       _cartApiModel = CartApiModel.fromJson(response.data);
       BotToast.showText(text: "تمت الاضافة بنجاح", align: Alignment.center);
 

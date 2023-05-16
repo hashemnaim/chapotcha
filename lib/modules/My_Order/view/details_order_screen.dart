@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/lunchers_helper.dart';
 import '../../../utils/shimmer_helper.dart';
-import '../../../utils/styles.dart';
 import '../../../widgets/app_bar_custom.dart';
 import '../../../widgets/my_widgets_animator.dart';
 import '../controller/order_controller.dart';
@@ -208,9 +207,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                   ],
                                 )),
                           ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
+                          SizedBox(height: 2.h),
                           getAvalipleEdit(
                                       DateTime.parse(controller
                                               .detailsOrderModel.orders!.date!)
@@ -242,10 +239,13 @@ class OrderDetailsScreen extends StatelessWidget {
                                         child: Center(
                                           child: Text(
                                             "تعديل الطلب",
-                                            style: Style.cairo.copyWith(
-                                                fontSize: 16.sp,
-                                                color: Colors.white,
-                                                height: 1.3),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(
+                                                    fontSize: 16.sp,
+                                                    color: Colors.white,
+                                                    height: 1.3),
                                           ),
                                         ),
                                       ),

@@ -49,7 +49,7 @@ class Data {
     // totalTax = json['total_tax'];
     couponDiscount = json['coupon_discount'];
     total = json['total'];
-    discount_price_cart = json['discount_price_cart'];
+    discount_price_cart = json['discount_rate_price'];
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {

@@ -118,8 +118,8 @@ class ItemCart extends StatelessWidget {
                                                 .items![index].productId!);
                                       },
                                       child: Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: 30.h,
+                                        width: 30.w,
                                         child: Center(
                                           child: CustomSvgImage(
                                             "delete",

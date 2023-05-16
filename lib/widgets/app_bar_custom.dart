@@ -29,7 +29,8 @@ class AppBarCustom extends StatelessWidget {
       title: isBack == false
           ? SHelper.sHelper.getToken() == null
               ? FadeInLeft(
-                  child: Text("  أهلا وسهلا بك في كابوتشا  ",
+                  child: Text(
+                      "  ${SHelper.sHelper.getAddress().city.toString()} - ${SHelper.sHelper.getAddress().area.toString()}",
                       style: Theme.of(context).appBarTheme.titleTextStyle),
                 )
               : Padding(
@@ -46,17 +47,9 @@ class AppBarCustom extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          CustomSvgImage(
-                            "location",
-                            height: 25.h,
-                            width: 25.w,
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
+                          SizedBox(width: 8.w),
+                          CustomSvgImage("location", height: 25.h, width: 25.w),
+                          SizedBox(width: 8.w),
                           GetBuilder<ProfileController>(
                             id: "profile",
                             builder: (controller) {
@@ -133,19 +126,6 @@ class AppBarCustom extends StatelessWidget {
             ),
       leadingWidth: isBack == true ? 60.w : 0,
       actions: [
-        // InkWell(
-        //   onTap: () {
-        //     Navigator.push(
-        //         context, MaterialPageRoute(builder: (_) => ResaltSearch()));
-        //   },
-        //   child: CustomSvgImage(
-        //     "search",
-        //     height: 55.h,
-        //     width: 55.w,
-        //   ),
-        // ),
-        // SizedBox(width: 8.w),
-
         InkWell(
           onTap: () {
             LuncherHelper.validationHelper.launchWhatsApp(message: "اريد");
@@ -161,7 +141,7 @@ class AppBarCustom extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 10.w,
+          width: 8.w,
         )
       ],
     );

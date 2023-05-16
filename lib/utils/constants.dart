@@ -10,6 +10,7 @@ class Constants {
   /// Home
   static const HomeUrl = mainUrl + 'user/home';
   static const productUrl = mainUrl + 'product/products';
+  static const newProductUrl = mainUrl + 'product/new-products';
   static const cartonsUrl = mainUrl + 'product/get_cartons';
 
   /// Auth

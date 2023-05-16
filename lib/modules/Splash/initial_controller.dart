@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/modules/Products/controller/product_controller.dart';
 import 'package:capotcha/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -8,18 +10,38 @@ import '../../routes/app_pages.dart';
 import '../../services/base_client.dart';
 import '../../utils/constants.dart';
 import 'package:version_check/version_check.dart';
+import '../../utils/location_helper.dart';
 import '../../utils/lunchers_helper.dart';
-import '../../utils/styles.dart';
+import '../../utils/shared_preferences_helpar.dart';
 import '../Home/controller/home_controller.dart';
+import '../Map/controller/map_controller.dart';
+import '../Map/model/address_model.dart';
+import '../Map/view/enter_location_screen.dart';
 
 class InitialController extends GetxController {
   HomeController homeController = Get.put(HomeController(), permanent: true);
   ProductController productController =
       Get.put(ProductController(), permanent: true);
+  MapController mapController = Get.put(MapController(), permanent: true);
   validateSession() async {
     await homeController.getHome(false);
     productController.getProduct();
-    Get.offAllNamed(Routes.MAIN);
+    if (SHelper.sHelper.getAddress().city_id == null) {
+      LocationHelper.checkLocationPermission(() async {
+        BotToast.showLoading();
+        DataAddress addressLocation =
+            await mapController.getCurrentLocation(true);
+        BotToast.closeAllLoading();
+        Get.offAll(() => EnterLocationScreen(
+            address: DataAddress(
+                lat: addressLocation.lat,
+                lng: addressLocation.lng,
+                area: addressLocation.area),
+            fromApp: true));
+      });
+    } else {
+      Get.offAllNamed(Routes.MAIN);
+    }
   }
 
   final versionCheck = VersionCheck(
@@ -35,7 +57,7 @@ class InitialController extends GetxController {
       if (response.data['data'][12]['value'].toString() == "1") {
         await validateSession();
       } else {
-        if (response.data['data'][12]['value'] == "2.1.8") {
+        if (response.data['data'][12]['value'] == "2.1.9") {
           await validateSession();
         } else {
           return customShowUpdateDialog(Get.context!, versionCheck);
@@ -57,7 +79,9 @@ class InitialController extends GetxController {
       builder: (context) => AlertDialog(
         title: Text(
           ' يوجد تحديث جديد',
-          style: Style.cairo
+          style: Theme.of(Get.context!)
+              .textTheme
+              .titleLarge!
               .copyWith(fontSize: 20.sp, color: AppColors.greenColor),
         ),
         content: SingleChildScrollView(
@@ -65,7 +89,10 @@ class InitialController extends GetxController {
             children: <Widget>[
               Text(
                 'عليك تحديث التطبيق للمتابعة',
-                style: Style.cairo.copyWith(fontSize: 16.sp),
+                style: Theme.of(Get.context!)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontSize: 16.sp),
               ),
             ],
           ),

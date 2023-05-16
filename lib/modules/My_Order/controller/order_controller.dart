@@ -35,7 +35,6 @@ class OrderController extends GetxController {
 
   getDetilesOrders(int? id) async {
     detailsOrderStatus = ApiCallStatus.loading;
-    log(id.toString());
     await BaseClient.baseClient.post(Constants.getOrder, data: {"order_id": id},
         onSuccess: (response) {
       detailsOrderModel = DetailsOrderModel.fromJson(response.data);

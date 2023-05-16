@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:capotcha/modules/Home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
 import '../../../utils/constants.dart';
+import '../../../utils/shared_preferences_helpar.dart';
 import '../model/cartona_model.dart';
 import '../model/list_product_model.dart';
 import '../model/product_model.dart';
@@ -24,8 +27,10 @@ class ProductController extends GetxController {
   Future<List<List<Product>>> getProduct({isLoad = true}) async {
     if (isLoad == true) productStatus = ApiCallStatus.loading;
     getCartona();
-
-    await BaseClient.baseClient.post(Constants.productUrl, data: {},
+    log(SHelper.sHelper.getIdAddress() ?? "");
+    await BaseClient.baseClient.post(
+        Constants.newProductUrl +
+            "?city_id=${SHelper.sHelper.getAddress().city_id ?? ""}",
         onSuccess: (response) async {
       productListModel = ProductList.fromJson(response.data);
       productListData = [];
@@ -37,7 +42,6 @@ class ProductController extends GetxController {
             .toList();
         productListData.add(productList);
       }
-
       productStatus = ApiCallStatus.success;
       update(["product"]);
     });
@@ -46,17 +50,14 @@ class ProductController extends GetxController {
   }
 
   Future<CartonaModel>? getCartona({IsLoad = true}) async {
-    await BaseClient.baseClient.post(Constants.cartonsUrl,
+    await BaseClient.baseClient.post(
+        Constants.cartonsUrl +
+            "?city_id=${SHelper.sHelper.getAddress().city_id ?? ""}",
         onSuccess: (response) async {
       cartonaModel = CartonaModel.fromJson(response.data);
 
       update(["product"]);
     });
     return cartonaModel;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
   }
 }

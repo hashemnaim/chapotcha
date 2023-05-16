@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/method_helpar.dart';
-import '../../../../utils/styles.dart';
 import '../../../Profile/controller/profile_controller.dart';
 
 class AddressComponets extends StatelessWidget {
@@ -25,7 +24,10 @@ class AddressComponets extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             child: Text(
               "العنوان",
-              style: Style.cairo.copyWith(fontSize: 16.sp),
+              style: Theme.of(Get.context!)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(fontSize: 16.sp),
             ),
           ),
         ),
@@ -64,9 +66,12 @@ class AddressComponets extends StatelessWidget {
                                       profileController
                                           .profileModel.address!.area!,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Style.cairog.copyWith(
-                                      fontSize: 18.sp,
-                                      color: AppColors.bluColor),
+                                  style: Theme.of(Get.context!)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                          fontSize: 18.sp,
+                                          color: AppColors.bluColor),
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
@@ -76,10 +81,13 @@ class AddressComponets extends StatelessWidget {
                                       " - الدور " +
                                       profileController
                                           .profileModel.address!.apartment!,
-                                  style: Style.cairog.copyWith(
-                                      fontSize: 14.sp,
-                                      height: 2,
-                                      color: AppColors.bluColor),
+                                  style: Theme.of(Get.context!)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                          fontSize: 14.sp,
+                                          height: 2,
+                                          color: AppColors.bluColor),
                                 ),
                               ],
                             ),
@@ -94,7 +102,10 @@ class AddressComponets extends StatelessWidget {
                                         color: AppColors.greenColor)),
                                 child: Text(
                                   "تغير",
-                                  style: Style.cairo.copyWith(fontSize: 16.sp),
+                                  style: Theme.of(Get.context!)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(fontSize: 16.sp),
                                 ))
                           ],
                         ),
@@ -114,9 +125,9 @@ class AddressComponets extends StatelessWidget {
                   side: BorderSide(color: AppColors.greenColor)),
               child: Text(
                 "إضافة عنوان جديد",
-                style: Style.cairo.copyWith(
-                  fontSize: 16.sp,
-                ),
+                style: Theme.of(Get.context!).textTheme.titleLarge!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               )),
         ),
         padding2,

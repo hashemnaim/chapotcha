@@ -14,6 +14,7 @@ import '../../../utils/shared_preferences_helpar.dart';
 import '../../Map/controller/map_controller.dart';
 import '../../Map/model/address_model.dart';
 import '../../Map/view/enter_location_screen.dart';
+import '../../My_Order/model/details_order_model.dart';
 import '../model/shipping_time_model.dart';
 
 class ProfileController extends GetxController {
@@ -35,7 +36,6 @@ class ProfileController extends GetxController {
       await BaseClient.baseClient.post(Constants.profileUrl,
           onSuccess: (response) async {
         profileModel = ProfileModel.fromJson(response.data);
-        log(profileModel.toJson().toString());
         profileStatus = ApiCallStatus.success;
         if (profileModel.address == null) {
           LocationHelper.checkLocationPermission(() async {
@@ -50,6 +50,18 @@ class ProfileController extends GetxController {
           });
           update(["profile"]);
         } else {
+          await SHelper.sHelper.saveAddress(Address(
+              lat: profileModel.address!.lat.toString(),
+              lng: profileModel.address!.lng.toString(),
+              street: profileModel.address!.street,
+              apartment: profileModel.address!.apartment,
+              building: profileModel.address!.building,
+              city_id: profileModel.address!.city_id.toString(),
+              city: profileModel.address!.city,
+              area: profileModel.address!.area));
+          // await SHelper.sHelper
+          //     .setIdAddress(profileModel.address!.city_id.toString());
+
           await getShippingTimes();
           update(["profile"]);
         }

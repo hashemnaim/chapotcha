@@ -126,7 +126,9 @@ changeMyAddress() async {
             child: Center(
               child: Text(
                 "اختر عنوانك",
-                style: Style.cairo
+                style: Theme.of(Get.context!)
+                    .textTheme
+                    .titleLarge!
                     .copyWith(fontSize: 16, color: AppColors.bluColor),
               ),
             ),
@@ -144,13 +146,16 @@ changeMyAddress() async {
                                 controller.addressModel.data![index].city! +
                                     "_" +
                                     controller.addressModel.data![index].area!,
-                                style: Style.cairog.copyWith(
-                                    fontSize: 18.sp,
-                                    color: controller.addressModel.data![index]
-                                                .isDefault ==
-                                            1
-                                        ? AppColors.greenColor
-                                        : AppColors.bluColor),
+                                style: Theme.of(Get.context!)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        fontSize: 18.sp,
+                                        color: controller.addressModel
+                                                    .data![index].isDefault ==
+                                                1
+                                            ? AppColors.greenColor
+                                            : AppColors.bluColor),
                               ),
                               subtitle: Text(
                                 " البناية " +
@@ -159,13 +164,16 @@ changeMyAddress() async {
                                     " - الشقة " +
                                     controller
                                         .addressModel.data![index].apartment!,
-                                style: Style.cairog.copyWith(
-                                    fontSize: 14.sp,
-                                    color: controller.addressModel.data![index]
-                                                .isDefault ==
-                                            1
-                                        ? AppColors.greenColor
-                                        : AppColors.bluColor),
+                                style: Theme.of(Get.context!)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        fontSize: 14.sp,
+                                        color: controller.addressModel
+                                                    .data![index].isDefault ==
+                                                1
+                                            ? AppColors.greenColor
+                                            : AppColors.bluColor),
                               ),
                               onTap: controller.addressModel.data![index]
                                           .isDefault ==
@@ -230,7 +238,9 @@ changeMyAddress() async {
               child: TextButton(
                   child: Text(
                     "إضافة عنوان جديد",
-                    style: Style.cairo
+                    style: Theme.of(Get.context!)
+                        .textTheme
+                        .titleLarge!
                         .copyWith(fontSize: 16.sp, color: Colors.white),
                   ),
                   style: ButtonStyle(

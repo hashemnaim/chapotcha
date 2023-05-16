@@ -22,10 +22,7 @@ class SupportScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-            child: AppBarCustom(
-              isBack: true,
-              title: "الدعم الفني"
-            )),
+            child: AppBarCustom(isBack: true, title: "الدعم الفني")),
         body: Container(
           decoration: backgroundImage,
           child: Form(
@@ -65,7 +62,8 @@ class SupportScreen extends StatelessWidget {
                                     filled: true,
                                     fillColor: Colors.white,
                                     hintText: "عنوان الموضوع",
-                                    hintStyle: Style.cairo,
+                                    hintStyle:
+                                        Theme.of(context).textTheme.titleLarge!,
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide.none,
                                         borderRadius:
@@ -83,7 +81,8 @@ class SupportScreen extends StatelessWidget {
                                     filled: true,
                                     fillColor: Colors.white,
                                     hintText: " وصف المشكلة",
-                                    hintStyle: Style.cairo,
+                                    hintStyle:
+                                        Theme.of(context).textTheme.titleLarge!,
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide.none,
                                         borderRadius:

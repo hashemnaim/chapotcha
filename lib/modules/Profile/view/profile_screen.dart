@@ -90,7 +90,9 @@ class ProfileScreen extends StatelessWidget {
               child: Center(
                 child: ListTile(
                     title: SHelper.sHelper.getToken() == null
-                        ? Center(child: Text("تسجيل دخول", style: Style.cairog))
+                        ? Center(
+                            child: Text("تسجيل دخول",
+                                style: Theme.of(context).textTheme.titleLarge!))
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,8 +107,12 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               Text(
                                 "تسجيل خروج",
-                                style: Style.cairo.copyWith(
-                                    color: AppColors.btnColor, fontSize: 20),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        color: AppColors.btnColor,
+                                        fontSize: 20),
                               ),
                             ],
                           )),
@@ -135,7 +141,7 @@ class ProfileScreen extends StatelessWidget {
         onTap: onTap as void Function()?,
         child: ListTile(
           leading: Icon(icon, size: 30),
-          title: Text(title, style: Style.cairo),
+          title: Text(title, style: Theme.of(context).textTheme.titleLarge!),
           trailing: Container(
             alignment: Alignment.centerLeft,
             height: double.infinity,

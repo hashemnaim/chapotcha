@@ -25,20 +25,20 @@ class CustomStauts extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 8.r,
-              backgroundColor:
-                  int.parse(controller!.orderModel.orders![index!].statusCode!) >=
-                          index2
-                      ? AppColors.greenColor
-                      : Colors.grey,
+              backgroundColor: int.parse(
+                          controller!.orderModel.orders![index!].statusCode!) >=
+                      index2
+                  ? AppColors.greenColor
+                  : Colors.grey,
             ),
             SizedBox(
               width: 4.w,
             ),
             Text(
               controller!.listStatus[index2],
-              style: Style.cairo.copyWith(
-                  color: int.parse(
-                              controller!.orderModel.orders![index!].statusCode!) >=
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: int.parse(controller!
+                              .orderModel.orders![index!].statusCode!) >=
                           index2
                       ? AppColors.greenColor
                       : AppColors.bluColor),

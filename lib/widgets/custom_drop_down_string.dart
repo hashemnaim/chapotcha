@@ -51,7 +51,7 @@ class CustomDropDownString extends StatelessWidget {
                 .copyWith(color: hintColor, fontSize: 14.sp, height: 1),
           ),
         ),
-        style: Theme.of(context).textTheme.headline5,
+        style: Theme.of(context).textTheme.headlineSmall,
         icon: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Icon(

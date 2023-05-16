@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:capotcha/utils/constants.dart';
 import 'package:capotcha/utils/colors.dart';
-import 'package:capotcha/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -35,53 +34,39 @@ class _DetailsProductState extends State<DetailsProduct> {
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-            child: AppBarCustom(
-              isBack: true,
-              // title: "تفاصيل المنتج",
-            )),
+            child: AppBarCustom(isBack: true)),
         body: SingleChildScrollView(
           child: Container(
             decoration: backgroundImage,
-            child: Column(
-              children: [
-                Hero(
-                  tag: "1",
-                  child: Container(
-                    height: 150.h,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                    ),
-                    child: CustomNetworkImage(
-                      Constants.imgUrl + widget.data!.image!,
-                      fit: BoxFit.contain,
-                      heigth: 110.h,
-                      width: Get.width,
-                    ),
+            child: Column(children: [
+              Hero(
+                tag: "1",
+                child: Container(
+                  height: 150.h,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                  ),
+                  child: CustomNetworkImage(
+                    Constants.imgUrl + widget.data!.image!,
+                    fit: BoxFit.contain,
+                    heigth: 110.h,
+                    width: Get.width,
                   ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Text(widget.data!.name!,
-                    style: Style.cairog.copyWith(
-                        fontSize: 20.sp,
-                        height: 1.4,
-                        color: AppColors.bluColor)),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Text(
-                    widget.data!.price!.toStringAsFixed(2) +
-                        " " +
-                        Constants.currency,
-                    style: Style.cairog.copyWith(
-                        fontSize: 22.sp,
-                        height: 1.4,
-                        color: AppColors.bluColor)),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GetBuilder<CartController>(
+              ),
+              SizedBox(height: 10.h),
+              Text(widget.data!.name!,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 20.sp, height: 1.4, color: AppColors.bluColor)),
+              SizedBox(height: 10.h),
+              Text(
+                  widget.data!.price!.toStringAsFixed(2) +
+                      " " +
+                      Constants.currency,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 22.sp, height: 1.4, color: AppColors.bluColor)),
+              SizedBox(height: 10.h),
+              GetBuilder<CartController>(
                   id: 'cart${widget.data!.name}',
                   builder: (controller) {
                     if (controller.cartApiModel.data != null) {
@@ -116,8 +101,11 @@ class _DetailsProductState extends State<DetailsProduct> {
                                     width: 5.w,
                                   ),
                                   Text(" أضف الى السلة",
-                                      style: Style.cairog.copyWith(
-                                          fontSize: 16.sp, height: 1.3)),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              fontSize: 16.sp, height: 1.3)),
                                   SizedBox(
                                     width: 5.w,
                                   ),
@@ -180,8 +168,10 @@ class _DetailsProductState extends State<DetailsProduct> {
                                                   widget.data!.name)]
                                           .qty!
                                           .substring(0, 3),
-                                      style:
-                                          Style.cairog.copyWith(fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(fontSize: 16),
                                     ),
                                     GestureDetector(
                                       onTap: () async {
@@ -217,84 +207,74 @@ class _DetailsProductState extends State<DetailsProduct> {
                       }
                     } else {
                       return InkWell(
-                        onTap: () async {
-                          if (SHelper.sHelper.getToken() == null) {
-                            Get.toNamed(Routes.SignUpScreen);
-                          } else {
-                            await controller.addCartonCart(
-                                widget.data!.id!, widget.data!.name!);
-                          }
-                        },
-                        child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                              Text(" أضف الى السلة",
-                                  style: Style.cairog
-                                      .copyWith(fontSize: 16.sp, height: 1.3)),
-                              SizedBox(width: 5.w),
-                              CustomSvgImage(
-                                "icon-cart",
-                                color: AppColors.greenColor,
-                                isColor: true,
-                                height: 25.h,
-                              ),
-                            ]),
-                      );
+                          onTap: () async {
+                            if (SHelper.sHelper.getToken() == null) {
+                              Get.toNamed(Routes.SignUpScreen);
+                            } else {
+                              await controller.addCartonCart(
+                                  widget.data!.id!, widget.data!.name!);
+                            }
+                          },
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                Text(" أضف الى السلة",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                            fontSize: 16.sp, height: 1.3)),
+                                SizedBox(width: 5.w),
+                                CustomSvgImage(
+                                  "icon-cart",
+                                  color: AppColors.greenColor,
+                                  isColor: true,
+                                  height: 25.h,
+                                ),
+                              ]));
                     }
-                  },
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  itemCount: widget.data!.products!.length,
-                  itemBuilder: (context, index2) {
-                    return ListTile(
-                      leading: CustomNetworkImage(
-                        Constants.imgUrl +
-                            widget.data!.products![index2].image!,
-                        heigth: 50.h,
-                        width: 50.w,
-                        fit: BoxFit.fill,
-                      ),
-                      title: Text(
-                        widget.data!.products![index2].name!,
-                        style: Style.cairo.copyWith(
-                            fontSize: 16.sp,
-                            height: 1.4,
-                            color: AppColors.greenColor),
-                      ),
-                      trailing: Text(
+                  }),
+              SizedBox(height: 10.h),
+              ListView.builder(
+                shrinkWrap: true,
+                primary: false,
+                itemCount: widget.data!.products!.length,
+                itemBuilder: (context, index2) {
+                  return ListTile(
+                    leading: CustomNetworkImage(
+                      Constants.imgUrl + widget.data!.products![index2].image!,
+                      heigth: 50.h,
+                      width: 50.w,
+                      fit: BoxFit.fill,
+                    ),
+                    title: Text(
+                      widget.data!.products![index2].name!,
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 16.sp,
+                          height: 1.4,
+                          color: AppColors.greenColor),
+                    ),
+                    trailing: Text(
                         widget.data!.products![index2].quantity! +
                             " " +
                             widget.data!.products![index2].unit!,
-                        style: Style.cairo.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontSize: 14.sp,
                             height: 1.4,
-                            color: AppColors.bluColor),
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-              ],
-            ),
+                            color: AppColors.bluColor)),
+                  );
+                },
+              ),
+              SizedBox(height: 10.h)
+            ]),
           ),
         ),
-        floatingActionButton: NavBarFloatCustom(
-          isHome: false,
-        ),
+        floatingActionButton: NavBarFloatCustom(isHome: false),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: NavBottomBarCustom(
-          isHome: false,
-        ));
+        bottomNavigationBar: NavBottomBarCustom(isHome: false));
   }
 }

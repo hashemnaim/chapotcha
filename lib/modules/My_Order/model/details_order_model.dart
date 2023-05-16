@@ -163,6 +163,7 @@ class Address {
   String? lat;
   String? lng;
   String? city;
+  String? city_id;
   String? area;
 
   Address(
@@ -174,6 +175,7 @@ class Address {
       this.lat,
       this.lng,
       this.city,
+      this.city_id,
       this.area});
 
   Address.fromJson(Map<String, dynamic> json) {
@@ -185,6 +187,7 @@ class Address {
     lat = json['lat'];
     lng = json['lng'];
     city = json['city'];
+    city_id = json['city_id'].toString();
     area = json['area'];
   }
 
@@ -198,6 +201,7 @@ class Address {
     data['lat'] = this.lat;
     data['lng'] = this.lng;
     data['city'] = this.city;
+    data['city_id'] = this.city_id;
     data['area'] = this.area;
     return data;
   }

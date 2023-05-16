@@ -1,15 +1,16 @@
+import 'dart:developer';
+
 import 'package:capotcha/utils/animate_do.dart';
 import 'package:capotcha/utils/constants.dart';
 import 'package:capotcha/utils/method_helpar.dart';
 
-import 'package:capotcha/utils/styles.dart';
 import 'package:capotcha/widgets/custom_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../utils/shared_preferences_helpar.dart';
 import '../../../widgets/my_widgets_animator.dart';
 import '../../../routes/app_pages.dart';
-import '../../../utils/shared_preferences_helpar.dart';
 import '../../../utils/shimmer_helper.dart';
 import '../../../utils/colors.dart';
 import '../controller/order_controller.dart';
@@ -19,6 +20,8 @@ import 'details_order_screen.dart';
 class MyOrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    log(SHelper.sHelper.getToken().toString());
+
     if (SHelper.sHelper.getToken() == null) {
       return InkWell(
           onTap: () => Get.toNamed(Routes.SignUpScreen),
@@ -26,15 +29,18 @@ class MyOrderScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BounceInRight(
-                  child: CustomPngImage("login", heigth: 200.h, width: 200.w)),
+                  child: CustomPngImage(
+                "login",
+                heigth: 200.h,
+                width: 200.w,
+                fit: BoxFit.contain,
+              )),
               SizedBox(height: 20.h),
               Container(
                   child: Center(
-                      child: Text(
-                " تسجيل الدخول ",
-                style: Style.cairogX
-                    .copyWith(fontSize: 30, fontWeight: FontWeight.bold),
-              ))),
+                      child: Text(" تسجيل الدخول ",
+                          style:Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontSize: 30, fontWeight: FontWeight.bold)))),
             ],
           ));
     } else {
@@ -64,7 +70,7 @@ class MyOrderScreen extends StatelessWidget {
                                         horizontal: 20),
                                     child: Text(
                                       "طلباتي",
-                                      style: Style.cairo.copyWith(
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                                           fontSize: 22.sp,
                                           color: AppColors.bluColor),
                                     ),
@@ -93,7 +99,7 @@ class MyOrderScreen extends StatelessWidget {
                                                 ListTile(
                                                   title: Text(
                                                       "طلبك رقم # ${controller.orderModel.orders![index].code}",
-                                                      style: Style.cairo
+                                                      style: Theme.of(context).textTheme.titleLarge!
                                                           .copyWith(
                                                               fontSize: 16.sp)),
                                                   subtitle: Text(
@@ -107,7 +113,7 @@ class MyOrderScreen extends StatelessWidget {
                                                             .orderModel
                                                             .orders![index]
                                                             .time!),
-                                                    style: Style.cairo.copyWith(
+                                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
                                                         fontSize: 14.sp,
                                                         color: Colors.grey),
                                                   ),
@@ -140,7 +146,7 @@ class MyOrderScreen extends StatelessWidget {
                                                                 vertical: 6),
                                                         child: Text(
                                                           "تفاصيل",
-                                                          style: Style.cairo
+                                                          style: Theme.of(context).textTheme.titleLarge!
                                                               .copyWith(
                                                                   fontSize:
                                                                       12.sp,
@@ -187,7 +193,7 @@ class MyOrderScreen extends StatelessWidget {
                                 Text(
                                   "لا يوجد طلبات",
                                   style:
-                                      Style.cairogX.copyWith(fontSize: 25.sp),
+                                      Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25.sp),
                                 ),
                               ],
                             ),

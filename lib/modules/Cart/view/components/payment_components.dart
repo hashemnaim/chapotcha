@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../utils/colors.dart';
-import '../../../../utils/styles.dart';
 
 class PaymentComponents extends StatelessWidget {
   const PaymentComponents({
@@ -23,7 +22,10 @@ class PaymentComponents extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               "طريقة الدفع",
-              style: Style.cairo.copyWith(fontSize: 16.sp),
+              style: Theme.of(Get.context!)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(fontSize: 16.sp),
             ),
           ),
         ),
@@ -47,10 +49,13 @@ class PaymentComponents extends StatelessWidget {
                       side: BorderSide(color: AppColors.greenColor)),
                   child: Text(
                     "كاش",
-                    style: Style.cairo.copyWith(
-                        fontSize: 18.sp,
-                        color: AppColors.greenColor,
-                        height: 1.2),
+                    style: Theme.of(Get.context!)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(
+                            fontSize: 18.sp,
+                            color: AppColors.greenColor,
+                            height: 1.2),
                   ))),
         ),
       ],

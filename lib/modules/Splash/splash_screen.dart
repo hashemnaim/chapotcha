@@ -10,26 +10,17 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.png"),
-          ),
-        ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/background.png"))),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 30.h,
-              ),
+              SizedBox(height: 30.h),
               BounceInDown(
-                duration: Duration(milliseconds: 2000),
-                child: CustomPngImage(
-                  "icon",
-                  width: 170.w,
-                  heigth: 155.h,
-                  fit: BoxFit.contain,
-                ),
-              ),
+                  duration: Duration(milliseconds: 2000),
+                  child: CustomPngImage("icon",
+                      width: 170.w, heigth: 155.h, fit: BoxFit.contain)),
               FadeInLeft(
                 duration: Duration(milliseconds: 2000),
                 child: CustomPngImage(
@@ -38,9 +29,7 @@ class SplashScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(
-                height: 10.h,
-              ),
+              SizedBox(height: 10.h),
               FadeInRight(
                 duration: Duration(milliseconds: 2000),
                 child: CustomPngImage(
@@ -50,9 +39,7 @@ class SplashScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(
-                height: 30.h,
-              ),
+              SizedBox(height: 30.h),
               CustomLoading()
             ],
           ),

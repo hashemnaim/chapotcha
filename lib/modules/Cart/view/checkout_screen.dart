@@ -53,7 +53,10 @@ class CheckoutScreen extends GetView<CartController> {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
                               "موعد التوصيل",
-                              style: Style.cairo.copyWith(fontSize: 18.sp),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(fontSize: 18.sp),
                             ),
                           ),
                         ),
@@ -98,9 +101,12 @@ class CheckoutScreen extends GetView<CartController> {
                                               child: Container(
                                                 child: Text(
                                                   "يجب إضافة عنوان لإظهار الفترات المتاحة",
-                                                  style: Style.cairo.copyWith(
-                                                      fontSize: 16.sp,
-                                                      color: Colors.red),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleLarge!
+                                                      .copyWith(
+                                                          fontSize: 16.sp,
+                                                          color: Colors.red),
                                                 ),
                                               ),
                                             ),
@@ -117,7 +123,10 @@ class CheckoutScreen extends GetView<CartController> {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
                           "ملاحظات",
-                          style: Style.cairo.copyWith(fontSize: 16.sp),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontSize: 16.sp),
                         ),
                       ),
                     ),
@@ -140,16 +149,17 @@ class CheckoutScreen extends GetView<CartController> {
                         minLines: 1,
                       ),
                     ),
-                    SizedBox(
-                      height: 6.h,
-                    ),
+                    SizedBox(height: 6.h),
                     Container(
                       height: 45.h,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
                           "تفاصيل السعر",
-                          style: Style.cairo.copyWith(fontSize: 16.sp),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontSize: 16.sp),
                         ),
                       ),
                     ),
@@ -175,9 +185,12 @@ class CheckoutScreen extends GetView<CartController> {
                               children: [
                                 Text(
                                   "مجموع المنتجات",
-                                  style: Style.cairo.copyWith(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.normal),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.normal),
                                 ),
                                 Spacer(),
                                 Text(
@@ -185,9 +198,12 @@ class CheckoutScreen extends GetView<CartController> {
                                             .toStringAsFixed(1) +
                                         " " +
                                         Constants.currency,
-                                    style: Style.cairog.copyWith(
-                                      fontSize: 16.sp,
-                                    )),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                          fontSize: 16.sp,
+                                        )),
                               ],
                             ),
                             controller.cartApiModel.data!.discount_price_cart !=
@@ -196,9 +212,12 @@ class CheckoutScreen extends GetView<CartController> {
                                     children: [
                                       Text(
                                         "الخصم",
-                                        style: Style.cairo.copyWith(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.normal),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.normal),
                                       ),
                                       Spacer(),
                                       Text(
@@ -207,41 +226,51 @@ class CheckoutScreen extends GetView<CartController> {
                                                   .toStringAsFixed(1) +
                                               " " +
                                               Constants.currency,
-                                          style: Style.cairog.copyWith(
-                                            fontSize: 16.sp,
-                                          )),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
+                                              .copyWith(
+                                                fontSize: 16.sp,
+                                              )),
                                     ],
                                   )
                                 : SizedBox.shrink(),
                             GetBuilder<ProfileController>(
                               id: "ShippingTimes",
-                              builder: (profileController) => profileController
-                                          .shippingTimesModel.cities ==
-                                      null
-                                  ? Container()
-                                  : profileController.shippingTimesModel.cities!
-                                              .shippingCost ==
-                                          "0.0"
+                              builder: (profileController) =>
+                                  profileController.shippingTimesModel.cities ==
+                                          null
                                       ? Container()
-                                      : Row(children: [
-                                          Text(
-                                            "التوصيل",
-                                            style: Style.cairo.copyWith(
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                              profileController
-                                                      .shippingTimesModel
-                                                      .cities!
-                                                      .shippingCost! +
-                                                  " " +
-                                                  Constants.currency,
-                                              style: Style.cairog.copyWith(
-                                                fontSize: 16.sp,
-                                              )),
-                                        ]),
+                                      : profileController.shippingTimesModel
+                                                  .cities!.shippingCost ==
+                                              "0.0"
+                                          ? Container()
+                                          : Row(children: [
+                                              Text(
+                                                "التوصيل",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                        fontSize: 16.sp,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                              ),
+                                              Spacer(),
+                                              Text(
+                                                  profileController
+                                                          .shippingTimesModel
+                                                          .cities!
+                                                          .shippingCost! +
+                                                      " " +
+                                                      Constants.currency,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleLarge!
+                                                      .copyWith(
+                                                        fontSize: 16.sp,
+                                                      )),
+                                            ]),
                             ),
                           ],
                         ),
@@ -271,8 +300,12 @@ class CheckoutScreen extends GetView<CartController> {
                                     child: Center(
                                       child: Text(
                                         "يجب إضافة عنوان لإكمال الطلب",
-                                        style: Style.cairo.copyWith(
-                                            fontSize: 16.sp, color: Colors.red),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                                fontSize: 16.sp,
+                                                color: Colors.red),
                                       ),
                                     ),
                                   )
@@ -331,9 +364,12 @@ class CheckoutScreen extends GetView<CartController> {
                                             child: Center(
                                               child: Text(
                                                 "تأكيد الطلب",
-                                                style: Style.cairo.copyWith(
-                                                    fontSize: 16.sp,
-                                                    color: Colors.white),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                        fontSize: 16.sp,
+                                                        color: Colors.white),
                                               ),
                                             ),
                                           ),
@@ -362,7 +398,9 @@ class CheckoutScreen extends GetView<CartController> {
                                                         ""
                                                     ? Text(
                                                         "المنطقة غير متوفرة حاليا",
-                                                        style: Style.cairo
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .titleLarge!
                                                             .copyWith())
                                                     : Text(
                                                         (controller
@@ -378,12 +416,14 @@ class CheckoutScreen extends GetView<CartController> {
                                                                     1) +
                                                             " " +
                                                             Constants.currency,
-                                                        style: Style.cairo
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .titleLarge!
                                                             .copyWith(
-                                                          fontSize: 16.sp,
-                                                          color: AppColors
-                                                              .greenColor,
-                                                        ),
+                                                              fontSize: 16.sp,
+                                                              color: AppColors
+                                                                  .greenColor,
+                                                            ),
                                                       );
                                               },
                                             ),
@@ -441,23 +481,29 @@ class CheckoutScreen extends GetView<CartController> {
                                                     .weekday -
                                                 1]
                                             .toString(),
-                                        style: Style.cairo.copyWith(
-                                            color:
-                                                controller.selectedDay == index
+                                        style: Theme.of(Get.context!)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                                color: controller.selectedDay ==
+                                                        index
                                                     ? Colors.white
                                                     : AppColors.gryText,
-                                            fontSize: 15.sp,
-                                            height: 1.5.h),
+                                                fontSize: 15.sp,
+                                                height: 1.5.h),
                                       ),
                                       Text(
                                         getDate(index),
-                                        style: Style.cairo.copyWith(
-                                            color:
-                                                controller.selectedDay == index
+                                        style: Theme.of(Get.context!)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                                color: controller.selectedDay ==
+                                                        index
                                                     ? Colors.white
                                                     : AppColors.gryText,
-                                            fontSize: 16.sp,
-                                            height: 1.5.h),
+                                                fontSize: 16.sp,
+                                                height: 1.5.h),
                                       ),
                                     ],
                                   ),
@@ -481,82 +527,40 @@ class CheckoutScreen extends GetView<CartController> {
                         profileController
                             .shippingTimesModel.cities!.shippingTimes!.length,
                         (index) {
-                          return Obx(() => controller
-                                      .profileController.listCount.length ==
-                                  0
-                              ? Container()
-                              : InkWell(
-                                  onTap: getAvaliple(
-                                              index,
-                                              profileController
-                                                  .shippingTimesModel
-                                                  .cities!
-                                                  .shippingTimes![index]
-                                                  .before_close!,
-                                              controller
-                                                  .profileController.listCount,
-                                              controller.dateDay2.value,
-                                              profileController
-                                                  .shippingTimesModel
-                                                  .cities!
-                                                  .shippingTimes!) ==
-                                          false
-                                      ? null
-                                      : () {
-                                          controller.selectTime(
-                                              profileController
-                                                  .shippingTimesModel
-                                                  .cities!
-                                                  .shippingTimes![index]
-                                                  .period!);
-                                        },
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Container(
-                                        width: 100.w,
-                                        height: 55.h,
-                                        decoration: BoxDecoration(
-                                            color: getAvaliple(
-                                                        index,
-                                                        profileController
-                                                            .shippingTimesModel
-                                                            .cities!
-                                                            .shippingTimes![
-                                                                index]
-                                                            .before_close!,
-                                                        controller
-                                                            .profileController
-                                                            .listCount,
-                                                        controller
-                                                            .dateDay2.value,
-                                                        profileController
-                                                            .shippingTimesModel
-                                                            .cities!
-                                                            .shippingTimes!) ==
-                                                    false
-                                                ? Colors.grey
-                                                : controller.selectedTime
-                                                            .value ==
-                                                        profileController
-                                                            .shippingTimesModel
-                                                            .cities!
-                                                            .shippingTimes![
-                                                                index]
-                                                            .period
-                                                    ? AppColors.greenColor
-                                                    : Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: AppColors.greenColor)),
-                                        child: Center(
-                                          child: Text(
-                                            getPeriod(profileController
-                                                .shippingTimesModel
-                                                .cities!
-                                                .shippingTimes![index]
-                                                .period!),
-                                            style: Style.cairo.copyWith(
+                          return Obx(() =>
+                              controller.profileController.listCount.length == 0
+                                  ? Container()
+                                  : InkWell(
+                                      onTap: getAvaliple(
+                                                  index,
+                                                  profileController
+                                                      .shippingTimesModel
+                                                      .cities!
+                                                      .shippingTimes![index]
+                                                      .before_close!,
+                                                  controller.profileController
+                                                      .listCount,
+                                                  controller.dateDay2.value,
+                                                  profileController
+                                                      .shippingTimesModel
+                                                      .cities!
+                                                      .shippingTimes!) ==
+                                              false
+                                          ? null
+                                          : () {
+                                              controller.selectTime(
+                                                  profileController
+                                                      .shippingTimesModel
+                                                      .cities!
+                                                      .shippingTimes![index]
+                                                      .period!);
+                                            },
+                                      child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Container(
+                                            width: 100.w,
+                                            height: 55.h,
+                                            decoration: BoxDecoration(
                                                 color: getAvaliple(
                                                             index,
                                                             profileController
@@ -575,7 +579,7 @@ class CheckoutScreen extends GetView<CartController> {
                                                                 .cities!
                                                                 .shippingTimes!) ==
                                                         false
-                                                    ? Colors.white
+                                                    ? Colors.grey
                                                     : controller.selectedTime
                                                                 .value ==
                                                             profileController
@@ -584,13 +588,60 @@ class CheckoutScreen extends GetView<CartController> {
                                                                 .shippingTimes![
                                                                     index]
                                                                 .period
-                                                        ? Colors.white
-                                                        : AppColors.greenColor,
-                                                fontSize: 16.sp,
-                                                height: 1.4.h),
-                                          ),
-                                        ),
-                                      ))));
+                                                        ? AppColors.greenColor
+                                                        : Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color:
+                                                        AppColors.greenColor)),
+                                            child: Center(
+                                              child: Text(
+                                                getPeriod(profileController
+                                                    .shippingTimesModel
+                                                    .cities!
+                                                    .shippingTimes![index]
+                                                    .period!),
+                                                style: Theme.of(Get.context!)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                        color: getAvaliple(
+                                                                    index,
+                                                                    profileController
+                                                                        .shippingTimesModel
+                                                                        .cities!
+                                                                        .shippingTimes![
+                                                                            index]
+                                                                        .before_close!,
+                                                                    controller
+                                                                        .profileController
+                                                                        .listCount,
+                                                                    controller
+                                                                        .dateDay2
+                                                                        .value,
+                                                                    profileController
+                                                                        .shippingTimesModel
+                                                                        .cities!
+                                                                        .shippingTimes!) ==
+                                                                false
+                                                            ? Colors.white
+                                                            : controller.selectedTime
+                                                                        .value ==
+                                                                    profileController
+                                                                        .shippingTimesModel
+                                                                        .cities!
+                                                                        .shippingTimes![
+                                                                            index]
+                                                                        .period
+                                                                ? Colors.white
+                                                                : AppColors
+                                                                    .greenColor,
+                                                        fontSize: 16.sp,
+                                                        height: 1.4.h),
+                                              ),
+                                            ),
+                                          ))));
                         },
                       )))));
   }

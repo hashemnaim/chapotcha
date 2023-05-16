@@ -2,7 +2,6 @@
 
 import 'package:capotcha/widgets/custom_svg.dart';
 import 'package:capotcha/modules/Products/model/product_model.dart';
-import 'package:capotcha/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -34,77 +33,67 @@ class ProductItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.r)),
         child: Column(
           children: [
-            SizedBox(
-              height: 4.h,
-            ),
+            SizedBox(height: 4.h),
             Expanded(
-              flex: 2,
-              child: InkWell(
-                onTap: product.state == "0" || product.stock == "0"
-                    ? null
-                    : () async {
-                        if (SHelper.sHelper.getToken() == null) {
-                          Get.toNamed(
-                            Routes.SignUpScreen,
-                          );
-                        } else {
-                          if (cartController.cartApiModel.data!.items!
-                                  .indexWhere((element) =>
-                                      element.productId == product.id) ==
-                              -1) {
-                            await cartController.addProductToCart(
-                              product,
-                            );
-                          } else {
-                            int index = cartController.cartApiModel.data!.items!
-                                .indexWhere((element) =>
-                                    element.productId == product.id);
-                            await cartController.IncreaseQuantity(
-                                index,
-                                cartController
-                                    .cartApiModel.data!.items![index].itemId,
-                                product.unit == "كيلو" ? 0.5 : 1.0);
-                          }
-                        }
-                      },
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 20.h,
-                      left: 0,
-                      right: 0,
-                      child: CustomNetworkImage(
-                        Constants.imgUrl + product.image!,
-                        fit: BoxFit.contain,
-                        heigth: 140.h,
-                        width: Get.width,
+                flex: 2,
+                child: InkWell(
+                    onTap: product.state == "0" || product.stock == "0"
+                        ? null
+                        : () async {
+                            if (SHelper.sHelper.getToken() == null) {
+                              Get.toNamed(
+                                Routes.SignUpScreen,
+                              );
+                            } else {
+                              if (cartController.cartApiModel.data!.items!
+                                      .indexWhere((element) =>
+                                          element.productId == product.id) ==
+                                  -1) {
+                                await cartController.addProductToCart(
+                                  product,
+                                );
+                              } else {
+                                int index = cartController
+                                    .cartApiModel.data!.items!
+                                    .indexWhere((element) =>
+                                        element.productId == product.id);
+                                await cartController.IncreaseQuantity(
+                                    index,
+                                    cartController.cartApiModel.data!
+                                        .items![index].itemId,
+                                    product.unit == "كيلو" ? 0.5 : 1.0);
+                              }
+                            }
+                          },
+                    child: Stack(children: [
+                      Positioned(
+                        top: 20.h,
+                        left: 0,
+                        right: 0,
+                        child: CustomNetworkImage(
+                          Constants.imgUrl + product.image!,
+                          fit: BoxFit.contain,
+                          heigth: 140.h,
+                          width: Get.width,
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      top: 6.h,
-                      right: 6.w,
-                      child: Text(
-                        product.name!,
-                        style: Style.cairo.copyWith(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                            height: 1.h),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
+                      Positioned(
+                        top: 6.h,
+                        right: 6.w,
+                        child: Text(product.name!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.h)),
+                      )
+                    ]))),
             Expanded(
               flex: 2,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 4.h,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -122,7 +111,7 @@ class ProductItem extends StatelessWidget {
                       Text(
                           " ${double.parse(product.price!).toStringAsFixed(1)}",
                           style: TextStyle(
-                            fontSize: 18.sp,
+                            fontSize: 16.sp,
                             fontFamily: 'cairo',
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[900],
@@ -135,16 +124,10 @@ class ProductItem extends StatelessWidget {
                           )),
                     ],
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
-                  Text(
-                    "لل" + "${product.unit}",
-                    style: Style.cairog.copyWith(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  SizedBox(height: 6.h),
+                  Text("لل" + "${product.unit}",
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 18.sp, fontWeight: FontWeight.w500)),
                   Spacer(),
                   Divider(),
                   GetBuilder<CartController>(
@@ -187,9 +170,12 @@ class ProductItem extends StatelessWidget {
                                             width: 5.w,
                                           ),
                                           Text(" أضف الى السلة",
-                                              style: Style.cairog.copyWith(
-                                                  fontSize: 16.sp,
-                                                  height: 1.3)),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge!
+                                                  .copyWith(
+                                                      fontSize: 16.sp,
+                                                      height: 1.3)),
                                           SizedBox(
                                             width: 5.w,
                                           ),
@@ -252,7 +238,9 @@ class ProductItem extends StatelessWidget {
                                                       product.id)
                                                   .qty!
                                                   .substring(0, 3),
-                                              style: Style.cairog
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge!
                                                   .copyWith(fontSize: 18.sp),
                                             ),
                                             GestureDetector(
@@ -297,11 +285,12 @@ class ProductItem extends StatelessWidget {
                                     width: 5.w,
                                   ),
                                   Text(" أضف الى السلة",
-                                      style: Style.cairog.copyWith(
-                                          fontSize: 16.sp, height: 1.3)),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              fontSize: 16.sp, height: 1.3)),
+                                  SizedBox(width: 5.w),
                                   CustomSvgImage(
                                     "icon-cart",
                                     color: AppColors.greenColor,
@@ -311,9 +300,7 @@ class ProductItem extends StatelessWidget {
                                 ]),
                     ),
                   ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
+                  SizedBox(height: 8.h),
                 ],
               ),
             )
@@ -330,7 +317,7 @@ class ProductItem extends StatelessWidget {
             width: 80.h,
           ),
         ),
-      product.state == "0" || product.stock == "0"
+      product.state == "0" || product.stock == "0" || product.price == "0"
           ? Container(
               height: height.h,
               decoration: BoxDecoration(

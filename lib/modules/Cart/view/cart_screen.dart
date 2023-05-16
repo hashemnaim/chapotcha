@@ -3,7 +3,6 @@ import 'package:capotcha/utils/shared_preferences_helpar.dart';
 import 'package:capotcha/widgets/custom_button.dart';
 import 'package:capotcha/utils/constants.dart';
 import 'package:capotcha/utils/colors.dart';
-import 'package:capotcha/utils/styles.dart';
 import 'package:capotcha/widgets/custom_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -158,10 +157,12 @@ class CartScreen extends GetView<CartController> {
                                                   children: [
                                                     Text(
                                                       "الإجمالي",
-                                                      style:
-                                                          Style.cairo.copyWith(
-                                                        fontSize: 16.sp,
-                                                      ),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleLarge!
+                                                          .copyWith(
+                                                            fontSize: 16.sp,
+                                                          ),
                                                     ),
                                                     Text(
                                                       controller.cartApiModel
@@ -170,10 +171,12 @@ class CartScreen extends GetView<CartController> {
                                                                   1) +
                                                           " " +
                                                           Constants.currency,
-                                                      style:
-                                                          Style.cairo.copyWith(
-                                                        fontSize: 16.sp,
-                                                      ),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleLarge!
+                                                          .copyWith(
+                                                            fontSize: 16.sp,
+                                                          ),
                                                     ),
                                                   ],
                                                 ),
@@ -196,8 +199,10 @@ class CartScreen extends GetView<CartController> {
                                                               null) {
                                                             Get.defaultDialog(
                                                                 title: "عنوانك",
-                                                                titleStyle: Style
-                                                                    .cairo
+                                                                titleStyle: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .titleLarge!
                                                                     .copyWith(
                                                                         fontSize: 18
                                                                             .sp),
@@ -205,8 +210,9 @@ class CartScreen extends GetView<CartController> {
                                                                     children: [
                                                                       Text(
                                                                           ".يجب إضافة عنوان , لاكمال العملية",
-                                                                          style: Style
-                                                                              .cairo
+                                                                          style: Theme.of(context)
+                                                                              .textTheme
+                                                                              .titleLarge!
                                                                               .copyWith(fontSize: 16.sp)),
                                                                       SizedBox(
                                                                           height:
@@ -294,7 +300,7 @@ class CartScreen extends GetView<CartController> {
             children: [
               Text(
                 "إضافة عنصر جديد ",
-                style: Style.cairo.copyWith(
+                style: Theme.of(Get.context!).textTheme.titleLarge!.copyWith(
                     color: AppColors.bluColor,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w500),
@@ -330,7 +336,7 @@ class CartScreen extends GetView<CartController> {
           SizedBox(width: 10.w),
           Text(
             "تسجيل الدخول ",
-            style: Style.cairo.copyWith(
+            style: Theme.of(Get.context!).textTheme.titleLarge!.copyWith(
                 color: AppColors.bluColor,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),

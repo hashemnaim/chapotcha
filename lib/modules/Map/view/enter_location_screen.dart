@@ -1,8 +1,9 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:capotcha/modules/My_Order/model/details_order_model.dart';
+import 'package:capotcha/utils/shared_preferences_helpar.dart';
 import 'package:capotcha/widgets/custom_drop_down_string.dart';
 import 'package:capotcha/widgets/form_field_item.dart';
 import 'package:capotcha/modules/Map/controller/address_controller.dart';
-import 'package:capotcha/modules/Profile/controller/profile_controller.dart';
 import 'package:capotcha/utils/animate_do.dart';
 import 'package:capotcha/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class EnterLocationScreen extends StatefulWidget {
 
 class _EnterLocationPageState extends State<EnterLocationScreen> {
   AddressController serviceLoctionController = Get.find();
-  ProfileController profileController = Get.find();
+  // ProfileController profileController = Get.find();
   final formKey = GlobalKey<FormState>();
   bool addLocation = false;
   GoogleMapController? googleMapController;
@@ -70,7 +71,9 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
           centerTitle: true,
           leading: InkWell(
             onTap: () {
-              Get.back();
+              addLocation == false ? Get.back() : addLocation = false;
+
+              setState(() {});
             },
             child: CustomSvgImage(
               "back",
@@ -93,33 +96,29 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                         width: Get.width,
                         height: 40.h,
                         color: Colors.white,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 4),
-                              child: Icon(Icons.location_on,
-                                  color: LightThemeColors.primaryColor),
-                            ),
-                            Expanded(
+                        child: Row(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 4),
+                            child: Icon(Icons.location_on,
+                                color: LightThemeColors.primaryColor),
+                          ),
+                          Expanded(
                               child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: Text(controller.address,
-                                    // softWrap: true,
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6!
-                                        .copyWith(
-                                            height: 1.2,
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 13.sp)),
-                              ),
-                            ),
-                          ],
-                        ))),
+                                  textDirection: TextDirection.rtl,
+                                  child: Text(controller.address,
+                                      // softWrap: true,
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(
+                                              height: 1.2,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 13.sp))))
+                        ]))),
                 addLocation == true
                     ? SizedBox(
                         height: 160.h,
@@ -283,8 +282,8 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                                     .copyWith(
                                         color: AppColors.bluColor,
                                         fontWeight: FontWeight.normal,
-                                        fontSize: 16.sp)),
-                            SizedBox(height: 4.h),
+                                        fontSize: 14.sp)),
+                            SizedBox(height: 3.h),
                             SizedBox(
                               child: CustomDropDown(
                                 itemsList: serviceLoctionController
@@ -323,8 +322,8 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                                             .copyWith(
                                                 color: AppColors.bluColor,
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 16.sp)),
-                                    SizedBox(height: 4.h),
+                                                fontSize: 14.sp)),
+                                    SizedBox(height: 3.h),
                                     SizedBox(
                                       child: CustomDropDown(
                                         itemsList: serviceLoctionController
@@ -475,15 +474,11 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                                       ),
                                     ],
                                   )
-                                : Container(
-                                    width: 1,
-                                  ),
+                                : Container(width: 1),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -499,27 +494,25 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                             SizedBox(height: 8.h),
                             SizedBox(
                               child: FormFieldItem(
-                                textInputType: TextInputType.number,
-                                labelText: '1',
-                                obscureText: false,
-                                backgroundColor: Colors.grey[200],
-                                textInputAction: TextInputAction.done,
-                                editingController: controller.noFloorControlelr,
-                                type: false,
-                                validator: (v) => ValidationHelper
-                                    .validationHelper
-                                    .validateNull(
-                                  v,
-                                ),
-                                onChange: (v) {},
-                              ),
+                                  textInputType: TextInputType.number,
+                                  labelText: '1',
+                                  obscureText: false,
+                                  backgroundColor: Colors.grey[200],
+                                  textInputAction: TextInputAction.done,
+                                  editingController:
+                                      controller.noFloorControlelr,
+                                  type: false,
+                                  validator: (v) => ValidationHelper
+                                          .validationHelper
+                                          .validateNull(
+                                        v,
+                                      ),
+                                  onChange: (v) {}),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -556,44 +549,43 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                     ],
                   ),
                   SizedBox(height: 8.h),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("رقم التواصل",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: AppColors.gryText,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16.sp)),
-                      SizedBox(height: 8.h),
-                      SizedBox(
-                        // height: 60.h,
-                        // width: 300.w,
-                        child: FormFieldItem(
-                          textInputType: TextInputType.number,
-                          labelText: '0569434234',
-                          obscureText: false,
-                          validator: (v) => ValidationHelper.validationHelper
-                              .validateMobile(v),
-                          backgroundColor: Colors.grey[200],
-                          textInputAction: TextInputAction.done,
-                          editingController: TextEditingController.fromValue(
-                            TextEditingValue(
-                              text:
-                                  profileController.profileModel.user!.mobile ??
-                                      "",
-                            ),
-                          ),
-                          type: false,
-                          onChange: (v) {
-                            profileController.profileModel.user!.mobile = v;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     Text("رقم التواصل",
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .headline6!
+                  //             .copyWith(
+                  //                 color: AppColors.gryText,
+                  //                 fontWeight: FontWeight.normal,
+                  //                 fontSize: 16.sp)),
+                  //     SizedBox(height: 8.h),
+                  //     // SizedBox(
+                  //     //   child: FormFieldItem(
+                  //     //     textInputType: TextInputType.number,
+                  //     //     labelText: '0569434234',
+                  //     //     obscureText: false,
+                  //     //     validator: (v) => ValidationHelper.validationHelper
+                  //     //         .validateMobile(v),
+                  //     //     backgroundColor: Colors.grey[200],
+                  //     //     textInputAction: TextInputAction.done,
+                  //     //     editingController: TextEditingController.fromValue(
+                  //     //       TextEditingValue(
+                  //     //         text:
+                  //     //             profileController.profileModel.user!.mobile ??
+                  //     //                 "",
+                  //     //       ),
+                  //     //     ),
+                  //     //     type: false,
+                  //     //     onChange: (v) {
+                  //     //       profileController.profileModel.user!.mobile = v;
+                  //     //     },
+                  //     //   ),
+                  //     // ),
+                  //   ],
+                  // ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -645,8 +637,9 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                             contentColor: Colors.red);
                       } else {
                         await serviceLoctionController.addAddrees(
-                            serviceLoctionController.isDefulte.value,
-                            profileController.profileModel.user!.mobile);
+                          serviceLoctionController.isDefulte.value,
+                          // profileController.profileModel.user!.mobile
+                        );
                       }
                     }
                   }

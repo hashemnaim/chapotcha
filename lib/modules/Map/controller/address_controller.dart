@@ -1,14 +1,15 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:capotcha/modules/Profile/controller/profile_controller.dart';
 import 'package:capotcha/widgets/custom_drop_down.dart';
-// import 'package:capotcha/modules/Profile/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../routes/app_pages.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/shared_preferences_helpar.dart';
+import '../../My_Order/model/details_order_model.dart';
+import '../../Profile/controller/profile_controller.dart';
 import '../model/address_model.dart';
 import 'map_controller.dart';
 
@@ -47,7 +48,7 @@ class AddressController extends GetxController {
   AddressModel addressModel = AddressModel();
   DataAddress dataAddress = DataAddress();
   bool addLocation = false;
-  ProfileController profileController = Get.find();
+  // ProfileController profileController = Get.find();
 
   getCities() async {
     await BaseClient.baseClient.get(Constants.citiesApiUrl,
@@ -72,7 +73,7 @@ class AddressController extends GetxController {
         data: {"address_id": id}, onSuccess: (response) {
       if (response.data['code'] == 401) {
         // addressModel.data.removeWhere((element) => element.id == id);
-        profileController.getProfile();
+        // profileController.getProfile();
 
         getMyAddress();
         BotToast.closeAllLoading();
@@ -94,9 +95,25 @@ class AddressController extends GetxController {
     mapController.addressControlelr.clear();
   }
 
-  addAddrees(int isDefault, String? phone) async {
+  addAddrees(
+    int isDefault,
+  ) async {
+    await SHelper.sHelper.saveAddress(Address(
+        lat: mapController.position.latitude.toString(),
+        lng: mapController.position.longitude.toString(),
+        street: mapController.addressControlelr.value.text,
+        apartment: mapController.noFloorControlelr.value.text +
+            "-" +
+            mapController.noFlatControlelr.value.text,
+        building: mapController.noBuildControlelr.value.text +
+            " " +
+            wordBuildValue.value,
+        city_id: city.value.id.toString(),
+        city: city.value.name,
+        area: area.value.name));
+
     await BaseClient.baseClient.post(Constants.addAddressUrl, data: {
-      "phone": phone,
+      // "phone": phone,
       "is_default": isDefault,
       "street": mapController.addressControlelr.value.text,
       "apartment": mapController.noFloorControlelr.value.text +
@@ -111,13 +128,12 @@ class AddressController extends GetxController {
       "area_id": area.value.id
     }, onSuccess: (response) {
       if (response.data['code'] == 200) {
-        profileController.getProfile();
+        // profileController.getProfile();
+        Get.offAllNamed(Routes.MAIN);
 
         getMyAddress();
 
-        BotToast.showText(
-          text: "تم إضافة العنوان بنجاج",
-        );
+        BotToast.showText(text: "تم إضافة العنوان بنجاج");
         clean();
         Get.back();
       } else {
@@ -128,6 +144,7 @@ class AddressController extends GetxController {
   }
 
   editAddrees(int isDefault, int? idAddress) async {
+    ProfileController profileController = Get.find();
     addressStatus = ApiCallStatus.loading;
     BotToast.showLoading();
     await BaseClient.baseClient.post(Constants.addAddressUrl,

@@ -1,5 +1,4 @@
 import 'package:capotcha/utils/animate_do.dart';
-import 'package:capotcha/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,7 +29,9 @@ class OffersScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   "العروض",
-                  style: Style.cairo
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
                       .copyWith(fontSize: 22.sp, color: AppColors.bluColor),
                 ),
               ),
@@ -42,23 +43,39 @@ class OffersScreen extends StatelessWidget {
                   return MyWidgetsAnimator(
                       apiCallStatus: controller.offerStatus,
                       loadingWidget: () => ShimmerHelper.loadingProduct(),
-                      successWidget: (() => MasonryGridView.count(
-                            padding: EdgeInsets.only(
-                                bottom: 25.h, top: 8.h, left: 8.w, right: 8.w),
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10.w,
-                            crossAxisSpacing: 10.h,
-                            shrinkWrap: true,
-                            primary: false,
-                            itemCount: controller.offerModel.length,
-                            itemBuilder: (context, index) {
-                              return FadeInLeft(
-                                duration: Duration(milliseconds: 50 * index),
-                                child: ProductItem(
-                                    product: controller.offerModel[index]),
-                              );
-                            },
-                          )));
+                      successWidget: (() => controller.offerModel.isEmpty
+                          ? Center(
+                              child: Text('لا يوجد عروض حاليا',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontFamily: 'cairo',
+                                    color: Colors.grey[700],
+                                  )),
+                            )
+                          : MasonryGridView.count(
+                              padding: EdgeInsets.only(
+                                  bottom: 25.h,
+                                  top: 8.h,
+                                  left: 8.w,
+                                  right: 8.w),
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10.w,
+                              crossAxisSpacing: 10.h,
+                              shrinkWrap: true,
+                              primary: false,
+                              itemCount: controller.offerModel.length,
+                              itemBuilder: (context, index) {
+                                return controller.offerModel[index].state == "0"
+                                    ? Container()
+                                    : FadeInLeft(
+                                        duration:
+                                            Duration(milliseconds: 50 * index),
+                                        child: ProductItem(
+                                            product:
+                                                controller.offerModel[index]),
+                                      );
+                              },
+                            )));
                 },
               )
             ],

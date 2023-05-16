@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:capotcha/widgets/custom_svg.dart';
-import 'package:capotcha/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -72,10 +71,13 @@ class CartonItem extends GetView<ProductController> {
                           right: 6.w,
                           child: Text(
                             product.name!,
-                            style: Style.cairo.copyWith(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                                height: 1.h),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.h),
                           ),
                         ),
                       ],
@@ -122,7 +124,10 @@ class CartonItem extends GetView<ProductController> {
                     ),
                     Text(
                       "تفاصيل الكرتونة",
-                      style: Style.cairog.copyWith(fontSize: 14.sp),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(fontSize: 14.sp),
                     ),
                     Divider(),
                     GetBuilder<CartController>(
@@ -163,7 +168,9 @@ class CartonItem extends GetView<ProductController> {
                                                   width: 5.w,
                                                 ),
                                                 Text(" أضف الى السلة",
-                                                    style: Style.cairog
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge!
                                                         .copyWith(
                                                             fontSize: 16.sp,
                                                             height: 1.3)),
@@ -236,7 +243,9 @@ class CartonItem extends GetView<ProductController> {
                                                                 product.name)]
                                                         .qty!
                                                         .substring(0, 3),
-                                                    style: Style.cairog
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge!
                                                         .copyWith(
                                                             fontSize: 16.sp),
                                                   ),
@@ -285,8 +294,12 @@ class CartonItem extends GetView<ProductController> {
                                           width: 5.w,
                                         ),
                                         Text(" أضف الى السلة",
-                                            style: Style.cairog.copyWith(
-                                                fontSize: 16.sp, height: 1.3)),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(
+                                                    fontSize: 16.sp,
+                                                    height: 1.3)),
                                         SizedBox(
                                           width: 5.w,
                                         ),
