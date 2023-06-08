@@ -51,16 +51,6 @@ class SHelper {
     );
   }
 
-  // addNew(String key, String value) async {
-  //   sharedPreferences = await initSharedPrefrences();
-  //   sharedPreferences.setString(key, value);
-  // }
-
-  // Future<String> getValue(String key) async {
-  //   sharedPreferences = await initSharedPrefrences();
-  //   String x = sharedPreferences.getString(key);
-  //   return x;
-  // }
   String? getIdAddress() {
     initSharedPrefrences();
     String? x = sharedPreferences!.getString('id_address');

@@ -1,5 +1,5 @@
 class Product {
-  int? id;
+  String? id;
   String? name;
   String? price;
   String? categoryId;
@@ -28,7 +28,7 @@ class Product {
   });
 
   Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     name = json['name'].toString();
     price = json['price'].toString();
     categoryId = json['category_id'].toString();

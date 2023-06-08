@@ -15,18 +15,17 @@ class SLiderItem extends StatelessWidget {
     return CarouselSlider(
         options: CarouselOptions(
           autoPlay: true,
-          height: 185.h,
+          height: 220.h,
           viewportFraction: 1.0,
-          // enlargeCenterPage: true,
           enlargeCenterPage: true,
-
           reverse: false,
         ),
         items: slider!
-            .map(
-              (e) => CustomNetworkImage(Constants.imgUrlSlider + e.image!,
-                  borderRadius: 6.r, width: Get.width, fit: BoxFit.fill),
-            )
+            .map((e) => CustomNetworkImage(Constants.imgUrlSlider + e.image!,
+                borderRadius: 6.r,
+                width: Get.width,
+                heigth: 220.h,
+                fit: BoxFit.contain))
             .toList());
   }
 }

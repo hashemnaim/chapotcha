@@ -38,12 +38,12 @@ class ItemCart extends StatelessWidget {
                           child: Row(
                             children: [
                               CustomNetworkImage(
-                                controller.cartApiModel.data!.items![index]
-                                            .productType ==
+                                controller.cartApiModel.value.data!
+                                            .items![index].productType ==
                                         "كرتونة"
-                                    ? controller.cartApiModel.data!
+                                    ? controller.cartApiModel.value.data!
                                         .items![index].cartonImage!
-                                    : controller.cartApiModel.data!
+                                    : controller.cartApiModel.value.data!
                                         .items![index].productImage!,
                                 heigth: 80.h,
                                 width: 50.w,
@@ -54,16 +54,16 @@ class ItemCart extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    controller.cartApiModel.data!.items![index]
-                                                .productType ==
+                                    controller.cartApiModel.value.data!
+                                                .items![index].productType ==
                                             "كرتونة"
-                                        ? controller.cartApiModel.data!
+                                        ? controller.cartApiModel.value.data!
                                             .items![index].cartonName!
-                                        : controller.cartApiModel.data!
+                                        : controller.cartApiModel.value.data!
                                             .items![index].productName!,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline6!
+                                        .titleLarge!
                                         .copyWith(
                                             color: AppColors.bluColor,
                                             height: 1.4,
@@ -74,15 +74,15 @@ class ItemCart extends StatelessWidget {
                                     children: [
                                       CustomConter(
                                           context,
-                                          controller.cartApiModel.data!
+                                          controller.cartApiModel.value.data!
                                               .items![index].productId!),
                                       SizedBox(width: 8.w),
                                       Text(
-                                        controller.cartApiModel.data!
+                                        controller.cartApiModel.value.data!
                                             .items![index].productType!,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6!
+                                            .titleLarge!
                                             .copyWith(
                                                 color: AppColors.bluColor,
                                                 height: 1.4),
@@ -96,14 +96,14 @@ class ItemCart extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      controller.cartApiModel.data!
+                                      controller.cartApiModel.value.data!
                                               .items![index].total!
                                               .toString() +
                                           " " +
                                           Constants.currency,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline6!
+                                          .titleLarge!
                                           .copyWith(
                                               color: AppColors.bluColor,
                                               fontSize: 16.sp),
@@ -112,9 +112,9 @@ class ItemCart extends StatelessWidget {
                                     GestureDetector(
                                       onTap: () async {
                                         controller.deleteProductFromCart(
-                                            controller.cartApiModel.data!
+                                            controller.cartApiModel.value.data!
                                                 .items![index].itemId!,
-                                            controller.cartApiModel.data!
+                                            controller.cartApiModel.value.data!
                                                 .items![index].productId!);
                                       },
                                       child: Container(
@@ -138,10 +138,11 @@ class ItemCart extends StatelessWidget {
                   ),
                 ],
               ),
-              controller.cartApiModel.data!.items![index].productType ==
+              controller.cartApiModel.value.data!.items![index].productType ==
                       "كرتونة"
                   ? Container()
-                  : controller.cartApiModel.data!.items![index].productStatus ==
+                  : controller.cartApiModel.value.data!.items![index]
+                              .productStatus ==
                           0
                       ? Padding(
                           padding: const EdgeInsets.all(6.0),
@@ -159,10 +160,11 @@ class ItemCart extends StatelessWidget {
                           ),
                         )
                       : Container(),
-              controller.cartApiModel.data!.items![index].productType ==
+              controller.cartApiModel.value.data!.items![index].productType ==
                       "كرتونة"
                   ? Container()
-                  : controller.cartApiModel.data!.items![index].productStok ==
+                  : controller.cartApiModel.value.data!.items![index]
+                              .productStok ==
                           "0"
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -185,7 +187,7 @@ class ItemCart extends StatelessWidget {
         });
   }
 
-  GetBuilder CustomConter(BuildContext context, int productId) {
+  GetBuilder CustomConter(BuildContext context, String productId) {
     return GetBuilder<CartController>(
       id: 'cart$productId',
       builder: (controller) {
@@ -215,24 +217,24 @@ class ItemCart extends StatelessWidget {
                       ),
                       splashColor: Colors.green,
                       onPressed: () {
-                        controller.cartApiModel.data!.items![index]
+                        controller.cartApiModel.value.data!.items![index]
                                     .productType ==
                                 "كرتونة"
                             ? controller.IncreaseCartonQuantity(
                                 index,
-                                controller
-                                    .cartApiModel.data!.items![index].itemId,
-                                controller.cartApiModel.data!.items![index]
-                                            .productType ==
+                                controller.cartApiModel.value.data!
+                                    .items![index].itemId,
+                                controller.cartApiModel.value.data!
+                                            .items![index].productType ==
                                         "كيلو"
                                     ? 0.5
                                     : 1.0)
                             : controller.IncreaseQuantity(
                                 index,
-                                controller
-                                    .cartApiModel.data!.items![index].itemId,
-                                controller.cartApiModel.data!.items![index]
-                                            .productType ==
+                                controller.cartApiModel.value.data!
+                                    .items![index].itemId,
+                                controller.cartApiModel.value.data!
+                                            .items![index].productType ==
                                         "كيلو"
                                     ? 0.5
                                     : 1.0);
@@ -240,9 +242,9 @@ class ItemCart extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        controller.cartApiModel.data!.items![index].qty!
+                        controller.cartApiModel.value.data!.items![index].qty!
                             .substring(0, 3),
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: AppColors.bluColor, fontSize: 16.sp),
                       ),
                     ),
@@ -256,8 +258,9 @@ class ItemCart extends StatelessWidget {
                       onPressed: () {
                         controller.decreaseQuantity(
                             index,
-                            controller.cartApiModel.data!.items![index].itemId,
-                            controller.cartApiModel.data!.items![index]
+                            controller
+                                .cartApiModel.value.data!.items![index].itemId,
+                            controller.cartApiModel.value.data!.items![index]
                                         .productType ==
                                     "كيلو"
                                 ? 0.5

@@ -1,7 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/widgets/custom_button.dart';
 import 'package:capotcha/utils/animate_do.dart';
-import 'package:capotcha/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

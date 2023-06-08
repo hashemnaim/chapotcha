@@ -69,7 +69,7 @@ class _DetailsProductState extends State<DetailsProduct> {
               GetBuilder<CartController>(
                   id: 'cart${widget.data!.name}',
                   builder: (controller) {
-                    if (controller.cartApiModel.data != null) {
+                    if (controller.cartApiModel.value.data != null) {
                       if (controller.isUpdateCartload == true) {
                         return Container(
                           width: 114.w,
@@ -79,8 +79,8 @@ class _DetailsProductState extends State<DetailsProduct> {
                           ),
                         );
                       } else {
-                        if (controller.cartApiModel.data!.items!.indexWhere(
-                                (element) =>
+                        if (controller.cartApiModel.value.data!.items!
+                                .indexWhere((element) =>
                                     element.cartonName == widget.data!.name) ==
                             -1) {
                           return GestureDetector(
@@ -137,13 +137,13 @@ class _DetailsProductState extends State<DetailsProduct> {
                                     GestureDetector(
                                       onTap: () async {
                                         int index = controller
-                                            .cartApiModel.data!.items!
+                                            .cartApiModel.value.data!.items!
                                             .indexWhere((element) =>
                                                 element.cartonName ==
                                                 widget.data!.name);
                                         await controller.IncreaseCartonQuantity(
                                             index,
-                                            controller.cartApiModel.data!
+                                            controller.cartApiModel.value.data!
                                                 .items![index].itemId,
                                             1);
                                       },
@@ -160,9 +160,10 @@ class _DetailsProductState extends State<DetailsProduct> {
                                     Text(
                                       cartController
                                           .cartApiModel
+                                          .value
                                           .data!
                                           .items![controller
-                                              .cartApiModel.data!.items!
+                                              .cartApiModel.value.data!.items!
                                               .indexWhere((element) =>
                                                   element.cartonName ==
                                                   widget.data!.name)]
@@ -176,7 +177,7 @@ class _DetailsProductState extends State<DetailsProduct> {
                                     GestureDetector(
                                       onTap: () async {
                                         int index = controller
-                                            .cartApiModel.data!.items!
+                                            .cartApiModel.value.data!.items!
                                             .indexWhere((element) =>
                                                 element.cartonName ==
                                                 widget.data!.name);
@@ -184,8 +185,8 @@ class _DetailsProductState extends State<DetailsProduct> {
                                         await controller
                                             .decreaseCartoneQuantity(
                                                 index,
-                                                controller.cartApiModel.data!
-                                                    .items![index].itemId,
+                                                controller.cartApiModel.value
+                                                    .data!.items![index].itemId,
                                                 1);
                                       },
                                       child: Container(

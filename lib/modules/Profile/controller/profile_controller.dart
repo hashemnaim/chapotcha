@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/modules/Profile/model/profile_modal.dart';
 import 'package:capotcha/routes/app_pages.dart';

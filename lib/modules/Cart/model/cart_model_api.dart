@@ -28,27 +28,33 @@ class CartApiModel {
 class Data {
   int? id;
   num? subTotal;
-  // int? totalTax;
-  int? couponDiscount;
+  int? totalTax;
+  num? couponDiscount;
+  String? coupon_code;
   num? total;
+  num? coupon_id;
   num? discount_price_cart;
   List<Items>? items;
 
   Data(
       {this.id,
       this.subTotal,
-      // this.totalTax,
+      this.totalTax,
       this.couponDiscount,
       this.total,
+      this.coupon_code,
+      this.coupon_id,
       this.discount_price_cart,
       this.items});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     subTotal = json['sub_total'];
-    // totalTax = json['total_tax'];
+    totalTax = json['total_tax'];
     couponDiscount = json['coupon_discount'];
     total = json['total'];
+    coupon_code = json['coupon_code'];
+    coupon_id = json['coupon_id'];
     discount_price_cart = json['discount_rate_price'];
     if (json['items'] != null) {
       items = <Items>[];
@@ -74,7 +80,7 @@ class Data {
 
 class Items {
   int? itemId;
-  int? productId;
+  String? productId;
   int? productStatus;
   int? cartonStatus;
   String? productName;
@@ -108,7 +114,7 @@ class Items {
 
   Items.fromJson(Map<String, dynamic> json) {
     itemId = json['item_id'];
-    productId = json['product_id'];
+    productId = json['product_id'].toString();
     productStatus = json['product_status'];
     productName = json['product_name'];
     productStok = json['product_stok'];

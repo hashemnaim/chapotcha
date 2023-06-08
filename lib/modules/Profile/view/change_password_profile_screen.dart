@@ -36,8 +36,11 @@ class ChangePasswordProfileScreen extends GetView<ProfileController> {
                       SizedBox(height: 20.h),
                       Text(
                         "تعديل كلمة المرور",
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                            fontSize: 20.sp, fontWeight: FontWeight.normal),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                fontSize: 20.sp, fontWeight: FontWeight.normal),
                       ),
                       SizedBox(height: 30.h),
                       FormFieldItem(

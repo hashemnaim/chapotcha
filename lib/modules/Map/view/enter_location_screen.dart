@@ -1,6 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:capotcha/modules/My_Order/model/details_order_model.dart';
-import 'package:capotcha/utils/shared_preferences_helpar.dart';
+
 import 'package:capotcha/widgets/custom_drop_down_string.dart';
 import 'package:capotcha/widgets/form_field_item.dart';
 import 'package:capotcha/modules/Map/controller/address_controller.dart';
@@ -112,7 +111,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                                       overflow: TextOverflow.ellipsis,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline6!
+                                          .titleLarge!
                                           .copyWith(
                                               height: 1.2,
                                               color: Colors.black54,
@@ -278,7 +277,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                             Text("المدينة",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline6!
+                                    .titleLarge!
                                     .copyWith(
                                         color: AppColors.bluColor,
                                         fontWeight: FontWeight.normal,
@@ -318,7 +317,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                                     Text("المنطفة",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6!
+                                            .titleLarge!
                                             .copyWith(
                                                 color: AppColors.bluColor,
                                                 fontWeight: FontWeight.normal,
@@ -354,7 +353,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Text("العنوان بالتفصيل",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: AppColors.bluColor,
                             fontWeight: FontWeight.normal,
                             fontSize: 16.sp)),
@@ -399,7 +398,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                                   Text("رقم البناية",
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline6!
+                                          .titleLarge!
                                           .copyWith(
                                               color: AppColors.bluColor,
                                               fontWeight: FontWeight.normal,
@@ -436,7 +435,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                                       Text("الحرف",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline6!
+                                              .titleLarge!
                                               .copyWith(
                                                   color: AppColors.bluColor,
                                                   fontWeight: FontWeight.normal,
@@ -486,7 +485,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                             Text("رقم الدور",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline6!
+                                    .titleLarge!
                                     .copyWith(
                                         color: AppColors.bluColor,
                                         fontWeight: FontWeight.normal,
@@ -520,7 +519,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                             Text("رقم الشقة",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline6!
+                                    .titleLarge!
                                     .copyWith(
                                         color: AppColors.bluColor,
                                         fontWeight: FontWeight.normal,
@@ -604,7 +603,7 @@ class _EnterLocationPageState extends State<EnterLocationScreen> {
                       Text('عنوانك الافتراضي',
                           style: Theme.of(context)
                               .textTheme
-                              .headline6!
+                              .titleLarge!
                               .copyWith(
                                   color: AppColors.btnColor,
                                   fontWeight: FontWeight.normal,

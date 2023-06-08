@@ -50,7 +50,7 @@ class CustomNetworkImage extends StatelessWidget {
               ),
               placeholder: (context, url) => ClipRRect(
                 borderRadius: BorderRadius.circular(borderRadius.r),
-                child: heigth == 140.h
+                child: heigth == 100.h
                     ? Center(
                         child: SpinKitSpinningLines(
                           color: AppColors.greenColor,

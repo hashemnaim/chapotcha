@@ -32,7 +32,7 @@ class OffersScreen extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
-                      .copyWith(fontSize: 22.sp, color: AppColors.bluColor),
+                      .copyWith(fontSize: 18.sp, color: AppColors.bluColor),
                 ),
               ),
               GetBuilder<OfferController>(

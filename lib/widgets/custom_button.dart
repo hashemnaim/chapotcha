@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
       this.height = 56,
       this.color,
       this.fontSize,
-      this.radius = 14,
+      this.radius = 8,
       this.icon});
 
   @override
@@ -47,19 +47,15 @@ class CustomButton extends StatelessWidget {
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 icon == null
                     ? Container()
-                    : Icon(
-                        icon,
-                        color: Colors.white,
-                        size: 25,
-                      ),
+                    : Icon(icon, color: Colors.white, size: 25),
                 Text(buttonText!,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.button!.copyWith(
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: transparent == true
                             ? Theme.of(context).dividerColor.withOpacity(0.2)
                             : Colors.white,
                         fontWeight: FontWeight.w500,
-                        fontSize: 18.sp)),
+                        fontSize: 15.sp)),
               ]),
             )));
   }

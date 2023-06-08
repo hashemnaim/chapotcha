@@ -31,6 +31,7 @@ class Orders {
   String? date;
   String? time;
   String? totalPrice;
+  String? total;
   String? deliveryCost;
   String? discount_price;
   String? tax;
@@ -51,6 +52,7 @@ class Orders {
       this.tax,
       this.discount_price,
       this.status,
+      this.total,
       this.statusCode,
       this.products,
       this.cartons,
@@ -61,6 +63,7 @@ class Orders {
     orderId = json['order_id'];
     code = json['code'];
     date = json['date'];
+    total = json['total'].toString();
     time = json['time'];
     totalPrice = json['total_price'].toString();
     deliveryCost = json['delivery_cost'].toString();

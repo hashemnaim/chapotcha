@@ -8,10 +8,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../../utils/animate_do.dart';
+import '../../../../utils/colors.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/shared_preferences_helpar.dart';
 import '../../../../widgets/custom_network_image.dart';
-import '../../../../utils/colors.dart';
 import '../../../Cart/controller/cart_controller.dart';
 
 class ProductItem extends StatelessWidget {
@@ -29,11 +29,10 @@ class ProductItem extends StatelessWidget {
         height: height.h,
         decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 6)],
-            borderRadius: BorderRadius.circular(20.r)),
+            boxShadow: [BoxShadow(color: Colors.grey[300]!, blurRadius: 6)],
+            borderRadius: BorderRadius.circular(12.r)),
         child: Column(
           children: [
-            SizedBox(height: 4.h),
             Expanded(
                 flex: 2,
                 child: InkWell(
@@ -41,11 +40,9 @@ class ProductItem extends StatelessWidget {
                         ? null
                         : () async {
                             if (SHelper.sHelper.getToken() == null) {
-                              Get.toNamed(
-                                Routes.SignUpScreen,
-                              );
+                              Get.toNamed(Routes.SignInScreen);
                             } else {
-                              if (cartController.cartApiModel.data!.items!
+                              if (cartController.cartApiModel.value.data!.items!
                                       .indexWhere((element) =>
                                           element.productId == product.id) ==
                                   -1) {
@@ -54,40 +51,40 @@ class ProductItem extends StatelessWidget {
                                 );
                               } else {
                                 int index = cartController
-                                    .cartApiModel.data!.items!
+                                    .cartApiModel.value.data!.items!
                                     .indexWhere((element) =>
                                         element.productId == product.id);
                                 await cartController.IncreaseQuantity(
                                     index,
-                                    cartController.cartApiModel.data!
+                                    cartController.cartApiModel.value.data!
                                         .items![index].itemId,
-                                    product.unit == "كيلو" ? 0.5 : 1.0);
+                                    1.0);
                               }
                             }
                           },
                     child: Stack(children: [
                       Positioned(
-                        top: 20.h,
+                        top: 40.h,
                         left: 0,
                         right: 0,
                         child: CustomNetworkImage(
                           Constants.imgUrl + product.image!,
                           fit: BoxFit.contain,
-                          heigth: 140.h,
+                          heigth: 100.h,
                           width: Get.width,
                         ),
                       ),
                       Positioned(
-                        top: 6.h,
+                        top: 0,
                         right: 6.w,
                         child: Text(product.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
                                 .copyWith(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.h)),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                )),
                       )
                     ]))),
             Expanded(
@@ -113,18 +110,18 @@ class ProductItem extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontFamily: 'cairo',
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                             color: Colors.grey[900],
                           )),
                       Text(' ${Constants.currency} ',
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontFamily: 'cairo',
+                            fontWeight: FontWeight.w500,
                             color: Colors.grey[700],
                           )),
                     ],
                   ),
-                  SizedBox(height: 6.h),
                   Text("لل" + "${product.unit}",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontSize: 18.sp, fontWeight: FontWeight.w500)),
@@ -132,175 +129,124 @@ class ProductItem extends StatelessWidget {
                   Divider(),
                   GetBuilder<CartController>(
                     id: 'cart${product.id}',
-                    builder: (controller) => GestureDetector(
-                      onTap: (product.state == "0" || product.stock == "0"
-                          ? null
-                          : () async {
-                              if (SHelper.sHelper.getToken() == null) {
-                                Get.toNamed(
-                                  Routes.SignUpScreen,
-                                );
-                              } else {
-                                await controller.addProductToCart(
-                                  product,
-                                );
-                              }
-                            }),
-                      child: controller.cartApiModel.data != null
-                          ? controller.isUpdateCartload == true
-                              ? Container(
-                                  width: 114.w,
-                                  child: SpinKitThreeBounce(
-                                    color: AppColors.greenColor,
-                                    size: 20.0,
-                                  ),
-                                )
-                              : controller.cartApiModel.data!.items!.indexWhere(
-                                          (element) =>
-                                              element.productId ==
-                                              product.id) ==
-                                      -1
-                                  ? Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                          SizedBox(
-                                            width: 5.w,
-                                          ),
-                                          Text(" أضف الى السلة",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleLarge!
-                                                  .copyWith(
-                                                      fontSize: 16.sp,
-                                                      height: 1.3)),
-                                          SizedBox(
-                                            width: 5.w,
-                                          ),
-                                          CustomSvgImage(
-                                            "icon-cart",
-                                            color: AppColors.greenColor,
-                                            isColor: true,
-                                            height: 25.h,
-                                          ),
-                                        ])
-                                  : FadeInUp(
-                                      duration: Duration(milliseconds: 200),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            GestureDetector(
-                                              onTap: () async {
-                                                int index = controller
-                                                    .cartApiModel.data!.items!
-                                                    .indexWhere((element) =>
-                                                        element.productId ==
-                                                        product.id);
-                                                await controller
-                                                    .IncreaseQuantity(
-                                                        index,
-                                                        controller
-                                                            .cartApiModel
-                                                            .data!
-                                                            .items![index]
-                                                            .itemId,
-                                                        product.unit == "كيلو"
-                                                            ? 0.5
-                                                            : 1.0);
-                                              },
-                                              child: Container(
-                                                height: 35.h,
-                                                width: 50.w,
-                                                child: CircleAvatar(
-                                                  backgroundColor: Colors.green,
-                                                  radius: 14.r,
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              controller
-                                                  .cartApiModel.data!.items!
-                                                  .firstWhere((element) =>
+                    builder: (controller) => controller
+                                .cartApiModel.value.data !=
+                            null
+                        ? controller.isUpdateCartload == true
+                            ? Container(
+                                width: 114.w,
+                                child: SpinKitThreeBounce(
+                                  color: AppColors.greenColor,
+                                  size: 20.0,
+                                ),
+                              )
+                            : controller.cartApiModel.value.data!.items!
+                                        .indexWhere((element) =>
+                                            element.productId == product.id) ==
+                                    -1
+                                ? addCart(controller, context)
+                                : FadeInUp(
+                                    duration: Duration(milliseconds: 200),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: () async {
+                                              int index = controller
+                                                  .cartApiModel
+                                                  .value
+                                                  .data!
+                                                  .items!
+                                                  .indexWhere((element) =>
                                                       element.productId ==
-                                                      product.id)
-                                                  .qty!
-                                                  .substring(0, 3),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleLarge!
-                                                  .copyWith(fontSize: 18.sp),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                int index = controller
-                                                    .cartApiModel.data!.items!
-                                                    .indexWhere((element) =>
-                                                        element.productId ==
-                                                        product.id);
-
-                                                await controller
-                                                    .decreaseQuantity(
-                                                        index,
-                                                        controller
-                                                            .cartApiModel
-                                                            .data!
-                                                            .items![index]
-                                                            .itemId,
-                                                        product.unit == "كيلو"
-                                                            ? 0.5
-                                                            : 1.0);
-                                              },
-                                              child: Container(
-                                                height: 35.h,
-                                                width: 50.w,
+                                                      product.id);
+                                              await controller.IncreaseQuantity(
+                                                  index,
+                                                  controller
+                                                      .cartApiModel
+                                                      .value
+                                                      .data!
+                                                      .items![index]
+                                                      .itemId,
+                                                  product.unit == "كيلو"
+                                                      ? 0.5
+                                                      : 1.0);
+                                            },
+                                            child: Container(
+                                              height: 25.h,
+                                              width: 50.w,
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.green,
+                                                radius: 16.r,
                                                 child: Icon(
-                                                  Icons.remove,
-                                                  color: Color(0xff748A9D),
-                                                  size: 25,
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                  size: 22.r,
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          Text(
+                                            double.parse(controller.cartApiModel
+                                                    .value.data!.items!
+                                                    .firstWhere((element) =>
+                                                        element.productId ==
+                                                        product.id)
+                                                    .qty!)
+                                                .toStringAsFixed(1),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(
+                                                    fontSize: 16.sp,
+                                                    height: 1.h),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              int index = controller
+                                                  .cartApiModel
+                                                  .value
+                                                  .data!
+                                                  .items!
+                                                  .indexWhere((element) =>
+                                                      element.productId ==
+                                                      product.id);
+
+                                              await controller.decreaseQuantity(
+                                                  index,
+                                                  controller
+                                                      .cartApiModel
+                                                      .value
+                                                      .data!
+                                                      .items![index]
+                                                      .itemId,
+                                                  product.unit == "كيلو"
+                                                      ? 0.5
+                                                      : 1.0);
+                                            },
+                                            child: Container(
+                                              height: 25.h,
+                                              width: 50.w,
+                                              child: Icon(
+                                                Icons.remove,
+                                                color: Color(0xff748A9D),
+                                                size: 30.r,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    )
-                          : Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
-                                  Text(" أضف الى السلة",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge!
-                                          .copyWith(
-                                              fontSize: 16.sp, height: 1.3)),
-                                  SizedBox(width: 5.w),
-                                  CustomSvgImage(
-                                    "icon-cart",
-                                    color: AppColors.greenColor,
-                                    isColor: true,
-                                    height: 25.h,
-                                  ),
-                                ]),
-                    ),
+                                    ),
+                                  )
+                        : addCart(controller, context),
                   ),
-                  SizedBox(height: 8.h),
+                  SizedBox(height: 6.h),
                 ],
               ),
             )
@@ -332,5 +278,37 @@ class ProductItem extends StatelessWidget {
             )
           : Container()
     ]);
+  }
+
+  GestureDetector addCart(CartController controller, BuildContext context) {
+    return GestureDetector(
+      onTap: (product.state == "0" || product.stock == "0"
+          ? null
+          : () async {
+              if (SHelper.sHelper.getToken() == null) {
+                Get.toNamed(Routes.SignUpScreen);
+              } else {
+                await controller.addProductToCart(
+                  product,
+                );
+              }
+            }),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              width: 5.w,
+            ),
+            Text(" أضف الى السلة",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontSize: 16.sp, height: 1.2.h)),
+            SizedBox(width: 5.w),
+            CustomSvgImage("icon-cart",
+                color: AppColors.greenColor, isColor: true, height: 25.h),
+          ]),
+    );
   }
 }

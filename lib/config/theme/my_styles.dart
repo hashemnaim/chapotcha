@@ -9,15 +9,17 @@ import 'light_theme_colors.dart';
 
 class MyStyles {
   ///icons theme
-  static IconThemeData getIconTheme({required bool isLightTheme}) => IconThemeData(
+  static IconThemeData getIconTheme({required bool isLightTheme}) =>
+      IconThemeData(
         color: isLightTheme
             ? LightThemeColors.iconColor
             : DarkThemeColors.iconColor,
       );
-  static AppBarTheme getAppBarTheme({required bool isLightTheme}) => AppBarTheme(
+  static AppBarTheme getAppBarTheme({required bool isLightTheme}) =>
+      AppBarTheme(
         elevation: 0,
         titleTextStyle:
-            getTextTheme(isLightTheme: isLightTheme).bodyText1!.copyWith(
+            getTextTheme(isLightTheme: isLightTheme).bodyLarge!.copyWith(
                   fontSize: MyFonts.appBarTittleSize,
                   fontFamily: "Cairo",
                   color: isLightTheme
@@ -39,67 +41,67 @@ class MyStyles {
 
   ///text theme
   static TextTheme getTextTheme({required bool isLightTheme}) => TextTheme(
-        button: MyFonts.buttonTextStyle!.copyWith(
+        labelLarge: MyFonts.buttonTextStyle!.copyWith(
             fontSize: MyFonts.buttonTextSize,
             fontFamily: "Cairo",
             color: LightThemeColors.buttonTextColor),
-        bodyText1: MyFonts.bodyTextStyle!.copyWith(
+        bodyLarge: MyFonts.bodyTextStyle!.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: MyFonts.body1TextSize,
             fontFamily: "Cairo",
             color: isLightTheme
                 ? LightThemeColors.bodyTextColor
                 : DarkThemeColors.bodyTextColor),
-        bodyText2: MyFonts.bodyTextStyle!.copyWith(
+        bodyMedium: MyFonts.bodyTextStyle!.copyWith(
             fontSize: MyFonts.body2TextSize,
             fontWeight: FontWeight.normal,
             fontFamily: "Cairo",
             color: isLightTheme
                 ? LightThemeColors.body2TextColor
                 : DarkThemeColors.bodyTextColor),
-        headline1: MyFonts.headlineTextStyle!.copyWith(
+        displayLarge: MyFonts.headlineTextStyle!.copyWith(
             fontSize: MyFonts.headline1TextSize,
             fontWeight: FontWeight.bold,
             fontFamily: "Cairo",
             color: isLightTheme
                 ? LightThemeColors.headlinesTextColor
                 : DarkThemeColors.headlinesTextColor),
-        headline2: MyFonts.headlineTextStyle!.copyWith(
+        displayMedium: MyFonts.headlineTextStyle!.copyWith(
             fontSize: MyFonts.headline2TextSize,
             fontFamily: "Cairo",
             fontWeight: FontWeight.bold,
             color: isLightTheme
                 ? LightThemeColors.headlinesTextColor
                 : DarkThemeColors.headlinesTextColor),
-        headline3: MyFonts.headlineTextStyle!.copyWith(
+        displaySmall: MyFonts.headlineTextStyle!.copyWith(
             fontSize: MyFonts.headline3TextSize,
             fontFamily: "Cairo",
             fontWeight: FontWeight.bold,
             color: isLightTheme
                 ? LightThemeColors.headlinesTextColor
                 : DarkThemeColors.headlinesTextColor),
-        headline4: MyFonts.headlineTextStyle!.copyWith(
+        headlineMedium: MyFonts.headlineTextStyle!.copyWith(
             fontSize: MyFonts.headline4TextSize,
             fontFamily: "Cairo",
             fontWeight: FontWeight.bold,
             color: isLightTheme
                 ? LightThemeColors.headlinesTextColor
                 : DarkThemeColors.headlinesTextColor),
-        headline5: MyFonts.headlineTextStyle!.copyWith(
+        headlineSmall: MyFonts.headlineTextStyle!.copyWith(
             fontSize: MyFonts.headline5TextSize,
             fontWeight: FontWeight.bold,
             fontFamily: "Cairo",
             color: isLightTheme
                 ? LightThemeColors.headlinesTextColor
                 : DarkThemeColors.headlinesTextColor),
-        headline6: MyFonts.headlineTextStyle!.copyWith(
+        titleLarge: MyFonts.headlineTextStyle!.copyWith(
             fontSize: MyFonts.headline6TextSize,
             fontWeight: FontWeight.normal,
             fontFamily: "Cairo",
             color: isLightTheme
-                ? LightThemeColors.headlinesTextColor
+                ? LightThemeColors.bodyTextColor
                 : DarkThemeColors.headlinesTextColor),
-        caption: TextStyle(
+        bodySmall: TextStyle(
             fontWeight: FontWeight.normal,
             fontFamily: "Cairo",
             color: isLightTheme

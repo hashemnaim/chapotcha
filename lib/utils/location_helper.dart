@@ -1,8 +1,5 @@
-import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:capotcha/utils/colors.dart';
 import 'package:capotcha/utils/permission_dialog.dart';
-import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;

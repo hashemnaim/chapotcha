@@ -73,12 +73,12 @@ class ShimmerHelper {
       crossAxisSpacing: 10.h,
       shrinkWrap: true,
       primary: false,
-      itemCount: 10,
+      itemCount: 8,
       itemBuilder: (context, index) => SkeletonAnimation(
           shimmerColor: Colors.grey[300]!,
           child: Container(
             width: Get.width,
-            height: 120.h,
+            height: 220.h,
             decoration: BoxDecoration(
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(8),

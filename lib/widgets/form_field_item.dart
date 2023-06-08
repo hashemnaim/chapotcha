@@ -39,47 +39,42 @@ class FormFieldItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      readOnly: type,
-      controller: editingController,
-      cursorColor: AppColors.gryText,
-      obscureText: obscureText,
-      textInputAction: textInputAction,
-      scrollPadding: EdgeInsets.zero,
-      minLines: minLines,
-      maxLines: maxLines,
-      onChanged: (String value) => onChange!(value),
-      keyboardType: textInputType,
-      validator: (String? value) => validator!(value),
-      decoration: InputDecoration(
-        suffixIcon: suffixIconWidget,
-        prefixIcon: prefixIcon,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        // contentPadding: const EdgeInsets.all(10),
-        hintText: labelText,
-        hintStyle: Theme.of(context).textTheme.headline6!.copyWith(
-            color: AppColors.gryText,
-            fontWeight: FontWeight.normal,
-            fontSize: 12.sp,
-            height: 1),
-        filled: true,
-        fillColor: backgroundColor,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        focusColor: Colors.grey,
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: const BorderSide(color: Colors.red),
-        ),
-      ),
-    );
+        readOnly: type,
+        controller: editingController,
+        cursorColor: AppColors.gryText,
+        obscureText: obscureText,
+        textInputAction: textInputAction,
+        scrollPadding: EdgeInsets.zero,
+        minLines: minLines,
+        maxLines: maxLines,
+        onChanged: (String value) => onChange!(value),
+        keyboardType: textInputType,
+        validator: (String? value) => validator!(value),
+        decoration: InputDecoration(
+            suffixIcon: suffixIconWidget,
+            prefixIcon: prefixIcon,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: BorderSide(color: Colors.grey[300]!),
+            ),
+            // contentPadding: const EdgeInsets.all(10),
+            hintText: labelText,
+            hintStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: AppColors.gryText,
+                fontWeight: FontWeight.normal,
+                fontSize: 12.sp,
+                height: 1),
+            filled: true,
+            fillColor: backgroundColor,
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: BorderSide(color: Colors.grey[300]!)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: BorderSide(color: Colors.grey[300]!)),
+            focusColor: Colors.grey,
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(color: Colors.red))));
   }
 }

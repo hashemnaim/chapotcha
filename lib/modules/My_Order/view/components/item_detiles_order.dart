@@ -16,7 +16,7 @@ class ItemDetilsOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
       child: Container(
           height: 60.h,
           decoration: BoxDecoration(
@@ -37,7 +37,7 @@ class ItemDetilsOrder extends StatelessWidget {
                     name!,
                     style: Theme.of(context)
                         .textTheme
-                        .headline6!
+                        .titleLarge!
                         .copyWith(color: AppColors.bluColor, height: 1.4),
                   ),
                 ],
@@ -47,7 +47,7 @@ class ItemDetilsOrder extends StatelessWidget {
                 "X ${double.parse(qty!).toStringAsFixed(1)}",
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleLarge!
                     .copyWith(color: AppColors.bluColor, fontSize: 16.sp),
               ),
               trailing: Text(
@@ -56,7 +56,7 @@ class ItemDetilsOrder extends StatelessWidget {
                     Constants.currency,
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleLarge!
                     .copyWith(color: AppColors.bluColor, fontSize: 16.sp),
               ))),
     );

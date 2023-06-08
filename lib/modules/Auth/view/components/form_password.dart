@@ -24,7 +24,7 @@ class FormPassword extends StatelessWidget {
         Text(
           'كلمة المرور',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline5!.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 16.sp,
               ),
         ),

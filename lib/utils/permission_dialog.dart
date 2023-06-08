@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../widgets/custom_button.dart';
@@ -21,8 +22,10 @@ class PermissionDialog extends StatelessWidget {
             Text(
               'يرجى تفعيل استخدام موقعك لإظهار الخدمات القريبة على الخريطة',
               textAlign: TextAlign.center,
-              style:
-                  Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 16),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontSize: 16.sp),
             ),
             SizedBox(height: 12),
             Row(children: [

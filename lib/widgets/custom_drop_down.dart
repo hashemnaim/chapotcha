@@ -47,11 +47,11 @@ class CustomDropDown extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context)
                 .textTheme
-                .headline6!
+                .titleLarge!
                 .copyWith(color: hintColor, fontSize: 14.sp, height: 1),
           ),
         ),
-        style: Theme.of(context).textTheme.headline5,
+        style: Theme.of(context).textTheme.headlineSmall,
         icon: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Icon(
@@ -70,7 +70,7 @@ class CustomDropDown extends StatelessWidget {
                   item.name!,
                   style: Theme.of(context)
                       .textTheme
-                      .headline6!
+                      .titleLarge!
                       .copyWith(color: Colors.black, fontSize: 14.sp),
                 ),
               ),

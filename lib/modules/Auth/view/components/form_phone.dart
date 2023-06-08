@@ -21,7 +21,7 @@ class FormPhone extends StatelessWidget {
         Text(
           "رقم الموبايل",
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline5!.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 16.sp,
               ),
         ),

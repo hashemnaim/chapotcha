@@ -17,31 +17,23 @@ class PaymentComponents extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 45.h,
+          height: 35.h,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Text(
               "طريقة الدفع",
               style: Theme.of(Get.context!)
                   .textTheme
                   .titleLarge!
-                  .copyWith(fontSize: 16.sp),
+                  .copyWith(fontSize: 14.sp),
             ),
           ),
         ),
-        padding2,
+        // padding2,
         Container(
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: Offset(0, 1), // changes position of shadow
-            ),
-          ]),
           width: Get.width,
           child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4.h),
               child: OutlinedButton(
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
@@ -53,9 +45,9 @@ class PaymentComponents extends StatelessWidget {
                         .textTheme
                         .titleLarge!
                         .copyWith(
-                            fontSize: 18.sp,
+                            fontSize: 16.sp,
                             color: AppColors.greenColor,
-                            height: 1.2),
+                            height: 1.2.h),
                   ))),
         ),
       ],

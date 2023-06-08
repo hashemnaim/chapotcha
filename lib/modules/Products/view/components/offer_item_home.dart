@@ -46,7 +46,8 @@ class OfferItemHome extends StatelessWidget {
                                     Routes.SignUpScreen,
                                   );
                                 } else {
-                                  if (cartController.cartApiModel.data!.items!
+                                  if (cartController
+                                          .cartApiModel.value.data!.items!
                                           .indexWhere((element) =>
                                               element.productId ==
                                               product.id) ==
@@ -56,12 +57,12 @@ class OfferItemHome extends StatelessWidget {
                                     );
                                   } else {
                                     int index = cartController
-                                        .cartApiModel.data!.items!
+                                        .cartApiModel.value.data!.items!
                                         .indexWhere((element) =>
                                             element.productId == product.id);
                                     await cartController.IncreaseQuantity(
                                         index,
-                                        cartController.cartApiModel.data!
+                                        cartController.cartApiModel.value.data!
                                             .items![index].itemId,
                                         product.unit == "كيلو" ? 0.5 : 1.0);
                                   }
@@ -77,9 +78,10 @@ class OfferItemHome extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 4),
+                      padding: EdgeInsets.only(left: 4.w),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(product.name!,
                               overflow: TextOverflow.ellipsis,
@@ -121,7 +123,6 @@ class OfferItemHome extends StatelessWidget {
                                   )),
                             ],
                           ),
-                          SizedBox(height: 4.h),
                           Text(
                             "${product.unit}",
                             style: Theme.of(context)
@@ -139,7 +140,6 @@ class OfferItemHome extends StatelessWidget {
                 ],
               ),
             ),
-            // Spacer(),
             Divider(),
             GetBuilder<CartController>(
               id: 'cart${product.id}',
@@ -148,16 +148,12 @@ class OfferItemHome extends StatelessWidget {
                       ? null
                       : () async {
                           if (SHelper.sHelper.getToken() == null) {
-                            Get.toNamed(
-                              Routes.SignUpScreen,
-                            );
+                            Get.toNamed(Routes.SignInScreen);
                           } else {
-                            await controller.addProductToCart(
-                              product,
-                            );
+                            await controller.addProductToCart(product);
                           }
                         }),
-                  child: controller.cartApiModel.data != null
+                  child: controller.cartApiModel.value.data != null
                       ? controller.isUpdateCartload == true
                           ? Container(
                               width: 114.w,
@@ -166,8 +162,8 @@ class OfferItemHome extends StatelessWidget {
                                 size: 20.0,
                               ),
                             )
-                          : controller.cartApiModel.data!.items!.indexWhere(
-                                      (element) =>
+                          : controller.cartApiModel.value.data!.items!
+                                      .indexWhere((element) =>
                                           element.productId == product.id) ==
                                   -1
                               ? addCartButton()
@@ -185,14 +181,14 @@ class OfferItemHome extends StatelessWidget {
                                         GestureDetector(
                                           onTap: () async {
                                             int index = controller
-                                                .cartApiModel.data!.items!
+                                                .cartApiModel.value.data!.items!
                                                 .indexWhere((element) =>
                                                     element.productId ==
                                                     product.id);
                                             await controller.IncreaseQuantity(
                                                 index,
-                                                controller.cartApiModel.data!
-                                                    .items![index].itemId,
+                                                controller.cartApiModel.value
+                                                    .data!.items![index].itemId,
                                                 product.unit == "كيلو"
                                                     ? 0.5
                                                     : 1.0);
@@ -212,7 +208,8 @@ class OfferItemHome extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          controller.cartApiModel.data!.items!
+                                          controller
+                                              .cartApiModel.value.data!.items!
                                               .firstWhere((element) =>
                                                   element.productId ==
                                                   product.id)
@@ -226,15 +223,15 @@ class OfferItemHome extends StatelessWidget {
                                         GestureDetector(
                                           onTap: () async {
                                             int index = controller
-                                                .cartApiModel.data!.items!
+                                                .cartApiModel.value.data!.items!
                                                 .indexWhere((element) =>
                                                     element.productId ==
                                                     product.id);
 
                                             await controller.decreaseQuantity(
                                                 index,
-                                                controller.cartApiModel.data!
-                                                    .items![index].itemId,
+                                                controller.cartApiModel.value
+                                                    .data!.items![index].itemId,
                                                 product.unit == "كيلو"
                                                     ? 0.5
                                                     : 1.0);
@@ -298,14 +295,12 @@ class addCartButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
-            width: 5.w,
-          ),
+          SizedBox(width: 5.w),
           Text(" أضف الى السلة",
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
-                  .copyWith(fontSize: 16.sp, height: 2.2.h)),
+                  .copyWith(fontSize: 14.sp, height: 2.h)),
           SizedBox(
             width: 5.w,
           ),
@@ -313,7 +308,7 @@ class addCartButton extends StatelessWidget {
             "icon-cart",
             color: AppColors.greenColor,
             isColor: true,
-            height: 32.h,
+            height: 28.h,
           ),
         ]);
   }

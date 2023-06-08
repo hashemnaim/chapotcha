@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/modules/Products/controller/product_controller.dart';
@@ -24,8 +23,9 @@ class InitialController extends GetxController {
       Get.put(ProductController(), permanent: true);
   MapController mapController = Get.put(MapController(), permanent: true);
   validateSession() async {
-    await homeController.getHome(false);
+    await homeController.getHome(false, "");
     productController.getProduct();
+
     if (SHelper.sHelper.getAddress().city_id == null) {
       LocationHelper.checkLocationPermission(() async {
         BotToast.showLoading();
@@ -48,7 +48,7 @@ class InitialController extends GetxController {
       packageName: Platform.isIOS
           ? 'com.capotcha.capotcha'
           : "https://play.google.com/store/apps/details?id=com.capotcha.capotcha",
-      packageVersion: "2.1.8",
+      packageVersion: "2.1.2+41",
       showUpdateDialog: (BuildContext context, VersionCheck versionCheck) {});
 
   getVersion() async {
@@ -57,7 +57,7 @@ class InitialController extends GetxController {
       if (response.data['data'][12]['value'].toString() == "1") {
         await validateSession();
       } else {
-        if (response.data['data'][12]['value'] == "2.1.9") {
+        if (response.data['data'][12]['value'] == "2.3") {
           await validateSession();
         } else {
           return customShowUpdateDialog(Get.context!, versionCheck);

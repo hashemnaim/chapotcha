@@ -27,11 +27,7 @@ class CartonItem extends GetView<ProductController> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:
-          //  product.stock == "0"
-          //     ? null
-          //     :
-          () {
+      onTap: () {
         DataCartona dataCartona = controller.cartonaModel.data!
             .firstWhere((element) => element.id == product.id);
         controller.idProduct.value = product.id!;
@@ -83,9 +79,7 @@ class CartonItem extends GetView<ProductController> {
                       ],
                     ),
                   )),
-              SizedBox(
-                height: 2.h,
-              ),
+              SizedBox(height: 2.h),
               Expanded(
                 flex: 2,
                 child: Column(
@@ -136,15 +130,13 @@ class CartonItem extends GetView<ProductController> {
                         return GestureDetector(
                             onTap: () async {
                               if (SHelper.sHelper.getToken() == null) {
-                                Get.toNamed(
-                                  Routes.SignUpScreen,
-                                );
+                                Get.toNamed(Routes.SignInScreen);
                               } else {
                                 await controller.addCartonCart(
                                     product.id!, product.name!);
                               }
                             },
-                            child: controller.cartApiModel.data != null
+                            child: controller.cartApiModel.value.data != null
                                 ? controller.isUpdateCartload == true
                                     ? Container(
                                         width: 114.w,
@@ -153,7 +145,7 @@ class CartonItem extends GetView<ProductController> {
                                           size: 20.0,
                                         ),
                                       )
-                                    : controller.cartApiModel.data!.items!
+                                    : controller.cartApiModel.value.data!.items!
                                                 .indexWhere((element) =>
                                                     element.cartonName ==
                                                     product.name) ==
@@ -202,6 +194,7 @@ class CartonItem extends GetView<ProductController> {
                                                     onTap: () async {
                                                       int index = controller
                                                           .cartApiModel
+                                                          .value
                                                           .data!
                                                           .items!
                                                           .indexWhere((element) =>
@@ -214,6 +207,7 @@ class CartonItem extends GetView<ProductController> {
                                                               index,
                                                               controller
                                                                   .cartApiModel
+                                                                  .value
                                                                   .data!
                                                                   .items![index]
                                                                   .itemId,
@@ -232,9 +226,11 @@ class CartonItem extends GetView<ProductController> {
                                                   Text(
                                                     cartController
                                                         .cartApiModel
+                                                        .value
                                                         .data!
                                                         .items![cartController
                                                             .cartApiModel
+                                                            .value
                                                             .data!
                                                             .items!
                                                             .indexWhere((element) =>
@@ -253,6 +249,7 @@ class CartonItem extends GetView<ProductController> {
                                                     onTap: () async {
                                                       int index = controller
                                                           .cartApiModel
+                                                          .value
                                                           .data!
                                                           .items!
                                                           .indexWhere((element) =>
@@ -265,6 +262,7 @@ class CartonItem extends GetView<ProductController> {
                                                               index,
                                                               controller
                                                                   .cartApiModel
+                                                                  .value
                                                                   .data!
                                                                   .items![index]
                                                                   .itemId,

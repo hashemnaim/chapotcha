@@ -29,7 +29,7 @@ class LightThemeColors {
   //TEXT
   static const Color bodyTextColor = Colors.black;
   static const Color body2TextColor = Color(0xff8D8B8B);
-  static const Color headlinesTextColor = Colors.black;
+  static const Color headlinesTextColor = Colors.white;
   static const Color captionTextColor = Colors.grey;
   static const Color hintTextColor = Color(0xff828A89);
   static const Color greyTextColor = Color(0xff666666);

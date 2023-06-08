@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
@@ -16,8 +14,7 @@ class OrderController extends GetxController {
   RxBool edit = false.obs;
 
   getOrders(isLoad) async {
-    if (SHelper.sHelper.getToken() == null) {
-    } else {
+    if (SHelper.sHelper.getToken() != null) {
       orderStatus = ApiCallStatus.loading;
       await BaseClient.baseClient.post(Constants.getOrder,
           onSuccess: (response) {
@@ -29,8 +26,9 @@ class OrderController extends GetxController {
   }
 
   double getTotalPrice() {
-    return double.parse(detailsOrderModel.orders!.totalPrice ?? "0.0") +
-        double.parse(detailsOrderModel.orders!.deliveryCost ?? "0.0");
+    return (double.parse(detailsOrderModel.orders!.totalPrice ?? "0.0") +
+            double.parse(detailsOrderModel.orders!.deliveryCost ?? "0.0")) -
+        double.parse(detailsOrderModel.orders!.discount_price ?? "0.0");
   }
 
   getDetilesOrders(int? id) async {

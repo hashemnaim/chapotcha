@@ -47,7 +47,7 @@ class CustomDropDownString extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context)
                 .textTheme
-                .headline6!
+                .titleLarge!
                 .copyWith(color: hintColor, fontSize: 14.sp, height: 1),
           ),
         ),
@@ -70,7 +70,7 @@ class CustomDropDownString extends StatelessWidget {
                   item,
                   style: Theme.of(context)
                       .textTheme
-                      .headline6!
+                      .titleLarge!
                       .copyWith(color: Colors.black, fontSize: 14.sp),
                 ),
               ),

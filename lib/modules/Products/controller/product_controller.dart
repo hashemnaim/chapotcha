@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:capotcha/modules/Home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,9 +23,8 @@ class ProductController extends GetxController {
   HomeController homeController = Get.find<HomeController>();
 
   Future<List<List<Product>>> getProduct({isLoad = true}) async {
+    // log(SHelper.sHelper.getAddress().city_id .toString)
     if (isLoad == true) productStatus = ApiCallStatus.loading;
-    getCartona();
-    log(SHelper.sHelper.getIdAddress() ?? "");
     await BaseClient.baseClient.post(
         Constants.newProductUrl +
             "?city_id=${SHelper.sHelper.getAddress().city_id ?? ""}",
@@ -36,28 +33,30 @@ class ProductController extends GetxController {
       productListData = [];
       productList = [];
 
-      for (var element in homeController.homeModel.dataCategory!) {
+      for (var element in homeController.catogryModel.dataCategory ?? []) {
         productList = productListModel.listProduct!
-            .where((e) => e.categoryId == element.name!)
+            .where((e) => e.categoryId == element.name! && e.state != "0")
             .toList();
+
         productListData.add(productList);
       }
-      productStatus = ApiCallStatus.success;
       update(["product"]);
+
+      productStatus = ApiCallStatus.success;
     });
 
     return productListData;
   }
 
-  Future<CartonaModel>? getCartona({IsLoad = true}) async {
-    await BaseClient.baseClient.post(
-        Constants.cartonsUrl +
-            "?city_id=${SHelper.sHelper.getAddress().city_id ?? ""}",
-        onSuccess: (response) async {
-      cartonaModel = CartonaModel.fromJson(response.data);
+  // Future<CartonaModel>? getCartona({IsLoad = true}) async {
+  //   await BaseClient.baseClient.post(
+  //       Constants.cartonsUrl +
+  //           "?city_id=${SHelper.sHelper.getAddress().city_id ?? ""}",
+  //       onSuccess: (response) async {
+  //     cartonaModel = CartonaModel.fromJson(response.data);
 
-      update(["product"]);
-    });
-    return cartonaModel;
-  }
+  //     update(["product"]);
+  //   });
+  //   return cartonaModel;
+  // }
 }

@@ -8,25 +8,33 @@ import '../../widgets/nav_bar_custom.dart';
 import '../../utils/constants.dart';
 import 'main_controller.dart';
 
+// ignore: must_be_immutable
 class MainScreen extends StatelessWidget {
+  MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-            child: AppBarCustom()),
-        body: GetBuilder<MainController>(
-            id: "navBottomBar",
-            builder: (controller) => Container(
-                  decoration: backgroundImage,
-                  child: FadeInRight(
-                      delay: Duration(
-                          milliseconds: 100 * controller.selectedPageIndex!),
-                      child:
-                          PageNav.widgetOptions[controller.selectedPageIndex!]),
-                )),
-        floatingActionButton: NavBarFloatCustom(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: NavBottomBarCustom());
+    return GetBuilder<MainController>(
+        id: "navBottomBar",
+        builder: (controller) => Scaffold(
+            appBar: PreferredSize(
+                preferredSize: controller.selectedPageIndex == 0
+                    ? Size(0, 0)
+                    : Size.fromHeight(AppBar().preferredSize.height),
+                child: AppBarCustom()),
+            body: GetBuilder<MainController>(
+                id: "navBottomBar",
+                builder: (controller) => Container(
+                      decoration: backgroundImage,
+                      child: FadeInRight(
+                          delay: Duration(
+                              milliseconds:
+                                  100 * controller.selectedPageIndex!),
+                          child: PageNav
+                              .widgetOptions[controller.selectedPageIndex!]),
+                    )),
+            floatingActionButton: NavBarFloatCustom(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: NavBottomBarCustom()));
   }
 }

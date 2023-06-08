@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Constants {
   static const baseUrl = "https://cabuch.com";
+  // static const baseUrl = "https://cabuch.com/developer";
   static const mainUrl = baseUrl + '/api/v1/';
   static const imgUrl = baseUrl + '/public/images/products/';
   static const imgUrlSlider = baseUrl + '/public/images/';
@@ -36,6 +37,7 @@ class Constants {
   static const addCartUrl = mainUrl + 'order/add-cart';
   static const deleteCartUrl = mainUrl + 'order/delete-cart';
   static const updateCartUrl = mainUrl + 'order/update-cart';
+  static const applyCouponUrl = mainUrl + 'order/apply-coupon';
 
   /// Order
   static const getOrder = mainUrl + 'order/orders';

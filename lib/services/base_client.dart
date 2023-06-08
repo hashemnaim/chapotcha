@@ -1,10 +1,11 @@
 import 'dart:developer';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:capotcha/utils/shared_preferences_helpar.dart';
 import 'package:capotcha/services/status_code.dart';
 import 'package:dio/dio.dart' as dio;
-
+import 'package:get/get.dart';
+import '../core/helper/db_helper.dart';
+import '../routes/app_pages.dart';
 import 'api_exceptions.dart';
 
 class BaseClient {
@@ -19,6 +20,7 @@ class BaseClient {
     required Function(dio.Response response) onSuccess,
     Function? onLoading,
   }) async {
+    log(SHelper.sHelper.getToken().toString());
     try {
       onLoading?.call();
       var response = await _dio
@@ -64,6 +66,10 @@ class BaseClient {
           .timeout(const Duration(seconds: TIME_OUT_DURATION));
       await onSuccess(response);
     } on dio.DioError catch (error) {
+      await SHelper.sHelper.clearSp();
+      await DBHelper.dbHelper.deleteproductAll();
+
+      Get.toNamed(Routes.SignInScreen);
       BotToast.closeAllLoading();
       return handleDioError(error);
     }
@@ -119,29 +125,29 @@ class BaseClient {
     // case dio.DioErrorType.response:
     switch (dioError.response?.statusCode) {
       case StatusCode.badRequest:
-        _handleError(dioError.message);
+        _handleError(dioError.message!);
 
         throw BadRequestException();
 
       case StatusCode.unAuthorized:
-        _handleError(dioError.message);
+        _handleError(dioError.message!);
         break;
 
       case StatusCode.forbidden:
-        _handleError(dioError.message);
+        _handleError(dioError.message!);
 
         throw UnauthorizedException();
 
       case StatusCode.notFound:
-        _handleError(dioError.message);
+        _handleError(dioError.message!);
 
         throw NotFoundException();
       case StatusCode.confilct:
-        _handleError(dioError.message);
+        _handleError(dioError.message!);
 
         throw ConflictException();
       case StatusCode.internalServerErorr:
-        _handleError(dioError.message);
+        _handleError(dioError.message!);
 
         throw InternalServerErrorException();
 

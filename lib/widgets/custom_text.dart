@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -35,10 +34,10 @@ class CustomText extends StatelessWidget {
         textAlign: textAlign ?? TextAlign.start,
         maxLines: maxLines,
         overflow: maxLines != null ? TextOverflow.ellipsis : null,
-        style: GoogleFonts.cairo(
-          fontWeight: fontWeight ?? FontWeight.w500,
-          fontSize: fontSize ?? 16.sp,
-          color: color ?? Colors.black,
-        ));
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              fontWeight: fontWeight ?? FontWeight.w500,
+              fontSize: fontSize ?? 16.sp,
+              color: color ?? Colors.black,
+            ));
   }
 }

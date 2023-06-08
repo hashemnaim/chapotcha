@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:capotcha/utils/animate_do.dart';
 import 'package:capotcha/utils/constants.dart';
 import 'package:capotcha/utils/method_helpar.dart';
 
@@ -28,19 +27,14 @@ class MyOrderScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BounceInRight(
-                  child: CustomPngImage(
-                "login",
-                heigth: 200.h,
-                width: 200.w,
+              CustomPngImage(
+                "empty_cart",
+                heigth: 300.h,
+                width: 300.w,
                 fit: BoxFit.contain,
-              )),
-              SizedBox(height: 20.h),
-              Container(
-                  child: Center(
-                      child: Text(" تسجيل الدخول ",
-                          style:Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontSize: 30, fontWeight: FontWeight.bold)))),
+              ),
+              SizedBox(height: 10.h),
+              Singin(),
             ],
           ));
     } else {
@@ -70,9 +64,12 @@ class MyOrderScreen extends StatelessWidget {
                                         horizontal: 20),
                                     child: Text(
                                       "طلباتي",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                          fontSize: 22.sp,
-                                          color: AppColors.bluColor),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              fontSize: 22.sp,
+                                              color: AppColors.bluColor),
                                     ),
                                   ),
                                   ListView.builder(
@@ -99,7 +96,9 @@ class MyOrderScreen extends StatelessWidget {
                                                 ListTile(
                                                   title: Text(
                                                       "طلبك رقم # ${controller.orderModel.orders![index].code}",
-                                                      style: Theme.of(context).textTheme.titleLarge!
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleLarge!
                                                           .copyWith(
                                                               fontSize: 16.sp)),
                                                   subtitle: Text(
@@ -113,9 +112,12 @@ class MyOrderScreen extends StatelessWidget {
                                                             .orderModel
                                                             .orders![index]
                                                             .time!),
-                                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                                        fontSize: 14.sp,
-                                                        color: Colors.grey),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge!
+                                                        .copyWith(
+                                                            fontSize: 14.sp,
+                                                            color: Colors.grey),
                                                   ),
                                                   trailing: InkWell(
                                                     onTap: () async {
@@ -146,7 +148,10 @@ class MyOrderScreen extends StatelessWidget {
                                                                 vertical: 6),
                                                         child: Text(
                                                           "تفاصيل",
-                                                          style: Theme.of(context).textTheme.titleLarge!
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .titleLarge!
                                                               .copyWith(
                                                                   fontSize:
                                                                       12.sp,
@@ -192,8 +197,10 @@ class MyOrderScreen extends StatelessWidget {
                                 SizedBox(height: 8.h),
                                 Text(
                                   "لا يوجد طلبات",
-                                  style:
-                                      Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25.sp),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(fontSize: 25.sp),
                                 ),
                               ],
                             ),
@@ -202,5 +209,34 @@ class MyOrderScreen extends StatelessWidget {
             );
           });
     }
+  }
+
+  InkWell Singin() {
+    return InkWell(
+      onTap: () async {
+        Get.toNamed(
+          Routes.SignUpScreen,
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 20.r,
+            backgroundColor: AppColors.greenColor,
+            child:
+                Center(child: Icon(Icons.login, size: 20, color: Colors.white)),
+          ),
+          SizedBox(width: 10.w),
+          Text(
+            "تسجيل الدخول ",
+            style: Theme.of(Get.context!).textTheme.titleLarge!.copyWith(
+                color: AppColors.bluColor,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
   }
 }

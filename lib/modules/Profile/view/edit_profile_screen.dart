@@ -58,7 +58,7 @@ class EditProfileScreen extends StatelessWidget {
                       ),
                       Text(
                         controller.profileModel.user!.name ?? "",
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       const SizedBox(height: 20),
                       Align(
@@ -72,7 +72,7 @@ class EditProfileScreen extends StatelessWidget {
                             "تعديل",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6!
+                                .titleLarge!
                                 .copyWith(
                                     color: controller.edit.value != false
                                         ? LightThemeColors.primaryColor
@@ -150,11 +150,11 @@ class EditProfileScreen extends StatelessWidget {
                               textCancel: "لا",
                               titleStyle: Theme.of(context)
                                   .textTheme
-                                  .headline6!
+                                  .titleLarge!
                                   .copyWith(color: Colors.red),
                               middleTextStyle: Theme.of(context)
                                   .textTheme
-                                  .headline6!
+                                  .titleLarge!
                                   .copyWith(color: Colors.black),
                               confirmTextColor: Colors.white,
                               onConfirm: () async {
@@ -170,15 +170,13 @@ class EditProfileScreen extends StatelessWidget {
                             "حدف الحساب",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6!
+                                .titleLarge!
                                 .copyWith(color: Colors.red, fontSize: 18.sp),
                           ),
                         ),
                       ),
 
-                      SizedBox(
-                        height: 20.h,
-                      ),
+                      SizedBox(height: 20.h),
                       if (controller.edit.value == false)
                         CustomButton(
                           height: 50.h,
@@ -197,9 +195,7 @@ class EditProfileScreen extends StatelessWidget {
                         )
                       else
                         const SizedBox.shrink(),
-                      const SizedBox(
-                        height: 16,
-                      ),
+                      SizedBox(height: 16.h),
                     ],
                   ),
                 ),

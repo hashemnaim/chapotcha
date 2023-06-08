@@ -2,7 +2,6 @@ import 'package:capotcha/utils/animate_do.dart';
 import 'package:capotcha/utils/lunchers_helper.dart';
 import 'package:capotcha/utils/shared_preferences_helpar.dart';
 import 'package:capotcha/utils/colors.dart';
-import 'package:capotcha/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,18 +16,13 @@ class ProfileScreen extends StatelessWidget {
     if (SHelper.sHelper.getToken() == null) {
       Get.toNamed(Routes.SignInScreen);
     } else {
-      Get.to(
-        () => FadeOut(child: screen),
-      );
+      Get.to(() => FadeOut(child: screen));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // var tokenProvider = Provider.of<HomeProvieder>(context);
-    var sizedBox = SizedBox(
-      height: 16.h,
-    );
+    var sizedBox = SizedBox(height: 16.h);
     return Container(
       padding: EdgeInsets.only(right: 20, left: 20, top: 20.h),
       decoration: backgroundImage,
@@ -85,7 +79,7 @@ class ProfileScreen extends StatelessWidget {
                 await SHelper.sHelper.clearSp();
                 await DBHelper.dbHelper.deleteproductAll();
 
-                Get.offNamed(Routes.SignInScreen);
+                Get.toNamed(Routes.SignInScreen);
               },
               child: Center(
                 child: ListTile(

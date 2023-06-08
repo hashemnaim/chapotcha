@@ -24,10 +24,7 @@ class FcmHelper {
   Future<void> initFcm() async {
     try {
       // initialize fcm and firebase core
-      await Firebase.initializeApp(
-          //  only un comment this line if you set up firebase vie firebase cli
-          //options: DefaultFirebaseOptions.currentPlatform,
-          );
+      await Firebase.initializeApp();
       messaging = FirebaseMessaging.instance;
 
       await _initNotification();
@@ -37,19 +34,8 @@ class FcmHelper {
       await _generateFcmToken();
 
       FirebaseMessaging.onMessage.listen(_fcmForegroundHandler);
-      // FirebaseMessaging.onMessage.listen(_fcmForegroundHandler);
-      // FirebaseMessaging.onBackgroundMessage((RemoteMessage) async {
-      //   try {
-      //     return _showNotification(
-      //       id: 1,
-      //       title: RemoteMessage.notification?.title ?? 'Tittle',
-      //       body: RemoteMessage.notification?.body ?? 'Body',
-      //     );
-      //   } catch (e) {
-      //     log("=======" + e.toString());
-      //   }
-      // });
-
+      FirebaseMessaging.onMessageOpenedApp.listen(_fcmForegroundHandler);
+      FirebaseMessaging.onBackgroundMessage(fcmBackgroundHandler);
       // listenToActionButtons();
     } catch (error) {
       log(error.toString());
@@ -87,14 +73,13 @@ class FcmHelper {
   /// generate and save fcm token if its not already generated (generate only for 1 time)
   Future<void> _generateFcmToken() async {
     try {
+      await messaging.subscribeToTopic("all");
+
       var token = await messaging.getToken();
-      log(token ?? "hhhhh");
-      // await messaging.subscribeToTopic("all");
       if (token != null) {
-        SHelper.sHelper.setFcmToken(token);
+        await SHelper.sHelper.setFcmToken(token);
         _sendFcmTokenToServer();
       } else {
-        // retry generating token
         await Future.delayed(const Duration(seconds: 1));
         _generateFcmToken();
       }
@@ -109,20 +94,20 @@ class FcmHelper {
 
   ///handle fcm notification when app is closed/terminated
   Future<void> fcmBackgroundHandler(RemoteMessage message) async {
-    _showNotification(
-      id: 1,
-      title: message.notification?.title ?? 'Tittle',
-      body: message.notification?.body ?? 'Body',
-    );
+    try {
+      _showNotification(
+          id: 1,
+          title: message.notification?.title ?? 'Tittle',
+          body: message.notification?.body ?? 'Body');
+    } catch (e) {}
   }
 
   //handle fcm notification when app is open
   Future<void> _fcmForegroundHandler(RemoteMessage message) async {
     _showNotification(
-      id: 1,
-      title: message.notification?.title ?? 'Tittle',
-      body: message.notification?.body ?? 'Body',
-    );
+        id: 1,
+        title: message.notification?.title ?? 'Tittle',
+        body: message.notification?.body ?? 'Body');
     OrderController orderController = Get.find();
     orderController.getOrders(false);
   }
@@ -225,17 +210,16 @@ class FcmHelper {
               channelShowBadge: true,
               playSound: true,
               importance: NotificationImportance.Max)
-        ],
-        channelGroups: [
-          NotificationChannelGroup(
-            channelGroupKey: NotificationChannels.generalChannelGroupKey,
-            channelGroupName: NotificationChannels.generalChannelGroupName,
-          ),
-          NotificationChannelGroup(
-            channelGroupKey: NotificationChannels.chatChannelGroupKey,
-            channelGroupName: NotificationChannels.chatChannelGroupName,
-          )
-        ]);
+        ], channelGroups: [
+      NotificationChannelGroup(
+        channelGroupKey: NotificationChannels.generalChannelGroupKey,
+        channelGroupName: NotificationChannels.generalChannelGroupName,
+      ),
+      NotificationChannelGroup(
+        channelGroupKey: NotificationChannels.chatChannelGroupKey,
+        channelGroupName: NotificationChannels.chatChannelGroupName,
+      )
+    ]);
   }
 }
 

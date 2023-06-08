@@ -21,116 +21,109 @@ class AddressComponets extends StatelessWidget {
       children: [
         Container(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2.h),
             child: Text(
               "العنوان",
               style: Theme.of(Get.context!)
                   .textTheme
                   .titleLarge!
-                  .copyWith(fontSize: 16.sp),
+                  .copyWith(fontSize: 14.sp),
             ),
           ),
         ),
-        padding2,
+        // padding2,
         GetBuilder<ProfileController>(
           id: "profile",
           builder: (profileController) => profileController
                       .profileModel.address ==
                   null
-              ? Container()
-              : Container(
-                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 1), // changes position of shadow
-                    ),
-                  ]),
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 6.h),
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  profileController
-                                          .profileModel.address!.city! +
-                                      "-" +
-                                      profileController
-                                          .profileModel.address!.area!,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(Get.context!)
-                                      .textTheme
-                                      .titleLarge!
-                                      .copyWith(
-                                          fontSize: 18.sp,
-                                          color: AppColors.bluColor),
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  "البناية " +
-                                      profileController
-                                          .profileModel.address!.building! +
-                                      " - الدور " +
-                                      profileController
-                                          .profileModel.address!.apartment!,
-                                  style: Theme.of(Get.context!)
-                                      .textTheme
-                                      .titleLarge!
-                                      .copyWith(
-                                          fontSize: 14.sp,
-                                          height: 2,
-                                          color: AppColors.bluColor),
-                                ),
-                              ],
+              ? Center(
+                  child: OutlinedButton(
+                      onPressed: () {
+                        Get.toNamed(
+                          Routes.AddAddressScreen,
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                          shadowColor: Colors.grey,
+                          side: BorderSide(color: AppColors.greenColor)),
+                      child: Text(
+                        "إضافة عنوان جديد",
+                        style: Theme.of(Get.context!)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(
+                              fontSize: 14.sp,
                             ),
-                            Spacer(),
-                            OutlinedButton(
-                                onPressed: () {
-                                  changeMyAddress();
-                                },
-                                style: OutlinedButton.styleFrom(
-                                    shadowColor: Colors.grey,
-                                    side: BorderSide(
-                                        color: AppColors.greenColor)),
-                                child: Text(
-                                  "تغير",
-                                  style: Theme.of(Get.context!)
-                                      .textTheme
-                                      .titleLarge!
-                                      .copyWith(fontSize: 16.sp),
-                                ))
-                          ],
-                        ),
-                      ],
-                    ),
-                  )),
+                      )),
+                )
+              : Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                profileController.profileModel.address!.city! +
+                                    "-" +
+                                    profileController
+                                        .profileModel.address!.area!,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(Get.context!)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        fontSize: 18.sp,
+                                        color: AppColors.bluColor),
+                              ),
+                              SizedBox(height: 4.h),
+                              Text(
+                                "البناية " +
+                                    profileController
+                                        .profileModel.address!.building! +
+                                    " - الدور " +
+                                    profileController
+                                        .profileModel.address!.apartment!,
+                                style: Theme.of(Get.context!)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        fontSize: 14.sp,
+                                        height: 2,
+                                        color: AppColors.bluColor),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          OutlinedButton(
+                              onPressed: () {
+                                changeMyAddress();
+                              },
+                              style: OutlinedButton.styleFrom(
+                                  shadowColor: Colors.grey,
+                                  side:
+                                      BorderSide(color: AppColors.greenColor)),
+                              child: Text(
+                                "تغير",
+                                style: Theme.of(Get.context!)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(fontSize: 14.sp),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
         ),
-        Center(
-          child: OutlinedButton(
-              onPressed: () {
-                Get.toNamed(
-                  Routes.AddAddressScreen,
-                );
-              },
-              style: OutlinedButton.styleFrom(
-                  shadowColor: Colors.grey,
-                  side: BorderSide(color: AppColors.greenColor)),
-              child: Text(
-                "إضافة عنوان جديد",
-                style: Theme.of(Get.context!).textTheme.titleLarge!.copyWith(
-                      fontSize: 16.sp,
-                    ),
-              )),
-        ),
+
         padding2,
+        SizedBox(height: 8.h)
       ],
     );
   }

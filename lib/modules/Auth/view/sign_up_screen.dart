@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../../../../utils/valdtion_helper.dart';
 import '../../../utils/constants.dart';
 import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_svg.dart';
 
 import '../../../widgets/form_field_item.dart';
 import '../../../config/theme/light_theme_colors.dart';
@@ -24,42 +23,19 @@ class SignUpScreen extends GetView<AuthController> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+          appBar: AppBar(),
           body: Container(
-        height: Get.height,
-        decoration: backgroundImage,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  CustomPngImage(
-                    "login-Background",
-                    width: Get.width,
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    right: 20.w,
-                    top: 50.h,
-                    child: InkWell(
-                        onTap: () {
-                          Get.offAndToNamed(Routes.MAIN);
-                        },
-                        child: CustomSvgImage(
-                          "back",
-                          height: 60.h,
-                          width: 60.w,
-                        )),
-                  ),
-                ],
-              ),
-              Padding(
+            decoration: backgroundImage,
+            child: SingleChildScrollView(
+              child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 20.h),
                     Center(
                       child: FadeInRight(
-                        duration: Duration(milliseconds: 2000),
+                        duration: Duration(seconds: 2),
                         child: Container(
                           height: 70.h,
                           decoration: BoxDecoration(
@@ -72,16 +48,15 @@ class SignUpScreen extends GetView<AuthController> {
                     ),
                     SizedBox(height: 8.h),
                     Text("أنشئ حساب",
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.w500,
-                              height: 1.2.h,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
                             )),
                     SizedBox(height: 18.h),
                     Text(
                       "هيا ننشئ حساب معاً",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: LightThemeColors.greyTextColor,
                           fontSize: 16.sp,
                           height: 1.2.h,
@@ -97,10 +72,12 @@ class SignUpScreen extends GetView<AuthController> {
                           Text(
                             "الاسم بالكامل",
                             textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.headline5!.copyWith(
-                                      fontSize: 16.sp,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: 16.sp,
+                                ),
                           ),
                           SizedBox(height: 12.h),
                           SizedBox(
@@ -151,7 +128,7 @@ class SignUpScreen extends GetView<AuthController> {
                                   text: ' لديك حساب بالفعل؟ ',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline6!
+                                      .titleLarge!
                                       .copyWith(
                                           color: LightThemeColors.greyTextColor,
                                           fontWeight: FontWeight.normal,
@@ -161,7 +138,7 @@ class SignUpScreen extends GetView<AuthController> {
                                         text: 'تسجيل الدخول',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6!
+                                            .titleLarge!
                                             .copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14.sp)),
@@ -177,10 +154,8 @@ class SignUpScreen extends GetView<AuthController> {
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      )),
+            ),
+          )),
     );
   }
 }

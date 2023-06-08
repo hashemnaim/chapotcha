@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../utils/colors.dart';
-import '../../../../utils/styles.dart';
 import '../../controller/order_controller.dart';
 
 class CustomStauts extends StatelessWidget {

@@ -6,7 +6,6 @@ import '../modules/Profile/controller/profile_controller.dart';
 import '../modules/Profile/model/shipping_time_model.dart';
 import '../routes/app_pages.dart';
 import 'colors.dart';
-import 'styles.dart';
 
 String getConvetDate(String date1) {
   final date = DateTime.parse(date1);
